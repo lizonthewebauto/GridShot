@@ -25,9 +25,9 @@ export default async function DashboardPage() {
   const hasBrands = brands && brands.length > 0;
 
   return (
-    <div className="p-8">
+    <div className="p-4 sm:p-8">
       <div className="mb-8">
-        <h1 className="font-heading text-3xl font-bold text-foreground">Dashboard</h1>
+        <h1 className="font-heading text-2xl sm:text-3xl font-bold text-foreground">Dashboard</h1>
         <p className="text-muted mt-1">Create and manage your branded content</p>
       </div>
 
