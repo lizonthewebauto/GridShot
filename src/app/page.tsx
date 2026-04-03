@@ -124,17 +124,18 @@ export default function HomePage() {
             className="text-4xl sm:text-5xl md:text-6xl font-bold leading-[1.1] tracking-tight mb-6"
             style={{ fontFamily: 'var(--font-heading)' }}
           >
-            Your photos deserve
+            Your photos should
             <br />
-            <span className="text-accent">better captions</span> and
+            <span className="text-accent">work for you</span> on
             <br />
-            <span className="text-accent">more platforms.</span>
+            <span className="text-accent">every platform.</span>
           </h1>
 
           <p className="text-lg sm:text-xl text-muted max-w-2xl mx-auto mb-10 leading-relaxed">
-            Upload your photos. Pick a vibe. PhotoFlow writes the copy in your
-            brand voice and builds ready-to-post carousels for Instagram,
-            Threads, X, and 5 more platforms.
+            Smarter social content on autopilot. PhotoFlow turns your photos
+            into branded carousels with AI-written copy and publishes to
+            Instagram, Threads, X, and 5 more platforms. Consistent marketing
+            across every channel without the busywork.
           </p>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
