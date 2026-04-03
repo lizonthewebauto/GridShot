@@ -31,7 +31,7 @@ export function Sidebar() {
           className="text-xl font-bold text-foreground"
           style={{ fontFamily: 'var(--font-heading)' }}
         >
-          PhotoFlow Studio
+          Gridshot
         </h2>
       </div>
 

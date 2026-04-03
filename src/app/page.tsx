@@ -27,7 +27,7 @@ const buyerTypes = [
     title: 'Photographers',
     pain: "You're incredible behind the lens. But writing captions and posting consistently? That's a different skill entirely.",
     solution:
-      'PhotoFlow writes copy that matches your visual style. Upload your shots, pick a vibe, and get scroll-stopping carousels ready to post.',
+      'Gridshot writes copy that matches your visual style. Upload your shots, pick a vibe, and get scroll-stopping carousels ready to post.',
   },
   {
     title: 'Content Creators',
@@ -94,7 +94,7 @@ export default function HomePage() {
             className="text-xl font-bold tracking-tight"
             style={{ fontFamily: 'var(--font-heading)' }}
           >
-            PhotoFlow Studio
+            Gridshot
           </span>
           <div className="flex items-center gap-3">
             <Link
@@ -132,7 +132,7 @@ export default function HomePage() {
           </h1>
 
           <p className="text-lg sm:text-xl text-muted max-w-2xl mx-auto mb-10 leading-relaxed">
-            Smarter social content on autopilot. PhotoFlow turns your photos
+            Smarter social content on autopilot. Gridshot turns your photos
             into branded carousels with AI-written copy and publishes to
             Instagram, Threads, X, and 5 more platforms. Consistent marketing
             across every channel without the busywork.
@@ -346,7 +346,7 @@ export default function HomePage() {
             One carousel. Eight platforms.
           </h2>
           <p className="text-lg text-muted mb-12">
-            Connect your accounts and publish directly from PhotoFlow.
+            Connect your accounts and publish directly from Gridshot.
           </p>
 
           <div className="flex flex-wrap items-center justify-center gap-4">
@@ -374,7 +374,7 @@ export default function HomePage() {
                 Set up your brand in seconds
               </h2>
               <p className="text-base text-muted leading-relaxed mb-6">
-                Paste your website URL and PhotoFlow extracts your colors, fonts,
+                Paste your website URL and Gridshot extracts your colors, fonts,
                 and brand voice automatically. Or set everything manually. Either
                 way, your brand stays consistent across every piece of content
                 you create.
@@ -495,7 +495,7 @@ export default function HomePage() {
             on carousel posts.
           </h2>
           <p className="text-lg text-muted mb-10 max-w-xl mx-auto">
-            Your photos are already great. Let PhotoFlow handle the copy, the
+            Your photos are already great. Let Gridshot handle the copy, the
             layout, and the publishing.
           </p>
           <Link
@@ -518,9 +518,15 @@ export default function HomePage() {
             className="text-sm font-bold tracking-tight"
             style={{ fontFamily: 'var(--font-heading)' }}
           >
-            PhotoFlow Studio
+            Gridshot
           </span>
           <div className="flex items-center gap-6 text-sm text-muted">
+            <Link href="/terms" className="hover:text-foreground transition-colors">
+              Terms
+            </Link>
+            <Link href="/privacy" className="hover:text-foreground transition-colors">
+              Privacy
+            </Link>
             <Link href="/login" className="hover:text-foreground transition-colors">
               Sign in
             </Link>
@@ -529,7 +535,7 @@ export default function HomePage() {
             </Link>
           </div>
           <p className="text-xs text-muted">
-            &copy; {new Date().getFullYear()} PhotoFlow Studio
+            &copy; {new Date().getFullYear()} Gridshot
           </p>
         </div>
       </footer>

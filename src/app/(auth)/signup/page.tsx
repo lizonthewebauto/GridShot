@@ -45,7 +45,7 @@ export default function SignupPage() {
         >
           Create Account
         </h1>
-        <p className="text-muted text-center mb-8">Get started with PhotoFlow Studio</p>
+        <p className="text-muted text-center mb-8">Get started with Gridshot</p>
 
         <form onSubmit={handleSubmit} className="space-y-4">
           {error && (

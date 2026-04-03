@@ -17,7 +17,7 @@ export default async function DashboardPage() {
         className="text-3xl font-bold text-foreground mb-2"
         style={{ fontFamily: 'var(--font-heading)' }}
       >
-        Welcome to PhotoFlow Studio
+        Welcome to Gridshot
       </h1>
       <p className="text-muted mb-8">Create stunning branded content from your photos.</p>
 

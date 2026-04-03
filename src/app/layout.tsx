@@ -6,8 +6,8 @@ const playfair = Playfair_Display({ subsets: ['latin'], variable: '--font-headin
 const lora = Lora({ subsets: ['latin'], variable: '--font-body' });
 
 export const metadata: Metadata = {
-  title: 'PhotoFlow Studio',
-  description: 'AI-powered social content for photographers',
+  title: 'Gridshot',
+  description: 'Frame your brand. Post to every platform.',
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
