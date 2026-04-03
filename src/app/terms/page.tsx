@@ -28,7 +28,7 @@ export default function TermsPage() {
               href="/signup"
               className="rounded-md bg-accent-warm px-5 py-2.5 text-sm font-semibold text-white transition-all hover:bg-accent-warm-hover"
             >
-              Get Started
+              Get Started Free
             </Link>
           </div>
         </div>
