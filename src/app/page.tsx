@@ -11,77 +11,91 @@ const vibes = [
   { name: 'Documentary', desc: 'Observational, journalistic', sample: { headline: 'Tuesday, 6:47 AM', body: 'The fish market opens before the city wakes. Three generations, same corner, same hands.' } },
 ];
 
-const showcaseExamples = [
+const showcaseExamples: {
+  photographer: string;
+  template: string;
+  templateLayout: 'cinematic' | 'editorial' | 'minimal' | 'split' | 'bold';
+  vibe: string;
+  brand: { name: string; tagline: string };
+  colors: { bg: string; primary: string; accent: string; secondary?: string };
+  slides: { headline: string; body: string; footer?: string; hasPhoto: boolean }[];
+}[] = [
   {
     photographer: 'Wedding Photographer',
     template: 'Cinematic Overlay',
+    templateLayout: 'cinematic',
     vibe: 'Romantic',
     brand: { name: 'Sarah Lane Photo', tagline: 'LOVE, LIGHT, LEGACY' },
     colors: { bg: '#1a1520', primary: '#f5efe8', accent: '#d4a574' },
     slides: [
-      { headline: 'A Love Story\nTold in Light', body: 'Sarah & James — October, Sonoma', hasPhoto: true },
-      { headline: 'The First Look', body: 'Some moments don\'t need words. They just need someone watching.', hasPhoto: true },
-      { headline: 'Now Booking\n2026 Weddings', body: '12 dates remaining. Inquire via link in bio.', hasPhoto: false },
+      { headline: 'A LOVE STORY\nTOLD IN LIGHT', body: 'Sarah & James celebrated their forever at a vineyard in Sonoma. Golden hour. Handwritten vows. The kind of love that fills a room.', footer: 'SARAH LANE PHOTO — LOVE, LIGHT, LEGACY', hasPhoto: true },
+      { headline: 'THE FIRST\nLOOK', body: 'He turned around and forgot how to breathe. She was already crying. Some moments don\'t need words. They just need someone watching.', footer: 'October 12, 2025 — Sonoma Valley', hasPhoto: true },
+      { headline: 'NOW BOOKING\n2026 WEDDINGS', body: 'Only 12 dates remaining for the 2026 season. Intimate elopements to 300-guest celebrations. Every love story deserves to be told beautifully.', footer: 'DM OR LINK IN BIO TO INQUIRE', hasPhoto: false },
     ],
   },
   {
     photographer: 'Portrait Photographer',
     template: 'Editorial Elegant',
+    templateLayout: 'editorial',
     vibe: 'Editorial',
     brand: { name: 'Mira Studios', tagline: 'MIRA STUDIOS' },
-    colors: { bg: '#f7f4ef', primary: '#2a2520', accent: '#8b6914' },
+    colors: { bg: '#f7f4ef', primary: '#2a2520', accent: '#8b6914', secondary: '#f7f4ef' },
     slides: [
-      { headline: 'The Confidence\nSession', body: 'A portrait experience designed to make you feel powerful.', hasPhoto: true },
-      { headline: 'Your Story.\nYour Frame.', body: 'Styled. Directed. Effortless. 90 minutes of you at your best.', hasPhoto: true },
-      { headline: 'Mini Sessions\nNow Open', body: 'Spring dates are live. 30 minutes, 15 edited images, $350.', hasPhoto: false },
+      { headline: 'THE\nCONFIDENCE\nSESSION', body: 'A portrait experience designed to make you feel like the most powerful version of yourself. Professional styling. Expert direction. Magazine-quality results.', footer: 'MIRA STUDIOS — EDITORIAL PORTRAITURE', hasPhoto: true },
+      { headline: 'YOUR STORY.\nYOUR FRAME.', body: 'Styled. Directed. Effortless. 90 minutes of you at your absolute best. Hair and makeup included. 40+ retouched images delivered in 48 hours.', footer: 'EVERY SESSION INCLUDES STYLING CONSULTATION', hasPhoto: true },
+      { headline: 'SPRING MINI\nSESSIONS\nNOW OPEN', body: '30 minutes. 15 edited images. $350. Limited to 8 spots per weekend. Book your date before they fill. These always sell out.', footer: 'LINK IN BIO — SPOTS ARE LIMITED', hasPhoto: false },
     ],
   },
   {
     photographer: 'Real Estate Photographer',
     template: 'Minimal Centered',
+    templateLayout: 'minimal',
     vibe: 'Minimal',
     brand: { name: 'Apex Visuals', tagline: 'APEX VISUALS' },
-    colors: { bg: '#ffffff', primary: '#1a1a1a', accent: '#4a5940' },
+    colors: { bg: '#fafafa', primary: '#1a1a1a', accent: '#4a5940', secondary: '#fafafa' },
     slides: [
-      { headline: '4BR | 3BA\n2,400 sqft', body: 'Modern farmhouse in West Austin — just listed.', hasPhoto: true },
-      { headline: 'Light-Filled\nLiving', body: '12-foot ceilings. Floor-to-ceiling windows. Southern exposure all day.', hasPhoto: true },
-      { headline: 'Schedule\na Tour', body: 'Open house Saturday 1-4pm. DM for private showing.', hasPhoto: false },
+      { headline: 'JUST LISTED\n4 BR  |  3 BA  |  2,400 SQFT', body: 'Modern farmhouse in West Austin. Vaulted ceilings. Chef\'s kitchen with Carrara marble. Private backyard with mature oaks. This one won\'t last.', footer: 'APEX VISUALS — LUXURY REAL ESTATE PHOTOGRAPHY', hasPhoto: true },
+      { headline: 'LIGHT-FILLED\nLIVING', body: '12-foot ceilings. Floor-to-ceiling windows. Southern exposure floods every room with natural light from sunrise to sunset. Designed for the way you actually live.', footer: '$1.2M — 1847 LIVE OAK TRAIL, AUSTIN TX', hasPhoto: true },
+      { headline: 'SCHEDULE\nA PRIVATE\nTOUR', body: 'Open house Saturday 1-4pm. Or DM for a private showing any day this week. Seller is motivated. Pre-approved buyers move to the front of the line.', footer: 'CONTACT: LINK IN BIO', hasPhoto: false },
     ],
   },
   {
     photographer: 'Food Photographer',
     template: 'Split Story',
+    templateLayout: 'split',
     vibe: 'Authentic',
-    brand: { name: 'Savory & Co.', tagline: 'SAVORY & CO.' },
+    brand: { name: 'Savory & Co.', tagline: 'SAVORY & CO. — FOOD PHOTOGRAPHY' },
     colors: { bg: '#2c2418', primary: '#f0e8d8', accent: '#c17c3e' },
     slides: [
-      { headline: 'Farm to\nFrame', body: 'Behind the scenes at Aster Kitchen with Chef Mira.', hasPhoto: true },
-      { headline: 'Every Plate,\na Canvas', body: 'The autumn tasting menu, shot on location between courses.', hasPhoto: true },
-      { headline: 'Book Your\nShoot', body: 'Restaurant + menu photography packages starting at $800.', hasPhoto: false },
+      { headline: 'FARM\nTO\nFRAME', body: 'Behind the scenes at Aster Kitchen with Chef Mira. Every ingredient sourced within 50 miles. Every plate a work of art. We capture the story from soil to table.', footer: 'SAVORY & CO. — FOOD PHOTOGRAPHY', hasPhoto: true },
+      { headline: 'EVERY\nPLATE IS\nA CANVAS', body: 'The autumn tasting menu, shot on location between courses. Steam rising. Sauces glistening. The kind of food photography that makes people book a reservation.', footer: 'SHOT ON LOCATION AT ASTER KITCHEN', hasPhoto: true },
+      { headline: 'BOOK\nYOUR\nSHOOT', body: 'Restaurant photography. Menu design. Social content packages. From Michelin-starred kitchens to neighborhood cafes. Packages starting at $800.', footer: 'DM OR EMAIL — HELLO@SAVORYCO.COM', hasPhoto: false },
     ],
   },
   {
     photographer: 'Event Photographer',
     template: 'Bold Showcase',
+    templateLayout: 'bold',
     vibe: 'Bold',
     brand: { name: 'Flash Collective', tagline: 'FLASH COLLECTIVE' },
     colors: { bg: '#0a0a0a', primary: '#ffffff', accent: '#ff4d2e' },
     slides: [
-      { headline: 'SXSW\n2026', body: '72 hours. 14 stages. 4,000 frames.', hasPhoto: true },
-      { headline: 'THE ENERGY\nWAS UNREAL', body: 'When the lights hit and the crowd surged, we were already shooting.', hasPhoto: true },
-      { headline: 'HIRE US FOR\nYOUR EVENT', body: 'Concerts. Conferences. Launch parties. Corporate. We shoot it all.', hasPhoto: false },
+      { headline: 'SXSW\n2026', body: '72 hours. 14 stages. 4,000 frames. We embedded with the festival from load-in to last call. This is what three days of controlled chaos looks like through our lens.', footer: 'FLASH COLLECTIVE — EVENT PHOTOGRAPHY', hasPhoto: true },
+      { headline: 'THE ENERGY\nWAS ABSOLUTELY\nUNREAL', body: 'When the lights hit and the crowd surged forward, we were already in position. Front row. Backstage. In the pit. Everywhere the moment was happening.', footer: 'AVAILABLE FOR FESTIVALS / CONFERENCES / LAUNCHES', hasPhoto: true },
+      { headline: 'HIRE US\nFOR YOUR\nNEXT EVENT', body: 'Concerts. Conferences. Launch parties. Corporate galas. Product reveals. We shoot it all. Same-week turnaround. Full licensing included. Let\'s make something loud.', footer: 'INQUIRIES: LINK IN BIO', hasPhoto: false },
     ],
   },
   {
     photographer: 'Travel Photographer',
     template: 'Cinematic Overlay',
+    templateLayout: 'cinematic',
     vibe: 'Documentary',
     brand: { name: 'Atlas Journal', tagline: 'ATLAS JOURNAL' },
     colors: { bg: '#1c2a1c', primary: '#e8e4d8', accent: '#a8b896' },
     slides: [
-      { headline: 'Kyoto,\n5:47 AM', body: 'The temple opens before the city wakes. Just the monks and the mist.', hasPhoto: true },
-      { headline: 'Three\nGenerations', body: 'Same corner. Same hands. The fish market hasn\'t changed in forty years.', hasPhoto: true },
-      { headline: 'Print Shop\nNow Live', body: 'Limited edition Japan series. 12 images. Signed and numbered.', hasPhoto: false },
+      { headline: 'KYOTO\n5:47 AM', body: 'The temple opens before the city wakes. Just the monks, the mist, and the sound of raked gravel. We spent three weeks documenting daily rituals most visitors never see.', footer: 'ATLAS JOURNAL — STORIES FROM THE ROAD', hasPhoto: true },
+      { headline: 'THREE\nGENERATIONS\nSAME CORNER', body: 'Same hands. Same knife. The Nishiki fish market hasn\'t changed in forty years. Grandfather taught father. Father teaches son. The tourists walk past without stopping.', footer: 'KYOTO, JAPAN — WINTER 2025', hasPhoto: true },
+      { headline: 'PRINT SHOP\nNOW LIVE', body: 'Limited edition Japan series. 12 archival pigment prints. Hand-numbered and signed. Printed on Hahnemuhle Photo Rag. Only 50 sets available worldwide.', footer: 'SHOP: ATLASJOURNAL.COM/PRINTS', hasPhoto: false },
     ],
   },
 ];
@@ -447,7 +461,7 @@ export default function HomePage() {
           </div>
 
           <div className="space-y-16">
-            {showcaseExamples.map((example, exIdx) => (
+            {showcaseExamples.map((example) => (
               <div key={example.photographer} className="space-y-5">
                 {/* Header row */}
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 px-1">
@@ -471,122 +485,298 @@ export default function HomePage() {
 
                 {/* Carousel slides */}
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                  {example.slides.map((slide, i) => (
-                    <div
-                      key={i}
-                      className="relative rounded-sm overflow-hidden border border-border/50"
-                      style={{ aspectRatio: '1 / 1' }}
-                    >
-                      {/* Background */}
-                      <div className="absolute inset-0" style={{ backgroundColor: example.colors.bg }} />
+                  {example.slides.map((slide, i) => {
+                    const layout = example.templateLayout;
+                    const c = example.colors;
 
-                      {/* Photo placeholder area */}
-                      {slide.hasPhoto && (
-                        <div className="absolute inset-0 overflow-hidden">
-                          {/* Simulated photo with gradient texture */}
-                          <div
-                            className="absolute inset-0"
-                            style={{
-                              background: exIdx % 2 === 0
-                                ? `linear-gradient(135deg, ${example.colors.bg} 0%, ${example.colors.accent}22 40%, ${example.colors.bg} 100%)`
-                                : `linear-gradient(225deg, ${example.colors.bg} 0%, ${example.colors.accent}22 50%, ${example.colors.bg} 100%)`,
-                            }}
-                          />
-                          {/* Simulated image area */}
-                          <div
-                            className="absolute inset-4 rounded-sm"
-                            style={{
-                              background: `linear-gradient(${120 + i * 40}deg, ${example.colors.accent}15 0%, ${example.colors.accent}08 50%, ${example.colors.accent}20 100%)`,
-                              border: `1px solid ${example.colors.accent}15`,
-                            }}
-                          />
-                          {/* Camera icon to indicate photo placement */}
-                          <div className="absolute inset-0 flex items-center justify-center opacity-[0.07]">
-                            <svg className="w-16 h-16" fill="none" viewBox="0 0 24 24" stroke={example.colors.primary} strokeWidth={0.5}>
-                              <path strokeLinecap="round" strokeLinejoin="round" d="M6.827 6.175A2.31 2.31 0 015.186 7.23c-.38.054-.757.112-1.134.175C2.999 7.58 2.25 8.507 2.25 9.574V18a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18V9.574c0-1.067-.75-1.994-1.802-2.169a47.865 47.865 0 00-1.134-.175 2.31 2.31 0 01-1.64-1.055l-.822-1.316a2.192 2.192 0 00-1.736-1.039 48.774 48.774 0 00-5.232 0 2.192 2.192 0 00-1.736 1.039l-.821 1.316z" />
-                              <path strokeLinecap="round" strokeLinejoin="round" d="M16.5 12.75a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0z" />
-                            </svg>
-                          </div>
-                        </div>
-                      )}
+                    return (
+                      <div
+                        key={i}
+                        className="relative rounded-sm overflow-hidden border border-border/50"
+                        style={{ aspectRatio: '1 / 1' }}
+                      >
+                        {/* ─── Full background ─── */}
+                        <div className="absolute inset-0" style={{ backgroundColor: c.bg }} />
 
-                      {/* Text overlay — matches template style */}
-                      <div className="absolute inset-0 flex flex-col justify-end p-5 sm:p-6 z-10">
-                        {/* Gradient scrim for readability */}
+                        {/* ─── Photo simulation area ─── */}
                         {slide.hasPhoto && (
-                          <div
-                            className="absolute inset-0"
-                            style={{
-                              background: `linear-gradient(to top, ${example.colors.bg} 0%, ${example.colors.bg}dd 35%, transparent 70%)`,
-                            }}
-                          />
-                        )}
-                        <div className="relative z-10">
-                          {/* Brand tag on first slide */}
-                          {i === 0 && (
-                            <span
-                              className="text-[9px] tracking-[0.2em] uppercase mb-3 block opacity-50"
-                              style={{ color: example.colors.primary, fontFamily: 'var(--font-body)' }}
+                          <div className="absolute inset-0 overflow-hidden">
+                            {/* Base photo gradient */}
+                            <div
+                              className="absolute inset-0"
+                              style={{
+                                background: layout === 'split'
+                                  ? `linear-gradient(90deg, ${c.accent}18 0%, ${c.accent}08 50%, ${c.bg} 50%)`
+                                  : layout === 'bold'
+                                  ? `linear-gradient(180deg, ${c.accent}12 0%, ${c.accent}06 60%, ${c.bg} 75%)`
+                                  : layout === 'minimal'
+                                  ? c.bg
+                                  : `linear-gradient(${160 + i * 30}deg, ${c.accent}15 0%, ${c.bg}cc 40%, ${c.bg} 70%)`,
+                              }}
+                            />
+                            {/* Cinematic: full-bleed simulated image */}
+                            {layout === 'cinematic' && (
+                              <div
+                                className="absolute inset-0"
+                                style={{
+                                  background: `radial-gradient(ellipse at ${i === 0 ? '60% 40%' : '40% 50%'}, ${c.accent}20 0%, transparent 60%), linear-gradient(to bottom, ${c.accent}10 0%, transparent 40%, ${c.bg} 100%)`,
+                                }}
+                              />
+                            )}
+                            {/* Bold: photo in top section */}
+                            {layout === 'bold' && (
+                              <div
+                                className="absolute top-[5%] left-[5%] right-[5%] bottom-[30%] rounded"
+                                style={{
+                                  background: `linear-gradient(${130 + i * 50}deg, ${c.accent}15, ${c.accent}08)`,
+                                  border: `1px solid ${c.accent}20`,
+                                }}
+                              />
+                            )}
+                            {/* Minimal: centered circle photo */}
+                            {layout === 'minimal' && (
+                              <div className="absolute inset-0 flex items-start justify-center pt-[10%]">
+                                <div
+                                  className="w-[40%] aspect-square rounded-full"
+                                  style={{
+                                    background: `radial-gradient(circle, ${c.accent}18, ${c.accent}08)`,
+                                    border: `1px solid ${c.accent}20`,
+                                  }}
+                                />
+                              </div>
+                            )}
+                            {/* Editorial: faded full image */}
+                            {layout === 'editorial' && (
+                              <div
+                                className="absolute inset-0 opacity-20"
+                                style={{
+                                  background: `linear-gradient(${140 + i * 40}deg, ${c.accent}30, ${c.accent}10)`,
+                                }}
+                              />
+                            )}
+                            {/* Split: left half image */}
+                            {layout === 'split' && (
+                              <div
+                                className="absolute top-0 left-0 w-1/2 h-full"
+                                style={{
+                                  background: `linear-gradient(${120 + i * 50}deg, ${c.accent}20, ${c.accent}08)`,
+                                }}
+                              />
+                            )}
+                            {/* Camera icon */}
+                            <div
+                              className="absolute flex items-center justify-center opacity-[0.05]"
+                              style={
+                                layout === 'split' ? { top: 0, left: 0, width: '50%', height: '100%' }
+                                : layout === 'bold' ? { top: '5%', left: '5%', right: '5%', bottom: '30%' }
+                                : layout === 'minimal' ? { top: '10%', left: '30%', right: '30%', height: '35%' }
+                                : { top: 0, left: 0, right: 0, bottom: 0 }
+                              }
                             >
-                              {example.brand.tagline}
-                            </span>
-                          )}
+                              <svg className="w-12 h-12" fill="none" viewBox="0 0 24 24" stroke={c.primary} strokeWidth={0.5}>
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M6.827 6.175A2.31 2.31 0 015.186 7.23c-.38.054-.757.112-1.134.175C2.999 7.58 2.25 8.507 2.25 9.574V18a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18V9.574c0-1.067-.75-1.994-1.802-2.169a47.865 47.865 0 00-1.134-.175 2.31 2.31 0 01-1.64-1.055l-.822-1.316a2.192 2.192 0 00-1.736-1.039 48.774 48.774 0 00-5.232 0 2.192 2.192 0 00-1.736 1.039l-.821 1.316z" />
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M16.5 12.75a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0z" />
+                              </svg>
+                            </div>
+                          </div>
+                        )}
 
-                          <h3
-                            className="text-lg sm:text-xl font-bold leading-tight mb-2 whitespace-pre-line"
-                            style={{
-                              color: example.colors.accent,
-                              fontFamily: 'var(--font-heading)',
-                            }}
-                          >
-                            {slide.headline}
-                          </h3>
-                          <p
-                            className="text-xs sm:text-sm leading-relaxed opacity-70"
-                            style={{ color: example.colors.primary, fontFamily: 'var(--font-body)' }}
-                          >
-                            {slide.body}
-                          </p>
-
-                          {/* Swipe indicator on non-last slides */}
-                          {i < example.slides.length - 1 && (
-                            <div className="mt-3 flex items-center gap-1.5 opacity-40">
-                              <div className="flex gap-1">
+                        {/* ─── CINEMATIC OVERLAY layout ─── */}
+                        {layout === 'cinematic' && (
+                          <>
+                            {/* Gradient scrim from bottom */}
+                            <div className="absolute inset-0 z-[1]" style={{ background: `linear-gradient(to top, ${c.bg} 0%, ${c.bg}ee 30%, ${c.bg}88 55%, transparent 75%)` }} />
+                            {/* Top brand bar */}
+                            <div className="absolute top-0 left-0 right-0 p-4 sm:p-5 z-10 flex justify-between items-center">
+                              <span className="text-[8px] sm:text-[9px] tracking-[0.25em] uppercase opacity-70" style={{ color: c.primary, fontFamily: 'var(--font-body)' }}>
+                                {example.brand.name}
+                              </span>
+                              <span className="text-[8px] sm:text-[9px] tracking-wider opacity-40" style={{ color: c.primary, fontFamily: 'var(--font-body)' }}>
+                                {String(i + 1).padStart(2, '0')} / {String(example.slides.length).padStart(2, '0')}
+                              </span>
+                            </div>
+                            {/* Bottom content */}
+                            <div className="absolute bottom-0 left-0 right-0 p-5 sm:p-7 z-10">
+                              <h3
+                                className="text-2xl sm:text-3xl font-bold leading-[1.1] mb-2.5 whitespace-pre-line"
+                                style={{ color: c.primary, fontFamily: 'var(--font-heading)' }}
+                              >
+                                {slide.headline}
+                              </h3>
+                              <p className="text-xs sm:text-sm leading-relaxed opacity-80 mb-3" style={{ color: c.primary, fontFamily: 'var(--font-body)' }}>
+                                {slide.body}
+                              </p>
+                              {slide.footer && (
+                                <span className="text-[7px] sm:text-[8px] tracking-[0.15em] uppercase opacity-40 block" style={{ color: c.primary, fontFamily: 'var(--font-body)' }}>
+                                  {slide.footer}
+                                </span>
+                              )}
+                              {/* Swipe dots */}
+                              <div className="mt-3 flex gap-1">
                                 {example.slides.map((_, di) => (
-                                  <div
-                                    key={di}
-                                    className="w-1 h-1 rounded-full"
-                                    style={{ backgroundColor: di === i ? example.colors.accent : example.colors.primary, opacity: di === i ? 1 : 0.3 }}
-                                  />
+                                  <div key={di} className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: di === i ? c.accent : c.primary, opacity: di === i ? 1 : 0.2 }} />
                                 ))}
                               </div>
                             </div>
-                          )}
+                          </>
+                        )}
 
-                          {/* CTA on last slide */}
-                          {i === example.slides.length - 1 && (
-                            <div
-                              className="mt-3 inline-block px-3 py-1.5 rounded-sm text-[10px] font-bold uppercase tracking-widest"
-                              style={{
-                                backgroundColor: example.colors.accent,
-                                color: example.colors.bg,
-                              }}
+                        {/* ─── EDITORIAL ELEGANT layout ─── */}
+                        {layout === 'editorial' && (
+                          <div className="absolute inset-0 z-10 flex flex-col justify-end p-5 sm:p-7">
+                            {/* Accent bar */}
+                            <div className="w-10 h-[2px] mb-4" style={{ backgroundColor: c.accent }} />
+                            <h3
+                              className="text-xl sm:text-2xl font-bold leading-[1.15] mb-2.5 whitespace-pre-line"
+                              style={{ color: c.primary, fontFamily: 'var(--font-heading)' }}
                             >
-                              Learn More
+                              {slide.headline}
+                            </h3>
+                            <p className="text-xs sm:text-sm leading-relaxed opacity-75 mb-4" style={{ color: c.primary, fontFamily: 'var(--font-body)' }}>
+                              {slide.body}
+                            </p>
+                            <div className="flex items-center justify-between">
+                              <span className="text-[8px] sm:text-[9px] font-semibold tracking-wider" style={{ color: c.primary, fontFamily: 'var(--font-heading)' }}>
+                                {example.brand.name}
+                              </span>
+                              <div className="flex gap-1">
+                                {example.slides.map((_, di) => (
+                                  <div key={di} className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: di === i ? c.accent : c.primary, opacity: di === i ? 1 : 0.15 }} />
+                                ))}
+                              </div>
                             </div>
-                          )}
-                        </div>
-                      </div>
+                            {slide.footer && (
+                              <span className="text-[7px] tracking-[0.12em] uppercase opacity-35 mt-2 block" style={{ color: c.primary, fontFamily: 'var(--font-body)' }}>
+                                {slide.footer}
+                              </span>
+                            )}
+                          </div>
+                        )}
 
-                      {/* Slide number */}
-                      <div
-                        className="absolute top-3 right-3 text-[9px] font-bold opacity-30 z-10"
-                        style={{ color: example.colors.primary, fontFamily: 'var(--font-heading)' }}
-                      >
-                        {String(i + 1).padStart(2, '0')} / {String(example.slides.length).padStart(2, '0')}
+                        {/* ─── MINIMAL CENTERED layout ─── */}
+                        {layout === 'minimal' && (
+                          <div className="absolute inset-0 z-10 flex flex-col items-center justify-center text-center px-5 sm:px-7" style={{ paddingTop: slide.hasPhoto ? '45%' : '0' }}>
+                            <h3
+                              className="text-xl sm:text-2xl font-light leading-[1.15] mb-2 whitespace-pre-line"
+                              style={{ color: c.primary, fontFamily: 'var(--font-heading)' }}
+                            >
+                              {slide.headline}
+                            </h3>
+                            <div className="w-8 h-[1.5px] mb-2.5" style={{ backgroundColor: c.primary, opacity: 0.25 }} />
+                            <p className="text-xs sm:text-sm leading-relaxed opacity-60 mb-4 max-w-[90%]" style={{ color: c.primary, fontFamily: 'var(--font-body)' }}>
+                              {slide.body}
+                            </p>
+                            {slide.footer && (
+                              <span className="text-[7px] tracking-[0.2em] uppercase opacity-30" style={{ color: c.primary, fontFamily: 'var(--font-body)' }}>
+                                {slide.footer}
+                              </span>
+                            )}
+                            {/* Bottom brand + dots */}
+                            <div className="absolute bottom-4 left-0 right-0 flex flex-col items-center gap-2">
+                              <span className="text-[7px] tracking-[0.25em] uppercase opacity-25" style={{ color: c.primary, fontFamily: 'var(--font-body)' }}>
+                                {example.brand.tagline}
+                              </span>
+                              <div className="flex gap-1">
+                                {example.slides.map((_, di) => (
+                                  <div key={di} className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: di === i ? c.accent : c.primary, opacity: di === i ? 1 : 0.15 }} />
+                                ))}
+                              </div>
+                            </div>
+                          </div>
+                        )}
+
+                        {/* ─── SPLIT STORY layout ─── */}
+                        {layout === 'split' && (
+                          <>
+                            {/* Right half content panel */}
+                            <div className="absolute top-0 right-0 w-1/2 h-full z-10 flex flex-col justify-center px-4 sm:px-5" style={{ backgroundColor: c.bg }}>
+                              {/* Decorative dot */}
+                              <div className="w-4 h-4 rounded-full mb-4 opacity-15" style={{ backgroundColor: c.primary }} />
+                              <h3
+                                className="text-base sm:text-lg font-bold leading-[1.2] mb-2 whitespace-pre-line"
+                                style={{ color: c.primary, fontFamily: 'var(--font-heading)' }}
+                              >
+                                {slide.headline}
+                              </h3>
+                              <p className="text-[10px] sm:text-xs leading-relaxed opacity-65 mb-3" style={{ color: c.primary, fontFamily: 'var(--font-body)' }}>
+                                {slide.body}
+                              </p>
+                              <span className="text-[7px] sm:text-[8px] font-semibold tracking-wider" style={{ color: c.primary, fontFamily: 'var(--font-heading)' }}>
+                                {example.brand.name}
+                              </span>
+                              {slide.footer && (
+                                <span className="text-[6px] sm:text-[7px] tracking-[0.1em] uppercase opacity-35 mt-1 block" style={{ color: c.primary, fontFamily: 'var(--font-body)' }}>
+                                  {slide.footer}
+                                </span>
+                              )}
+                              {/* Dots */}
+                              <div className="mt-3 flex gap-1">
+                                {example.slides.map((_, di) => (
+                                  <div key={di} className="w-1 h-1 rounded-full" style={{ backgroundColor: di === i ? c.accent : c.primary, opacity: di === i ? 1 : 0.2 }} />
+                                ))}
+                              </div>
+                            </div>
+                            {/* Divider line */}
+                            <div className="absolute top-[10%] bottom-[10%] left-1/2 w-px z-10" style={{ backgroundColor: c.primary, opacity: 0.08 }} />
+                          </>
+                        )}
+
+                        {/* ─── BOLD SHOWCASE layout ─── */}
+                        {layout === 'bold' && (
+                          <>
+                            {/* Bottom content block */}
+                            <div className="absolute bottom-0 left-0 right-0 p-5 sm:p-6 z-10">
+                              <h3
+                                className="text-2xl sm:text-3xl font-black uppercase leading-[1.05] tracking-tight mb-2 whitespace-pre-line"
+                                style={{ color: c.primary, fontFamily: 'var(--font-heading)' }}
+                              >
+                                {slide.headline}
+                              </h3>
+                              <p className="text-xs sm:text-sm leading-relaxed opacity-65 mb-3" style={{ color: c.primary, fontFamily: 'var(--font-body)' }}>
+                                {slide.body}
+                              </p>
+                              <div className="flex items-center gap-2.5">
+                                <div className="w-4 h-4 rounded-full" style={{ backgroundColor: c.accent }} />
+                                <span className="text-[8px] sm:text-[9px] font-bold uppercase tracking-[0.2em]" style={{ color: c.primary, fontFamily: 'var(--font-body)' }}>
+                                  {example.brand.tagline}
+                                </span>
+                              </div>
+                              {slide.footer && (
+                                <span className="text-[7px] tracking-[0.1em] uppercase opacity-35 mt-2 block" style={{ color: c.primary, fontFamily: 'var(--font-body)' }}>
+                                  {slide.footer}
+                                </span>
+                              )}
+                            </div>
+                            {/* Slide counter top-right */}
+                            <div className="absolute top-3 right-3 z-10">
+                              <span className="text-[9px] font-bold opacity-25" style={{ color: c.primary, fontFamily: 'var(--font-heading)' }}>
+                                {String(i + 1).padStart(2, '0')} / {String(example.slides.length).padStart(2, '0')}
+                              </span>
+                            </div>
+                            {/* Accent bar at very bottom */}
+                            <div className="absolute bottom-0 left-0 right-0 h-1 z-10" style={{ backgroundColor: c.accent }} />
+                          </>
+                        )}
+
+                        {/* ─── CTA button on last slide (all layouts) ─── */}
+                        {i === example.slides.length - 1 && layout !== 'split' && (
+                          <div className="absolute z-20" style={{
+                            ...(layout === 'cinematic' ? { bottom: '72px', left: '28px' } :
+                              layout === 'editorial' ? { bottom: '56px', left: '28px' } :
+                              layout === 'minimal' ? { bottom: '52px', left: '50%', transform: 'translateX(-50%)' } :
+                              { bottom: '60px', left: '24px' }),
+                          }}>
+                            <div
+                              className="px-3 py-1.5 rounded-sm text-[9px] sm:text-[10px] font-bold uppercase tracking-widest"
+                              style={{ backgroundColor: c.accent, color: c.bg }}
+                            >
+                              {layout === 'bold' ? 'Book Now' : layout === 'minimal' ? 'View Details' : 'Learn More'}
+                            </div>
+                          </div>
+                        )}
                       </div>
-                    </div>
-                  ))}
+                    );
+                  })}
                 </div>
               </div>
             ))}
