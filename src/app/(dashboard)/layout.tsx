@@ -15,9 +15,9 @@ export default async function DashboardLayout({
   if (!user) redirect('/login');
 
   return (
-    <div className="flex min-h-screen">
+    <div className="flex min-h-screen flex-col md:flex-row">
       <Sidebar />
-      <main className="flex-1 overflow-y-auto">{children}</main>
+      <main className="flex-1 overflow-y-auto pt-[57px] md:pt-0">{children}</main>
     </div>
   );
 }

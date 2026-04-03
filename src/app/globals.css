@@ -1,16 +1,34 @@
 @import "tailwindcss";
 
-:root {
-  --background: #f5f0e8;
-  --foreground: #2d2d2d;
-  --card: #ffffff;
-  --card-hover: #faf7f2;
-  --border: #e5ddd0;
-  --muted: #8a8078;
-  --accent: #4a5940;
-  --accent-hover: #3d4a35;
-  --danger: #c44536;
+:root,
+[data-theme="dark"] {
+  --background: #0e0e0e;
+  --foreground: #e8e6e1;
+  --card: #1a1a1a;
+  --card-hover: #222222;
+  --border: #2a2a2a;
+  --muted: #6b6b6b;
+  --accent: #c2570a;
+  --accent-hover: #a84a08;
+  --danger: #e04040;
   --warning: #d4a84b;
+  --grid-line: rgba(194, 87, 10, 0.08);
+  --focus-ring: rgba(194, 87, 10, 0.25);
+}
+
+[data-theme="light"] {
+  --background: #fdf8f0;
+  --foreground: #3a2a1a;
+  --card: #ffffff;
+  --card-hover: #f5efe5;
+  --border: #e0d5c5;
+  --muted: #9a8a7a;
+  --accent: #c2570a;
+  --accent-hover: #a84a08;
+  --danger: #d03030;
+  --warning: #c49a3a;
+  --grid-line: rgba(194, 87, 10, 0.06);
+  --focus-ring: rgba(194, 87, 10, 0.2);
 }
 
 @theme inline {
@@ -24,13 +42,69 @@
   --color-accent-hover: var(--accent-hover);
   --color-danger: var(--danger);
   --color-warning: var(--warning);
-  --font-heading: var(--font-playfair);
-  --font-body: var(--font-lora);
+  --font-heading: var(--font-inter);
+  --font-body: var(--font-inter);
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
+}
+
+/* DSLR viewfinder grid background - subtle rule-of-thirds */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background:
+    linear-gradient(to right, var(--grid-line) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px);
+  background-size: 33.333% 33.333%;
+}
+
+/* Viewfinder corner brackets on cards */
+.viewfinder-card {
+  position: relative;
+}
+.viewfinder-card::before,
+.viewfinder-card::after {
+  content: '';
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  pointer-events: none;
+}
+.viewfinder-card::before {
+  top: -1px;
+  left: -1px;
+  border-top: 2px solid var(--accent);
+  border-left: 2px solid var(--accent);
+}
+.viewfinder-card::after {
+  bottom: -1px;
+  right: -1px;
+  border-bottom: 2px solid var(--accent);
+  border-right: 2px solid var(--accent);
+}
+
+/* Focus point marker */
+.focus-point {
+  position: relative;
+}
+.focus-point::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 8px;
+  height: 8px;
+  transform: translate(-50%, -50%);
+  border: 1.5px solid var(--accent);
+  border-radius: 50%;
+  pointer-events: none;
+  opacity: 0.5;
 }
 
 /* Scrollbar styling */
@@ -43,4 +117,7 @@ body {
 ::-webkit-scrollbar-thumb {
   background: var(--border);
   border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--muted);
 }

@@ -20,7 +20,7 @@ export async function createTeam(name: string): Promise<{ id: string }> {
     method: 'POST',
     headers: headers(),
     body: JSON.stringify({
-      name: `PhotoFlow - ${name}`,
+      name: `Gridshot - ${name}`,
       socialAccountTypes: [
         'INSTAGRAM',
         'TIKTOK',
@@ -219,7 +219,7 @@ export async function createPost(input: CreatePostInput): Promise<{ postId: stri
 
   const postPayload = {
     teamId: input.teamId,
-    title: input.text.slice(0, 100) || 'PhotoFlow Post',
+    title: input.text.slice(0, 100) || 'Gridshot Post',
     status: 'SCHEDULED',
     postDate: input.scheduledAt ?? new Date(Date.now() + 60_000).toISOString(),
     socialAccountTypes: input.platformAccounts.map((p) => p.platform.toUpperCase()),

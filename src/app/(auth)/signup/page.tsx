@@ -42,7 +42,7 @@ export default function SignupPage() {
         <h1 className="font-heading text-2xl font-bold text-foreground mb-1">
           Create your account
         </h1>
-        <p className="text-muted mb-6">Start creating beautiful slides for your brand</p>
+        <p className="text-muted mb-6">Start creating branded content for every platform</p>
 
         <form onSubmit={handleSignup} className="space-y-4">
           {error && (
@@ -62,7 +62,7 @@ export default function SignupPage() {
               onChange={(e) => setDisplayName(e.target.value)}
               required
               className="w-full rounded-md border border-border bg-background px-3 py-2 text-sm text-foreground placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-accent"
-              placeholder="Your name or studio name"
+              placeholder="Your name or brand name"
             />
           </div>
 

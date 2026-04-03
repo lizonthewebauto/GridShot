@@ -19,7 +19,7 @@ export default async function BrandsPage() {
       <div className="flex items-center justify-between mb-8">
         <div>
           <h1 className="font-heading text-3xl font-bold text-foreground">Brands</h1>
-          <p className="text-muted mt-1">Manage your studio brands and identities</p>
+          <p className="text-muted mt-1">Manage your brand profiles and identities</p>
         </div>
         <Link
           href="/brands/new"

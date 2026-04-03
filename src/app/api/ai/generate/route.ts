@@ -8,7 +8,7 @@ export async function POST(request: Request) {
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
-  const { brandId, vibe } = await request.json();
+  const { brandId, vibe, idea, slideNumber, totalSlides, feedback, analyzeImage, imageUrl } = await request.json();
 
   if (!brandId || !vibe) {
     return NextResponse.json({ error: 'brandId and vibe are required' }, { status: 400 });
@@ -25,12 +25,26 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: 'Brand not found' }, { status: 404 });
   }
 
-  const systemPrompt = buildGeneratePrompt(brand, vibe);
+  const hasImage = analyzeImage && imageUrl;
 
-  const text = await chatCompletion(
-    systemPrompt,
-    `Generate a headline and body for a ${vibe.toLowerCase()} photography slide for ${brand.name}.`
-  );
+  const systemPrompt = buildGeneratePrompt(brand, vibe, {
+    idea: idea || undefined,
+    slideNumber: slideNumber || undefined,
+    totalSlides: totalSlides || undefined,
+    feedback: feedback || undefined,
+    analyzeImage: !!hasImage,
+  });
+
+  let userMessage = idea
+    ? `Generate a headline and body for a ${vibe.toLowerCase()} slide for ${brand.name}. The content should be about: ${idea}`
+    : `Generate a headline and body for a ${vibe.toLowerCase()} slide for ${brand.name}.`;
+
+  if (hasImage) {
+    userMessage += ' Analyze the attached photo and make the text relate to what you see.';
+  }
+
+  const imageUrls = hasImage ? [imageUrl] : undefined;
+  const text = await chatCompletion(systemPrompt, userMessage, imageUrls);
 
   // Parse JSON from response
   try {

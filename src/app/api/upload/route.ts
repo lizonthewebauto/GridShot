@@ -25,7 +25,9 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: uploadError.message }, { status: 500 });
   }
 
-  const { data: { publicUrl } } = supabase.storage.from(bucket).getPublicUrl(path);
+  const { data: signedUrlData } = await supabase.storage
+    .from(bucket)
+    .createSignedUrl(path, 3600);
 
-  return NextResponse.json({ path, url: publicUrl });
+  return NextResponse.json({ path, url: signedUrlData?.signedUrl || '' });
 }

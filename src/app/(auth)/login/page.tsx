@@ -35,7 +35,7 @@ export default function LoginPage() {
         <h1 className="font-heading text-2xl font-bold text-foreground mb-1">
           Welcome back
         </h1>
-        <p className="text-muted mb-6">Sign in to PhotoFlow Studio</p>
+        <p className="text-muted mb-6">Sign in to Gridshot</p>
 
         <form onSubmit={handleLogin} className="space-y-4">
           {error && (

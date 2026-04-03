@@ -1,4 +1,4 @@
--- PhotoFlow Studio Database Schema
+-- Gridshot Database Schema
 -- Run this in your Supabase SQL Editor
 
 -- ── Profiles ──
@@ -37,18 +37,37 @@ create table public.brands (
   user_id uuid not null references profiles(id) on delete cascade,
   name text not null,
   slug text not null,
+  website_url text,
   logo_url text,
+  tagline text,
   voice_description text,
   tone_presets text[] default '{}',
+  style_keywords text[] default '{}',
+  brand_personality text,
   color_primary text default '#4a5940',
   color_secondary text default '#f5f0e8',
   color_accent text,
+  color_background text,
+  color_text text,
   font_heading text default 'Playfair Display',
   font_body text default 'Lora',
+  font_accent text,
+  icp_description text,
+  target_audience text,
+  audience_pain_points text[] default '{}',
+  audience_desires text[] default '{}',
+  niche text,
+  service_area text,
+  price_positioning text,
+  differentiator text,
   review_count text,
   review_tagline text,
+  instagram_handle text,
+  website_tagline text,
+  social_links jsonb default '{}',
   bundle_social_team_id text,
   is_default boolean not null default false,
+  extracted_from_url boolean not null default false,
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now()
 );

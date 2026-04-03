@@ -88,7 +88,7 @@ export default function ConnectionsPage() {
               Connect Social Accounts
             </h2>
             <p className="text-sm text-muted mt-1">
-              Link your Instagram, Threads, X, and more to post directly from PhotoFlow
+              Link your Instagram, Threads, X, and more to post directly from Gridshot
             </p>
           </div>
           <div className="flex gap-2">
