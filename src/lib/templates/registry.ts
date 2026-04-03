@@ -24,4 +24,9 @@ export const TEMPLATE_REGISTRY = {
     name: 'Cinematic Overlay',
     component: 'CinematicOverlay',
   },
+  'photo-only': {
+    slug: 'photo-only',
+    name: 'Photo Only',
+    component: 'PhotoOnly',
+  },
 } as const;

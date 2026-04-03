@@ -148,6 +148,17 @@ export interface Post {
   created_at: string;
 }
 
+export const SLIDE_SIZES = {
+  '1440x1080': { width: 1440, height: 1080, label: '4:3 Landscape' },
+  '1080x1080': { width: 1080, height: 1080, label: '1:1 Square' },
+  '1920x1080': { width: 1920, height: 1080, label: '16:9 Widescreen' },
+  '1350x1080': { width: 1350, height: 1080, label: '5:4 Portrait' },
+} as const;
+
+export const DEFAULT_SLIDE_SIZE = '1440x1080' as const;
+
+export type SlideSize = keyof typeof SLIDE_SIZES;
+
 export interface TemplateData {
   brandName: string;
   photoUrl: string | null;
@@ -159,6 +170,21 @@ export interface TemplateData {
   colorSecondary: string;
   fontHeading: string;
   fontBody: string;
+  width: number;
+  height: number;
+}
+
+export interface Preset {
+  id: string;
+  user_id: string;
+  brand_id: string;
+  name: string;
+  template_slug: string;
+  vibe: string;
+  headline: string | null;
+  body_text: string | null;
+  created_at: string;
+  updated_at: string;
 }
 
 export const VIBE_OPTIONS = [
