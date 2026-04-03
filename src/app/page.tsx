@@ -53,28 +53,60 @@ const features = [
   {
     title: 'AI-Written Copy',
     desc: 'The AI analyzes your brand voice and photos, then writes headlines and body text that actually sound like you.',
+    icon: 'M12 20h9M16.5 3.5a2.12 2.12 0 013 3L7 19l-4 1 1-4L16.5 3.5z',
   },
   {
     title: 'Full Brand Control',
     desc: 'Your colors, your fonts, your voice. Set it once and apply it everywhere. Save presets for different content styles.',
+    icon: 'M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z',
   },
   {
     title: '8 Creative Vibes',
     desc: 'From Cinematic to Minimal, pick the mood that fits your content. The AI adapts its writing style to match.',
+    icon: 'M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z',
   },
   {
     title: 'Granular Text Editing',
     desc: 'Control every text element: font, size, weight, alignment, spacing, color, position. Per slide. Your way.',
+    icon: 'M4 6h16M4 12h16M4 18h7',
   },
   {
     title: 'Multi-Slide Carousels',
     desc: 'Build 1 to 10 slide carousels with unique photos and copy per slide. Swipe indicators included.',
+    icon: 'M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10',
   },
   {
     title: 'Post Everywhere',
     desc: 'Connect your accounts and publish to Instagram, Threads, X, Facebook, TikTok, Bluesky, LinkedIn, and Pinterest.',
+    icon: 'M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z',
   },
 ];
+
+/* Reusable SVG components */
+function Crosshair({ className = 'w-5 h-5' }: { className?: string }) {
+  return (
+    <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+      <circle cx="12" cy="12" r="10" />
+      <circle cx="12" cy="12" r="3" />
+      <line x1="12" y1="2" x2="12" y2="6" />
+      <line x1="12" y1="18" x2="12" y2="22" />
+      <line x1="2" y1="12" x2="6" y2="12" />
+      <line x1="18" y1="12" x2="22" y2="12" />
+    </svg>
+  );
+}
+
+function ViewfinderBrackets({ children, className = '' }: { children: React.ReactNode; className?: string }) {
+  return (
+    <div className={`relative ${className}`}>
+      <div className="absolute -top-2 -left-3 w-5 h-5 border-t-2 border-l-2 border-accent" />
+      <div className="absolute -top-2 -right-3 w-5 h-5 border-t-2 border-r-2 border-accent" />
+      <div className="absolute -bottom-2 -left-3 w-5 h-5 border-b-2 border-l-2 border-accent" />
+      <div className="absolute -bottom-2 -right-3 w-5 h-5 border-b-2 border-r-2 border-accent" />
+      {children}
+    </div>
+  );
+}
 
 function Check() {
   return (
@@ -84,18 +116,47 @@ function Check() {
   );
 }
 
+function FocusRing({ className = '' }: { className?: string }) {
+  return (
+    <svg className={`text-accent/20 ${className}`} fill="none" viewBox="0 0 120 120" strokeWidth={1}>
+      <circle cx="60" cy="60" r="58" stroke="currentColor" />
+      <circle cx="60" cy="60" r="40" stroke="currentColor" strokeDasharray="4 4" />
+      <circle cx="60" cy="60" r="20" stroke="currentColor" />
+      <line x1="60" y1="0" x2="60" y2="20" stroke="currentColor" />
+      <line x1="60" y1="100" x2="60" y2="120" stroke="currentColor" />
+      <line x1="0" y1="60" x2="20" y2="60" stroke="currentColor" />
+      <line x1="100" y1="60" x2="120" y2="60" stroke="currentColor" />
+    </svg>
+  );
+}
+
 export default function HomePage() {
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen flex flex-col overflow-hidden">
+      {/* Rule-of-thirds grid background */}
+      <div
+        className="fixed inset-0 pointer-events-none z-0"
+        style={{
+          backgroundImage: `
+            linear-gradient(to right, rgba(74,89,64,0.04) 1px, transparent 1px),
+            linear-gradient(to bottom, rgba(74,89,64,0.04) 1px, transparent 1px)
+          `,
+          backgroundSize: '33.333% 33.333%',
+        }}
+      />
+
       {/* ───── Header ───── */}
       <header className="sticky top-0 z-50 border-b border-border bg-background/95 backdrop-blur-sm">
         <div className="max-w-6xl mx-auto flex items-center justify-between px-6 py-4">
-          <span
-            className="text-xl font-bold tracking-tight"
-            style={{ fontFamily: 'var(--font-heading)' }}
-          >
-            Gridshot
-          </span>
+          <div className="flex items-center gap-2.5">
+            <Crosshair className="w-5 h-5 text-accent" />
+            <span
+              className="text-lg font-bold tracking-tight uppercase"
+              style={{ fontFamily: 'var(--font-heading)' }}
+            >
+              Gridshot
+            </span>
+          </div>
           <div className="flex items-center gap-3">
             <Link
               href="/login"
@@ -105,7 +166,7 @@ export default function HomePage() {
             </Link>
             <Link
               href="/signup"
-              className="rounded-md bg-accent px-5 py-2.5 text-sm font-semibold text-white transition-all hover:bg-accent-hover"
+              className="rounded-sm bg-accent-warm px-5 py-2.5 text-sm font-semibold text-white transition-all hover:bg-accent-warm-hover"
             >
               Get Started Free
             </Link>
@@ -114,22 +175,31 @@ export default function HomePage() {
       </header>
 
       {/* ───── Hero ───── */}
-      <section className="px-6 pt-20 pb-16 sm:pt-28 sm:pb-24">
+      <section className="relative px-6 pt-20 pb-16 sm:pt-28 sm:pb-24 z-10">
+        {/* Decorative focus rings */}
+        <FocusRing className="absolute top-8 -right-10 w-48 h-48 hidden lg:block" />
+        <FocusRing className="absolute bottom-0 -left-16 w-36 h-36 hidden lg:block" />
+
         <div className="max-w-4xl mx-auto text-center">
-          <div className="inline-flex items-center gap-2 rounded-full border border-accent/20 bg-accent/5 px-4 py-1.5 text-xs font-medium text-accent mb-8">
-            AI-powered carousel creator for photographers &amp; creators
+          {/* Camera-style badge */}
+          <div className="inline-flex items-center gap-2 rounded-sm border border-accent-warm/20 bg-accent-warm/5 px-4 py-1.5 text-xs font-medium text-accent-warm uppercase tracking-widest mb-8">
+            <Crosshair className="w-3.5 h-3.5" />
+            AI-powered carousel creator
           </div>
 
-          <h1
-            className="text-4xl sm:text-5xl md:text-6xl font-bold leading-[1.1] tracking-tight mb-6"
-            style={{ fontFamily: 'var(--font-heading)' }}
-          >
-            Your photos should
-            <br />
-            <span className="text-accent">work for you</span> on
-            <br />
-            <span className="text-accent">every platform.</span>
-          </h1>
+          {/* Viewfinder-framed headline */}
+          <ViewfinderBrackets className="inline-block mb-6">
+            <h1
+              className="text-4xl sm:text-5xl md:text-6xl font-bold leading-[1.1] tracking-tight px-4 py-1"
+              style={{ fontFamily: 'var(--font-heading)' }}
+            >
+              Your photos should
+              <br />
+              <span className="text-accent-warm">work for you</span> on
+              <br />
+              <span className="text-accent-warm">every platform.</span>
+            </h1>
+          </ViewfinderBrackets>
 
           <p className="text-lg sm:text-xl text-muted max-w-2xl mx-auto mb-10 leading-relaxed">
             Smarter social content on autopilot. Gridshot turns your photos
@@ -141,27 +211,38 @@ export default function HomePage() {
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <Link
               href="/signup"
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-md bg-accent px-8 py-3.5 text-base font-semibold text-white transition-all hover:bg-accent-hover shadow-lg shadow-accent/20"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-sm bg-accent-warm px-8 py-3.5 text-base font-semibold text-white transition-all hover:bg-accent-warm-hover shadow-lg shadow-accent-warm/20"
             >
-              Start Creating Free
+              Start Shooting
               <span aria-hidden="true">&rarr;</span>
             </Link>
             <span className="text-sm text-muted">
               No credit card required
             </span>
           </div>
+
+          {/* Exposure triangle / camera info strip */}
+          <div className="mt-12 flex items-center justify-center gap-6 text-xs text-muted font-mono tracking-wider">
+            <span>f/2.8</span>
+            <span className="w-1 h-1 rounded-full bg-accent/40" />
+            <span>1/125s</span>
+            <span className="w-1 h-1 rounded-full bg-accent/40" />
+            <span>ISO 400</span>
+            <span className="w-1 h-1 rounded-full bg-accent/40" />
+            <span>8 PLATFORMS</span>
+          </div>
         </div>
       </section>
 
       {/* ───── Social-proof bar ───── */}
-      <section className="border-y border-border px-6 py-6">
+      <section className="relative z-10 border-y border-border px-6 py-6">
         <div className="max-w-4xl mx-auto flex flex-wrap items-center justify-center gap-x-8 gap-y-3 text-sm font-medium text-muted">
           {[
             '8 creative vibes',
-            '8 platforms supported',
+            '8 platforms',
             '12+ premium fonts',
             'Unlimited brands',
-            'Export as JPEG',
+            'JPEG export',
           ].map((text) => (
             <span key={text} className="flex items-center gap-2">
               <Check />
@@ -172,9 +253,10 @@ export default function HomePage() {
       </section>
 
       {/* ───── How It Works ───── */}
-      <section className="px-6 py-20 sm:py-28">
+      <section className="relative z-10 px-6 py-20 sm:py-28">
         <div className="max-w-5xl mx-auto">
           <div className="text-center mb-16">
+            <p className="text-xs uppercase tracking-[0.2em] text-accent font-medium mb-3">Workflow</p>
             <h2
               className="text-3xl sm:text-4xl font-bold tracking-tight mb-4"
               style={{ fontFamily: 'var(--font-heading)' }}
@@ -192,25 +274,39 @@ export default function HomePage() {
                 step: '01',
                 title: 'Upload your photos',
                 desc: 'Drop in your images. Pick from your library or upload new ones. Assign them to slides however you want.',
+                icon: 'M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z',
               },
               {
                 step: '02',
                 title: 'AI writes the copy',
                 desc: "Choose a vibe. The AI analyzes your brand, your photos, and your audience, then writes headlines and body text that sound like you.",
+                icon: 'M12 20h9M16.5 3.5a2.12 2.12 0 013 3L7 19l-4 1 1-4L16.5 3.5z',
               },
               {
                 step: '03',
                 title: 'Post everywhere',
                 desc: 'Export as JPEGs or publish directly to Instagram, Threads, X, Facebook, TikTok, Bluesky, LinkedIn, and Pinterest.',
+                icon: 'M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z',
               },
             ].map((item) => (
               <div
                 key={item.step}
-                className="relative rounded-xl bg-card border border-border p-8 transition-all hover:shadow-md"
+                className="relative rounded-sm bg-card border border-border p-8 transition-all hover:shadow-md group"
               >
-                <span className="text-xs font-bold tracking-widest uppercase text-accent mb-4 block">
-                  Step {item.step}
-                </span>
+                {/* Viewfinder corner accents */}
+                <div className="absolute top-0 left-0 w-4 h-4 border-t-2 border-l-2 border-accent/30 group-hover:border-accent transition-colors" />
+                <div className="absolute top-0 right-0 w-4 h-4 border-t-2 border-r-2 border-accent/30 group-hover:border-accent transition-colors" />
+                <div className="absolute bottom-0 left-0 w-4 h-4 border-b-2 border-l-2 border-accent/30 group-hover:border-accent transition-colors" />
+                <div className="absolute bottom-0 right-0 w-4 h-4 border-b-2 border-r-2 border-accent/30 group-hover:border-accent transition-colors" />
+
+                <div className="flex items-center gap-3 mb-4">
+                  <span className="text-xs font-bold tracking-widest uppercase text-accent">
+                    {item.step}
+                  </span>
+                  <svg className="w-5 h-5 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d={item.icon} />
+                  </svg>
+                </div>
                 <h3
                   className="text-xl font-bold mb-2"
                   style={{ fontFamily: 'var(--font-heading)' }}
@@ -227,9 +323,10 @@ export default function HomePage() {
       </section>
 
       {/* ───── Features Grid ───── */}
-      <section className="px-6 py-20 sm:py-28 bg-card-hover">
+      <section className="relative z-10 px-6 py-20 sm:py-28 bg-card-hover">
         <div className="max-w-5xl mx-auto">
           <div className="text-center mb-16">
+            <p className="text-xs uppercase tracking-[0.2em] text-accent font-medium mb-3">Features</p>
             <h2
               className="text-3xl sm:text-4xl font-bold tracking-tight mb-4"
               style={{ fontFamily: 'var(--font-heading)' }}
@@ -245,8 +342,11 @@ export default function HomePage() {
             {features.map((f) => (
               <div
                 key={f.title}
-                className="rounded-xl bg-card border border-border p-6 transition-all hover:shadow-md"
+                className="rounded-sm bg-card border border-border p-6 transition-all hover:shadow-md"
               >
+                <svg className="w-6 h-6 text-accent mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d={f.icon} />
+                </svg>
                 <h3
                   className="text-lg font-bold mb-2"
                   style={{ fontFamily: 'var(--font-heading)' }}
@@ -263,9 +363,10 @@ export default function HomePage() {
       </section>
 
       {/* ───── Vibes ───── */}
-      <section className="px-6 py-20 sm:py-28">
+      <section className="relative z-10 px-6 py-20 sm:py-28">
         <div className="max-w-5xl mx-auto">
           <div className="text-center mb-16">
+            <p className="text-xs uppercase tracking-[0.2em] text-accent font-medium mb-3">Tone</p>
             <h2
               className="text-3xl sm:text-4xl font-bold tracking-tight mb-4"
               style={{ fontFamily: 'var(--font-heading)' }}
@@ -281,8 +382,12 @@ export default function HomePage() {
             {vibes.map((v) => (
               <div
                 key={v.name}
-                className="rounded-xl bg-card border border-border p-5 text-center transition-all hover:shadow-md hover:-translate-y-0.5"
+                className="relative rounded-sm bg-card border border-border p-5 text-center transition-all hover:shadow-md hover:-translate-y-0.5 group"
               >
+                {/* Mini crosshair */}
+                <div className="w-6 h-6 mx-auto mb-3 opacity-30 group-hover:opacity-60 transition-opacity">
+                  <Crosshair className="w-6 h-6 text-accent" />
+                </div>
                 <h3
                   className="text-base font-bold mb-1"
                   style={{ fontFamily: 'var(--font-heading)' }}
@@ -297,9 +402,10 @@ export default function HomePage() {
       </section>
 
       {/* ───── Who It's For ───── */}
-      <section className="px-6 py-20 sm:py-28 bg-card-hover">
+      <section className="relative z-10 px-6 py-20 sm:py-28 bg-card-hover">
         <div className="max-w-5xl mx-auto">
           <div className="text-center mb-16">
+            <p className="text-xs uppercase tracking-[0.2em] text-accent font-medium mb-3">For You</p>
             <h2
               className="text-3xl sm:text-4xl font-bold tracking-tight mb-4"
               style={{ fontFamily: 'var(--font-heading)' }}
@@ -307,8 +413,7 @@ export default function HomePage() {
               Built for people who create visually
             </h2>
             <p className="text-lg text-muted">
-              If you have great images but struggle with the rest, this is for
-              you.
+              If you have great images but struggle with the rest, this is for you.
             </p>
           </div>
 
@@ -316,8 +421,12 @@ export default function HomePage() {
             {buyerTypes.map((b) => (
               <div
                 key={b.title}
-                className="rounded-xl bg-card border border-border p-8"
+                className="relative rounded-sm bg-card border border-border p-8 group"
               >
+                {/* Viewfinder corners */}
+                <div className="absolute top-0 left-0 w-4 h-4 border-t-2 border-l-2 border-accent/30" />
+                <div className="absolute bottom-0 right-0 w-4 h-4 border-b-2 border-r-2 border-accent/30" />
+
                 <h3
                   className="text-xl font-bold text-accent mb-3"
                   style={{ fontFamily: 'var(--font-heading)' }}
@@ -337,8 +446,9 @@ export default function HomePage() {
       </section>
 
       {/* ───── Platforms ───── */}
-      <section className="px-6 py-20 sm:py-28">
+      <section className="relative z-10 px-6 py-20 sm:py-28">
         <div className="max-w-4xl mx-auto text-center">
+          <p className="text-xs uppercase tracking-[0.2em] text-accent font-medium mb-3">Publish</p>
           <h2
             className="text-3xl sm:text-4xl font-bold tracking-tight mb-4"
             style={{ fontFamily: 'var(--font-heading)' }}
@@ -349,11 +459,11 @@ export default function HomePage() {
             Connect your accounts and publish directly from Gridshot.
           </p>
 
-          <div className="flex flex-wrap items-center justify-center gap-4">
+          <div className="flex flex-wrap items-center justify-center gap-3">
             {platforms.map((p) => (
               <span
                 key={p}
-                className="rounded-full bg-card border border-border px-5 py-2.5 text-sm font-medium"
+                className="rounded-sm bg-card border border-border px-5 py-2.5 text-sm font-medium hover:border-accent/40 transition-colors"
               >
                 {p}
               </span>
@@ -363,10 +473,11 @@ export default function HomePage() {
       </section>
 
       {/* ───── Brand Setup ───── */}
-      <section className="px-6 py-20 sm:py-28 bg-card-hover">
+      <section className="relative z-10 px-6 py-20 sm:py-28 bg-card-hover">
         <div className="max-w-4xl mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
             <div>
+              <p className="text-xs uppercase tracking-[0.2em] text-accent font-medium mb-3">Brand</p>
               <h2
                 className="text-3xl sm:text-4xl font-bold tracking-tight mb-6"
                 style={{ fontFamily: 'var(--font-heading)' }}
@@ -395,64 +506,76 @@ export default function HomePage() {
               </ul>
             </div>
 
-            {/* mini brand-card mockup */}
-            <div className="rounded-xl bg-card border border-border p-8 space-y-4">
-              <div className="flex items-center gap-3 mb-6">
-                <div className="w-10 h-10 rounded-md bg-accent flex items-center justify-center text-white font-bold">
-                  P
-                </div>
-                <div>
-                  <div className="font-bold text-sm" style={{ fontFamily: 'var(--font-heading)' }}>
-                    Your Brand
+            {/* Brand card mockup with viewfinder frame */}
+            <div className="relative">
+              <ViewfinderBrackets>
+                <div className="rounded-sm bg-card border border-border p-8 space-y-4">
+                  <div className="flex items-center gap-3 mb-6">
+                    <div className="w-10 h-10 rounded-sm bg-accent flex items-center justify-center text-white font-bold">
+                      <Crosshair className="w-5 h-5" />
+                    </div>
+                    <div>
+                      <div className="font-bold text-sm" style={{ fontFamily: 'var(--font-heading)' }}>
+                        Your Brand
+                      </div>
+                      <div className="text-xs text-muted">yourbrand.com</div>
+                    </div>
                   </div>
-                  <div className="text-xs text-muted">yourbrand.com</div>
+                  <div className="flex gap-2">
+                    {['#4a5940', '#2d2d2d', '#faf8f5', '#8a8580'].map((color) => (
+                      <div
+                        key={color}
+                        className="w-8 h-8 rounded-sm border border-border"
+                        style={{ background: color }}
+                      />
+                    ))}
+                  </div>
+                  <div className="text-xs text-muted space-y-1">
+                    <div>Heading: Playfair Display</div>
+                    <div>Body: Lora</div>
+                    <div>Voice: Warm, confident, approachable</div>
+                  </div>
                 </div>
-              </div>
-              <div className="flex gap-2">
-                {['#4a5940', '#2d2d2d', '#faf8f5', '#8a8580'].map((color) => (
-                  <div
-                    key={color}
-                    className="w-8 h-8 rounded-md border border-border"
-                    style={{ background: color }}
-                  />
-                ))}
-              </div>
-              <div className="text-xs text-muted space-y-1">
-                <div>Heading: Playfair Display</div>
-                <div>Body: Lora</div>
-                <div>Voice: Warm, confident, approachable</div>
-              </div>
+              </ViewfinderBrackets>
             </div>
           </div>
         </div>
       </section>
 
       {/* ───── Editor Power ───── */}
-      <section className="px-6 py-20 sm:py-28">
+      <section className="relative z-10 px-6 py-20 sm:py-28">
         <div className="max-w-4xl mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-            {/* mockup */}
-            <div className="rounded-xl bg-card border border-border p-6 space-y-3 order-2 md:order-1">
-              {[
-                { label: 'Headline', value: 'Playfair Display, 32px, Bold' },
-                { label: 'Body', value: 'Lora, 16px, Italic' },
-                { label: 'Footer', value: 'Brand tagline, centered' },
-                { label: 'Swipe', value: 'Circle arrow, bottom-right' },
-              ].map((row) => (
-                <div
-                  key={row.label}
-                  className="flex items-center justify-between py-2 border-b border-border last:border-0"
-                >
-                  <span className="text-sm font-medium">{row.label}</span>
-                  <span className="text-xs text-muted">{row.value}</span>
-                </div>
-              ))}
-              <p className="text-xs text-muted pt-2">
-                Font, size, weight, alignment, spacing, color, position
-              </p>
+            {/* Editor mockup */}
+            <div className="relative rounded-sm bg-card border border-border overflow-hidden order-2 md:order-1">
+              {/* Viewfinder header bar */}
+              <div className="px-6 py-3 border-b border-border flex items-center gap-2 bg-card-hover">
+                <Crosshair className="w-3.5 h-3.5 text-accent" />
+                <span className="text-xs font-medium text-muted uppercase tracking-widest">Slide Editor</span>
+              </div>
+              <div className="p-6 space-y-3">
+                {[
+                  { label: 'Headline', value: 'Playfair Display, 32px, Bold' },
+                  { label: 'Body', value: 'Lora, 16px, Italic' },
+                  { label: 'Footer', value: 'Brand tagline, centered' },
+                  { label: 'Swipe', value: 'Circle arrow, bottom-right' },
+                ].map((row) => (
+                  <div
+                    key={row.label}
+                    className="flex items-center justify-between py-2 border-b border-border last:border-0"
+                  >
+                    <span className="text-sm font-medium">{row.label}</span>
+                    <span className="text-xs text-muted">{row.value}</span>
+                  </div>
+                ))}
+                <p className="text-xs text-muted pt-2 font-mono">
+                  font / size / weight / align / spacing / color / position
+                </p>
+              </div>
             </div>
 
             <div className="order-1 md:order-2">
+              <p className="text-xs uppercase tracking-[0.2em] text-accent font-medium mb-3">Control</p>
               <h2
                 className="text-3xl sm:text-4xl font-bold tracking-tight mb-6"
                 style={{ fontFamily: 'var(--font-heading)' }}
@@ -484,25 +607,31 @@ export default function HomePage() {
       </section>
 
       {/* ───── Final CTA ───── */}
-      <section className="px-6 py-24 sm:py-32 border-t border-border">
+      <section className="relative z-10 px-6 py-24 sm:py-32 border-t border-border">
+        {/* Decorative focus rings */}
+        <FocusRing className="absolute top-10 -left-12 w-40 h-40 hidden lg:block" />
+        <FocusRing className="absolute bottom-10 -right-8 w-32 h-32 hidden lg:block" />
+
         <div className="max-w-3xl mx-auto text-center">
-          <h2
-            className="text-3xl sm:text-4xl md:text-5xl font-bold leading-tight tracking-tight mb-6"
-            style={{ fontFamily: 'var(--font-heading)' }}
-          >
-            Stop spending hours
-            <br />
-            on carousel posts.
-          </h2>
+          <ViewfinderBrackets className="inline-block mb-6">
+            <h2
+              className="text-3xl sm:text-4xl md:text-5xl font-bold leading-tight tracking-tight px-4 py-1"
+              style={{ fontFamily: 'var(--font-heading)' }}
+            >
+              Stop spending hours
+              <br />
+              on carousel posts.
+            </h2>
+          </ViewfinderBrackets>
           <p className="text-lg text-muted mb-10 max-w-xl mx-auto">
             Your photos are already great. Let Gridshot handle the copy, the
             layout, and the publishing.
           </p>
           <Link
             href="/signup"
-            className="inline-flex items-center gap-2 rounded-md bg-accent px-8 py-4 text-base font-semibold text-white transition-all hover:bg-accent-hover shadow-lg shadow-accent/20"
+            className="inline-flex items-center gap-2 rounded-sm bg-accent-warm px-8 py-4 text-base font-semibold text-white transition-all hover:bg-accent-warm-hover shadow-lg shadow-accent-warm/20"
           >
-            Get Started Free
+            Start Shooting
             <span aria-hidden="true">&rarr;</span>
           </Link>
           <p className="text-sm text-muted mt-4">
@@ -512,14 +641,17 @@ export default function HomePage() {
       </section>
 
       {/* ───── Footer ───── */}
-      <footer className="px-6 py-8 border-t border-border">
+      <footer className="relative z-10 px-6 py-8 border-t border-border">
         <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
-          <span
-            className="text-sm font-bold tracking-tight"
-            style={{ fontFamily: 'var(--font-heading)' }}
-          >
-            Gridshot
-          </span>
+          <div className="flex items-center gap-2">
+            <Crosshair className="w-4 h-4 text-accent" />
+            <span
+              className="text-sm font-bold tracking-tight uppercase"
+              style={{ fontFamily: 'var(--font-heading)' }}
+            >
+              Gridshot
+            </span>
+          </div>
           <div className="flex items-center gap-6 text-sm text-muted">
             <Link href="/terms" className="hover:text-foreground transition-colors">
               Terms
