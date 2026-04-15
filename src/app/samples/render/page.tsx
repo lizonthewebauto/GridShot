@@ -1,147 +1,149 @@
+import type { ComponentType } from 'react';
 import type { TemplateData } from '@/types';
-import { CinematicOverlay } from '@/components/templates/cinematic-overlay';
 import { EditorialElegant } from '@/components/templates/editorial-elegant';
+import { BoldShowcase } from '@/components/templates/bold-showcase';
 import { MinimalCentered } from '@/components/templates/minimal-centered';
 import { SplitStory } from '@/components/templates/split-story';
-import { BoldShowcase } from '@/components/templates/bold-showcase';
+import { CinematicOverlay } from '@/components/templates/cinematic-overlay';
+import { PhotoOnly } from '@/components/templates/photo-only';
+import { MagazineCover } from '@/components/templates/magazine-cover';
+import { MinimalFrame } from '@/components/templates/minimal-frame';
+import { PolaroidStack } from '@/components/templates/polaroid-stack';
+import { FullbleedOverlay } from '@/components/templates/fullbleed-overlay';
+import { SplitPortfolio } from '@/components/templates/split-portfolio';
+import { FilmStrip } from '@/components/templates/film-strip';
+import { TestimonialCard } from '@/components/templates/testimonial-card';
 
 const FONT_HEADING = 'Space Mono';
 const FONT_BODY = 'DM Sans';
 
-interface Example {
-  label: string;
-  template: 'cinematic' | 'editorial' | 'minimal' | 'split' | 'bold';
-  slides: (Pick<TemplateData, 'headline' | 'bodyText'> & { photo: string })[];
-  colors: {
-    bg: string;
-    primary: string;
-    secondary: string;
-    accent: string;
-  };
-  brandName: string;
+type TemplateComponent = ComponentType<{ data: TemplateData }>;
+
+interface TemplateDef {
+  slug: string;
+  component: TemplateComponent;
+  width: number;
+  height: number;
 }
 
-const examples: Example[] = [
+const TEMPLATES: TemplateDef[] = [
+  { slug: 'editorial-elegant', component: EditorialElegant, width: 1080, height: 1080 },
+  { slug: 'bold-showcase', component: BoldShowcase, width: 1080, height: 1080 },
+  { slug: 'minimal-centered', component: MinimalCentered, width: 1080, height: 1080 },
+  { slug: 'split-story', component: SplitStory, width: 1080, height: 1080 },
+  { slug: 'cinematic-overlay', component: CinematicOverlay, width: 1080, height: 1080 },
+  { slug: 'photo-only', component: PhotoOnly, width: 1080, height: 1080 },
+  { slug: 'magazine-cover', component: MagazineCover, width: 1080, height: 1350 },
+  { slug: 'minimal-frame', component: MinimalFrame, width: 1080, height: 1350 },
+  { slug: 'polaroid-stack', component: PolaroidStack, width: 1080, height: 1350 },
+  { slug: 'fullbleed-overlay', component: FullbleedOverlay, width: 1080, height: 1350 },
+  { slug: 'split-portfolio', component: SplitPortfolio, width: 1080, height: 1350 },
+  { slug: 'film-strip', component: FilmStrip, width: 1080, height: 1350 },
+  { slug: 'testimonial-card', component: TestimonialCard, width: 1080, height: 1350 },
+];
+
+interface Creator {
+  slug: string;
+  brandName: string;
+  colors: { primary: string; secondary: string; accent: string };
+  headline: string;
+  bodyText: string;
+  photoUrl: string;
+}
+
+const CREATORS: Creator[] = [
   {
-    label: 'Wedding Photographer',
-    template: 'cinematic',
-    brandName: 'Sarah Lane Photo',
-    colors: { bg: '#1a1520', primary: '#1a1520', secondary: '#f5efe8', accent: '#d4a574' },
-    slides: [
-      { headline: 'A LOVE STORY TOLD IN LIGHT', bodyText: 'Sarah & James celebrated their forever at a vineyard in Sonoma. Golden hour. Handwritten vows. The kind of love that fills a room.', photo: '/samples/wedding-couple.jpg' },
-      { headline: 'THE FIRST LOOK', bodyText: 'He turned around and forgot how to breathe. She was already crying. Some moments don\'t need words. They just need someone watching.', photo: '/samples/couple-engagement.jpg' },
-      { headline: 'NOW BOOKING 2026 WEDDINGS', bodyText: 'Only 12 dates remaining for the 2026 season. Intimate elopements to 300-guest celebrations. Every love story deserves to be told beautifully.', photo: '/samples/wedding-bouquet.jpg' },
-    ],
+    slug: 'wedding',
+    brandName: 'Sarah Lane',
+    colors: { primary: '#1a1520', secondary: '#f5efe8', accent: '#d4a574' },
+    headline: 'A LOVE STORY TOLD IN LIGHT',
+    bodyText: 'Sarah & James celebrated their forever at a vineyard in Sonoma. Golden hour. Handwritten vows.',
+    photoUrl: '/samples/wedding-couple.jpg',
   },
   {
-    label: 'Portrait Photographer',
-    template: 'editorial',
+    slug: 'portrait',
     brandName: 'Mira Studios',
-    colors: { bg: '#f7f4ef', primary: '#2a2520', secondary: '#f7f4ef', accent: '#8b6914' },
-    slides: [
-      { headline: 'THE CONFIDENCE SESSION', bodyText: 'A portrait experience designed to make you feel like the most powerful version of yourself. Professional styling. Expert direction. Magazine-quality results.', photo: '/samples/portrait-woman.jpg' },
-      { headline: 'YOUR STORY. YOUR FRAME.', bodyText: 'Styled. Directed. Effortless. 90 minutes of you at your absolute best. Hair and makeup included. 40+ retouched images delivered in 48 hours.', photo: '/samples/fashion-editorial.jpg' },
-      { headline: 'SPRING MINI SESSIONS NOW OPEN', bodyText: '30 minutes. 15 edited images. $350. Limited to 8 spots per weekend. Book your date before they fill.', photo: '/samples/portrait-man.jpg' },
-    ],
+    colors: { primary: '#2a2520', secondary: '#f7f4ef', accent: '#8b6914' },
+    headline: 'THE CONFIDENCE SESSION',
+    bodyText: 'A portrait experience designed to make you feel like the most powerful version of yourself.',
+    photoUrl: '/samples/portrait-woman.jpg',
   },
   {
-    label: 'Real Estate Photographer',
-    template: 'minimal',
+    slug: 'realestate',
     brandName: 'Apex Visuals',
-    colors: { bg: '#fafafa', primary: '#1a1a1a', secondary: '#fafafa', accent: '#4a5940' },
-    slides: [
-      { headline: 'JUST LISTED — 4 BR | 3 BA | 2,400 SQFT', bodyText: 'Modern farmhouse in West Austin. Vaulted ceilings. Chef\'s kitchen with Carrara marble. Private backyard with mature oaks.', photo: '/samples/realestate-interior.jpg' },
-      { headline: 'LIGHT-FILLED LIVING', bodyText: '12-foot ceilings. Floor-to-ceiling windows. Southern exposure floods every room with natural light from sunrise to sunset.', photo: '/samples/realestate-living.jpg' },
-      { headline: 'SCHEDULE A PRIVATE TOUR', bodyText: 'Open house Saturday 1-4pm. Or DM for a private showing any day this week. Seller is motivated.', photo: '/samples/realestate-kitchen.jpg' },
-    ],
+    colors: { primary: '#1a1a1a', secondary: '#fafafa', accent: '#4a5940' },
+    headline: 'JUST LISTED IN WEST AUSTIN',
+    bodyText: "Modern farmhouse. 4 BR, 3 BA, 2,400 sqft. Vaulted ceilings, chef's kitchen, private backyard with mature oaks.",
+    photoUrl: '/samples/realestate-interior.jpg',
   },
   {
-    label: 'Food Photographer',
-    template: 'split',
-    brandName: 'Savory & Co.',
-    colors: { bg: '#2c2418', primary: '#f0e8d8', secondary: '#2c2418', accent: '#c17c3e' },
-    slides: [
-      { headline: 'FARM TO FRAME', bodyText: 'Behind the scenes at Aster Kitchen with Chef Mira. Every ingredient sourced within 50 miles. Every plate a work of art.', photo: '/samples/food-flatlay.jpg' },
-      { headline: 'EVERY PLATE IS A CANVAS', bodyText: 'The autumn tasting menu, shot on location between courses. Steam rising. Sauces glistening. The kind of food photography that makes people book a reservation.', photo: '/samples/food-plating.jpg' },
-      { headline: 'BOOK YOUR SHOOT', bodyText: 'Restaurant photography. Menu design. Social content packages. From Michelin-starred kitchens to neighborhood cafes. Packages starting at $800.', photo: '/samples/food-pasta.jpg' },
-    ],
+    slug: 'food',
+    brandName: 'Savory & Co',
+    colors: { primary: '#f0e8d8', secondary: '#2c2418', accent: '#c17c3e' },
+    headline: 'FARM TO FRAME',
+    bodyText: 'Behind the scenes at Aster Kitchen with Chef Mira. Every ingredient sourced within 50 miles.',
+    photoUrl: '/samples/food-flatlay.jpg',
   },
   {
-    label: 'Event Photographer',
-    template: 'bold',
+    slug: 'event',
     brandName: 'Flash Collective',
-    colors: { bg: '#0a0a0a', primary: '#0a0a0a', secondary: '#ffffff', accent: '#ff4d2e' },
-    slides: [
-      { headline: 'SXSW 2026', bodyText: '72 hours. 14 stages. 4,000 frames. We embedded with the festival from load-in to last call.', photo: '/samples/event-party.jpg' },
-      { headline: 'THE ENERGY WAS ABSOLUTELY UNREAL', bodyText: 'When the lights hit and the crowd surged forward, we were already in position. Front row. Backstage. In the pit.', photo: '/samples/fashion-editorial.jpg' },
-      { headline: 'HIRE US FOR YOUR NEXT EVENT', bodyText: 'Concerts. Conferences. Launch parties. Corporate galas. Product reveals. We shoot it all. Same-week turnaround. Full licensing included.', photo: '/samples/event-party.jpg' },
-    ],
+    colors: { primary: '#0a0a0a', secondary: '#ffffff', accent: '#ff4d2e' },
+    headline: 'SXSW 2026 AFTERMATH',
+    bodyText: '72 hours. 14 stages. 4,000 frames. We embedded from load-in to last call.',
+    photoUrl: '/samples/event-party.jpg',
   },
   {
-    label: 'Travel Photographer',
-    template: 'cinematic',
+    slug: 'travel',
     brandName: 'Atlas Journal',
-    colors: { bg: '#1c2a1c', primary: '#1c2a1c', secondary: '#e8e4d8', accent: '#a8b896' },
-    slides: [
-      { headline: 'KYOTO, 5:47 AM', bodyText: 'The temple opens before the city wakes. Just the monks, the mist, and the sound of raked gravel.', photo: '/samples/travel-temple.jpg' },
-      { headline: 'THREE GENERATIONS, SAME CORNER', bodyText: 'Same hands. Same knife. The Nishiki fish market hasn\'t changed in forty years. Grandfather taught father. Father teaches son.', photo: '/samples/travel-japan.jpg' },
-      { headline: 'PRINT SHOP NOW LIVE', bodyText: 'Limited edition Japan series. 12 archival pigment prints. Hand-numbered and signed. Only 50 sets available worldwide.', photo: '/samples/travel-mountain.jpg' },
-    ],
+    colors: { primary: '#1c2a1c', secondary: '#e8e4d8', accent: '#a8b896' },
+    headline: 'KYOTO, 5:47 AM',
+    bodyText: 'The temple opens before the city wakes. Just the monks, the mist, and the sound of raked gravel.',
+    photoUrl: '/samples/travel-temple.jpg',
   },
 ];
 
-function renderTemplate(template: Example['template'], data: TemplateData) {
-  switch (template) {
-    case 'cinematic':
-      return <CinematicOverlay data={data} />;
-    case 'editorial':
-      return <EditorialElegant data={data} />;
-    case 'minimal':
-      return <MinimalCentered data={data} />;
-    case 'split':
-      return <SplitStory data={data} />;
-    case 'bold':
-      return <BoldShowcase data={data} />;
-  }
+function buildData(creator: Creator, tpl: TemplateDef): TemplateData {
+  return {
+    brandName: creator.brandName,
+    photoUrl: creator.photoUrl,
+    headline: creator.headline,
+    bodyText: creator.bodyText,
+    reviewCount: '5.0',
+    reviewTagline: 'from 247 happy clients',
+    colorPrimary: creator.colors.primary,
+    colorSecondary: creator.colors.secondary,
+    fontHeading: FONT_HEADING,
+    fontBody: FONT_BODY,
+    width: tpl.width,
+    height: tpl.height,
+  };
 }
 
 export default function SamplesRenderPage() {
   return (
     <div className="bg-neutral-900 min-h-screen p-8">
       <h1 className="text-white text-3xl font-bold mb-2">Sample Slides Render</h1>
-      <p className="text-neutral-400 mb-10">18 slides across 6 examples. Each slide is 1080x1080.</p>
+      <p className="text-neutral-400 mb-10">
+        78 slides — 6 creators x 13 templates.
+      </p>
 
-      {examples.map((example, exIdx) => (
-        <div key={exIdx} className="mb-16">
-          <h2 className="text-white text-xl font-semibold mb-1">
-            {example.label} — {example.template}
+      {CREATORS.map((creator) => (
+        <div key={creator.slug} className="mb-16">
+          <h2 className="text-white text-xl font-semibold mb-4">
+            {creator.brandName} ({creator.slug})
           </h2>
-          <p className="text-neutral-500 text-sm mb-4">{example.brandName}</p>
-
           <div className="flex gap-4 overflow-x-auto pb-4">
-            {example.slides.map((slide, slideIdx) => {
-              const data: TemplateData = {
-                brandName: example.brandName,
-                photoUrl: slide.photo,
-                headline: slide.headline,
-                bodyText: slide.bodyText,
-                reviewCount: null,
-                reviewTagline: null,
-                colorPrimary: example.colors.primary,
-                colorSecondary: example.colors.secondary,
-                fontHeading: FONT_HEADING,
-                fontBody: FONT_BODY,
-                width: 1080,
-                height: 1080,
-              };
-
+            {TEMPLATES.map((tpl) => {
+              const Template = tpl.component;
+              const data = buildData(creator, tpl);
               return (
                 <div
-                  key={slideIdx}
-                  id={`slide-${exIdx}-${slideIdx}`}
-                  className="w-[1080px] h-[1080px] flex-shrink-0 overflow-hidden"
+                  key={tpl.slug}
+                  id={`sample-${creator.slug}-${tpl.slug}`}
+                  className="flex-shrink-0 overflow-hidden"
+                  style={{ width: `${tpl.width}px`, height: `${tpl.height}px` }}
                 >
-                  {renderTemplate(example.template, data)}
+                  <Template data={data} />
                 </div>
               );
             })}
