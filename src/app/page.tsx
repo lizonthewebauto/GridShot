@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
+import { SampleLightbox } from '@/components/sample-lightbox';
 
 const vibes = [
   { name: 'Authentic', desc: 'Genuine, real, honest', sample: { headline: 'The Real Moments Matter', body: 'No filters. No staging. Just the honest beauty of what actually happened that day.' } },
@@ -63,24 +64,49 @@ const creatorMatrix: {
   },
 ];
 
-const templates: {
-  slug: string;
-  name: string;
-  nativeAspect: '1/1' | '4/5';
-}[] = [
-  { slug: 'editorial-elegant', name: 'Editorial', nativeAspect: '1/1' },
-  { slug: 'bold-showcase', name: 'Bold', nativeAspect: '1/1' },
-  { slug: 'minimal-centered', name: 'Minimal', nativeAspect: '1/1' },
-  { slug: 'split-story', name: 'Split', nativeAspect: '1/1' },
-  { slug: 'cinematic-overlay', name: 'Cinematic', nativeAspect: '1/1' },
-  { slug: 'photo-only', name: 'Photo', nativeAspect: '1/1' },
-  { slug: 'magazine-cover', name: 'Magazine', nativeAspect: '4/5' },
-  { slug: 'minimal-frame', name: 'Framed', nativeAspect: '4/5' },
-  { slug: 'polaroid-stack', name: 'Polaroid', nativeAspect: '4/5' },
-  { slug: 'fullbleed-overlay', name: 'Overlay', nativeAspect: '4/5' },
-  { slug: 'split-portfolio', name: 'Portfolio', nativeAspect: '4/5' },
-  { slug: 'film-strip', name: 'Filmstrip', nativeAspect: '4/5' },
-  { slug: 'testimonial-card', name: 'Testimonial', nativeAspect: '4/5' },
+// All 41 templates — all samples render at 1080x1440
+const templates: { slug: string; name: string }[] = [
+  { slug: 'editorial-elegant', name: 'Editorial' },
+  { slug: 'bold-showcase', name: 'Bold' },
+  { slug: 'minimal-centered', name: 'Minimal' },
+  { slug: 'split-story', name: 'Split' },
+  { slug: 'cinematic-overlay', name: 'Cinematic' },
+  { slug: 'photo-only', name: 'Photo' },
+  { slug: 'magazine-cover', name: 'Magazine' },
+  { slug: 'minimal-frame', name: 'Framed' },
+  { slug: 'polaroid-stack', name: 'Polaroid' },
+  { slug: 'fullbleed-overlay', name: 'Overlay' },
+  { slug: 'split-portfolio', name: 'Portfolio' },
+  { slug: 'film-strip', name: 'Filmstrip' },
+  { slug: 'testimonial-card', name: 'Testimonial' },
+  { slug: 'cinematic-fade', name: 'Fade' },
+  { slug: 'editorial-fullbleed', name: 'Full Bleed' },
+  { slug: 'polaroid-realistic', name: 'Polaroid v2' },
+  { slug: 'triptych-strip', name: 'Triptych' },
+  { slug: 'grid-2x2', name: 'Grid' },
+  { slug: 'minimal-centered-shape', name: 'Shape' },
+  { slug: 'circle-gold', name: 'Circle' },
+  { slug: 'duotone-wash', name: 'Duotone' },
+  { slug: 'split-half', name: 'Split 50' },
+  { slug: 'typographic-hero', name: 'Typo Hero' },
+  { slug: 'scrapbook-realistic', name: 'Scrapbook' },
+  { slug: 'newspaper', name: 'Newspaper' },
+  { slug: 'risograph', name: 'Riso' },
+  { slug: 'luxury-gold', name: 'Luxury' },
+  { slug: 'quote-card', name: 'Quote' },
+  { slug: 'geometric-blocks', name: 'Blocks' },
+  { slug: 'collage-offset', name: 'Collage' },
+  { slug: 'stacked-letterforms', name: 'Stacked' },
+  { slug: 'oversized-italic', name: 'Italic' },
+  { slug: 'sidebar-index', name: 'Sidebar' },
+  { slug: 'baseball-card', name: 'Card' },
+  { slug: 'wax-seal-invite', name: 'Wax Seal' },
+  { slug: 'blueprint-grid', name: 'Blueprint' },
+  { slug: 'photobooth-strip', name: 'Photobooth' },
+  { slug: 'art-deco-fan', name: 'Deco' },
+  { slug: 'boarding-pass', name: 'Pass' },
+  { slug: 'memphis-zine', name: 'Memphis' },
+  { slug: 'apple-note', name: 'Note' },
 ];
 
 const faqs = [
@@ -430,166 +456,139 @@ export default function HomePage() {
       {/* ───── Carousel Showcase ───── */}
       <section className="relative z-10 px-6 py-20 sm:py-28 bg-card-hover">
         <div className="max-w-7xl mx-auto">
-          {/* a. Section intro */}
-          <div className="text-center mb-16">
-            <p className="text-xs uppercase tracking-[0.2em] text-accent-warm font-medium mb-3">Samples</p>
+          {/* Intro */}
+          <div className="text-center mb-14">
+            <p className="text-xs uppercase tracking-[0.2em] text-accent-warm font-medium mb-3">Templates</p>
             <h2
               className="text-3xl sm:text-4xl font-bold tracking-tight mb-4"
               style={{ fontFamily: 'var(--font-heading)' }}
             >
-              Six brands. Four hero templates each. One click to see them all.
+              One photo. {templates.length} ways to tell the story.
             </h2>
             <p className="text-lg text-muted max-w-2xl mx-auto">
-              We picked the four templates that fit each creator best — because not every layout works for every brand. Scroll past the matrix to browse every template across all six creators.
+              Same image, {templates.length} different templates. Click any sample to see it full size.
             </p>
           </div>
 
-          {/* b. Creator cards, 4 hero templates each */}
-          <div className="space-y-12">
-            {creatorMatrix.map((creator) => (
-              <div key={creator.slug} className="space-y-5">
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 px-1">
-                  <div className="flex flex-wrap items-center gap-3">
-                    <span className="text-base font-bold" style={{ fontFamily: 'var(--font-heading)' }}>
-                      {creator.label}
+          {/* A. All templates gallery — one creator, all templates */}
+          <div className="mb-16">
+            <div className="flex flex-wrap items-baseline justify-between gap-3 px-1 mb-5 pb-3 border-b border-border/60">
+              <h3 className="text-lg font-bold" style={{ fontFamily: 'var(--font-heading)' }}>
+                Every template at a glance
+              </h3>
+              <span className="text-[10px] uppercase tracking-widest text-muted">
+                {templates.length} templates · tap to enlarge
+              </span>
+            </div>
+            <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-7 gap-3">
+              <SampleLightbox
+                samples={templates.map((tpl) => ({
+                  src: `/samples/sample-${creatorMatrix[0].slug}-${tpl.slug}.jpg`,
+                  alt: `${tpl.name} template`,
+                  label: tpl.name,
+                }))}
+              >
+                {(s, onClick) => (
+                  <button
+                    type="button"
+                    onClick={onClick}
+                    className="group flex flex-col gap-2 text-left"
+                  >
+                    <div
+                      className="relative w-full overflow-hidden rounded-sm border border-border/50 bg-card transition-all group-hover:border-accent-warm/60 group-hover:scale-[1.02]"
+                      style={{ aspectRatio: '1080 / 1440' }}
+                    >
+                      <Image
+                        src={s.src}
+                        alt={s.alt}
+                        fill
+                        sizes="(max-width: 640px) 33vw, (max-width: 1024px) 25vw, 200px"
+                        quality={95}
+                        className="object-cover"
+                      />
+                    </div>
+                    <span className="text-[11px] uppercase tracking-widest text-muted text-center group-hover:text-accent-warm transition-colors">
+                      {s.label}
                     </span>
-                    <span className="text-[10px] uppercase tracking-widest text-accent-warm font-medium">
-                      {creator.brandName}
-                    </span>
-                    <span className="text-[10px] uppercase tracking-widest text-muted">
-                      {creator.vibe} vibe
-                    </span>
-                  </div>
-                  <span className="text-xs text-accent-warm px-2.5 py-1 rounded-sm border border-accent-warm/20 bg-accent-warm/5 self-start sm:self-auto">
-                    4 hero templates
-                  </span>
-                </div>
-
-                <div className="grid grid-cols-3 sm:grid-cols-4 gap-3">
-                  {creator.heroTemplates.map((tplSlug) => {
-                    const tpl = templates.find((t) => t.slug === tplSlug);
-                    if (!tpl) return null;
-                    return (
-                      <Link
-                        key={tpl.slug}
-                        href={`#template-${tpl.slug}`}
-                        className="group flex flex-col gap-2"
-                      >
-                        <div
-                          className="relative w-full overflow-hidden rounded-sm border border-border/50 bg-card transition-all group-hover:border-accent-warm/60"
-                          style={{ aspectRatio: '1080 / 1440' }}
-                        >
-                          <Image
-                            src={`/samples/sample-${creator.slug}-${tpl.slug}.jpg`}
-                            alt={`${creator.brandName} — ${tpl.name} template`}
-                            fill
-                            sizes="(max-width: 640px) 33vw, (max-width: 1024px) 25vw, 180px"
-                            className="object-cover"
-                          />
-                        </div>
-                        <span className="text-[11px] uppercase tracking-widest text-muted text-center group-hover:text-accent-warm transition-colors">
-                          {tpl.name}
-                        </span>
-                      </Link>
-                    );
-                  })}
-                </div>
-              </div>
-            ))}
+                  </button>
+                )}
+              </SampleLightbox>
+            </div>
           </div>
 
-          {/* c. Divider */}
           <div className="my-20 border-t border-border/60" />
 
-          {/* d. Template browser heading */}
+          {/* B. Color + font variety — each template × 6 palettes */}
           <div className="text-center mb-10">
-            <p className="text-xs uppercase tracking-[0.2em] text-accent-warm font-medium mb-3">Or browse by template</p>
+            <p className="text-xs uppercase tracking-[0.2em] text-accent-warm font-medium mb-3">Variety</p>
             <h3
               className="text-2xl sm:text-3xl font-bold tracking-tight mb-3"
               style={{ fontFamily: 'var(--font-heading)' }}
             >
-              Thirteen templates. Six creators each.
+              Six palettes. Six font pairings.
             </h3>
             <p className="text-base text-muted max-w-2xl mx-auto">
-              Tap a template to see how all six brands wear it.
+              Same template, different brand. Click any sample to zoom in.
             </p>
           </div>
 
-          {/* e. Template picker tiles */}
-          <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-7 gap-3 mb-20">
+          <div className="space-y-14">
             {templates.map((tpl) => (
-              <Link
-                key={tpl.slug}
-                href={`#template-${tpl.slug}`}
-                className="group flex flex-col gap-2"
-              >
-                <div
-                  className="relative w-full overflow-hidden rounded-sm border border-border/50 bg-card transition-all group-hover:border-accent-warm/60"
-                  style={{ aspectRatio: '1080 / 1440' }}
-                >
-                  <Image
-                    src={`/samples/sample-${creatorMatrix[0].slug}-${tpl.slug}.jpg`}
-                    alt={`${tpl.name} template preview`}
-                    fill
-                    sizes="(max-width: 640px) 33vw, (max-width: 1024px) 16vw, 140px"
-                    className="object-cover"
-                  />
-                </div>
-                <span className="text-[11px] uppercase tracking-widest text-muted text-center group-hover:text-accent-warm transition-colors">
-                  {tpl.name}
-                </span>
-              </Link>
-            ))}
-          </div>
-
-          {/* f. Per-template deep-dive sections */}
-          <div className="space-y-16">
-            {templates.map((tpl) => (
-              <div key={tpl.slug} id={`template-${tpl.slug}`} className="scroll-mt-24 space-y-5">
+              <div key={tpl.slug} id={`template-${tpl.slug}`} className="scroll-mt-24 space-y-4">
                 <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-2 px-1 border-b border-border/60 pb-3">
-                  <div>
-                    <p className="text-[10px] uppercase tracking-widest text-accent-warm font-medium mb-1">Template</p>
-                    <h4
-                      className="text-xl sm:text-2xl font-bold tracking-tight"
-                      style={{ fontFamily: 'var(--font-heading)' }}
-                    >
-                      {tpl.name}
-                    </h4>
-                  </div>
+                  <h4
+                    className="text-xl sm:text-2xl font-bold tracking-tight"
+                    style={{ fontFamily: 'var(--font-heading)' }}
+                  >
+                    {tpl.name}
+                  </h4>
                   <span className="text-[10px] uppercase tracking-widest text-muted">
-                    6 creators · same template
+                    6 brand palettes
                   </span>
                 </div>
 
                 <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-3">
-                  {creatorMatrix.map((creator) => (
-                    <div key={creator.slug} className="flex flex-col gap-2">
-                      <div
-                        className="relative w-full overflow-hidden rounded-sm border border-border/50 bg-card"
-                        style={{ aspectRatio: '1080 / 1440' }}
+                  <SampleLightbox
+                    samples={creatorMatrix.map((creator) => ({
+                      src: `/samples/sample-${creator.slug}-${tpl.slug}.jpg`,
+                      alt: `${creator.brandName} — ${tpl.name}`,
+                      label: `${tpl.name} · ${creator.brandName}`,
+                    }))}
+                  >
+                    {(s, onClick) => (
+                      <button
+                        type="button"
+                        onClick={onClick}
+                        className="group flex flex-col gap-2 text-left"
                       >
-                        <Image
-                          src={`/samples/sample-${creator.slug}-${tpl.slug}.jpg`}
-                          alt={`${creator.brandName} — ${tpl.name} template`}
-                          fill
-                          sizes="(max-width: 640px) 33vw, (max-width: 1024px) 16vw, 160px"
-                          className="object-cover"
-                        />
-                      </div>
-                      <span className="text-[10px] uppercase tracking-widest text-muted text-center">
-                        {creator.brandName}
-                      </span>
-                    </div>
-                  ))}
+                        <div
+                          className="relative w-full overflow-hidden rounded-sm border border-border/50 bg-card transition-all group-hover:border-accent-warm/60 group-hover:scale-[1.02]"
+                          style={{ aspectRatio: '1080 / 1440' }}
+                        >
+                          <Image
+                            src={s.src}
+                            alt={s.alt}
+                            fill
+                            sizes="(max-width: 640px) 33vw, (max-width: 1024px) 20vw, 180px"
+                            quality={95}
+                            className="object-cover"
+                          />
+                        </div>
+                        <span className="text-[10px] uppercase tracking-widest text-muted text-center">
+                          {s.label?.split('·')[1]?.trim()}
+                        </span>
+                      </button>
+                    )}
+                  </SampleLightbox>
                 </div>
               </div>
             ))}
           </div>
 
-          {/* g. Final CTA */}
+          {/* Final CTA */}
           <div className="text-center mt-20">
             <p className="text-sm text-muted mb-6">
-              Same photos, same brand — every template a different way to stop the scroll. Pick a vibe, the AI does the rest.
+              Upload your own photos. Pick your own colors. Let the AI do the rest.
             </p>
             <Link
               href="/signup"

@@ -42,8 +42,19 @@ import { BoardingPass } from '@/components/templates/boarding-pass';
 import { MemphisZine } from '@/components/templates/memphis-zine';
 import { AppleNote } from '@/components/templates/apple-note';
 
-const FONT_HEADING = 'Space Mono';
-const FONT_BODY = 'DM Sans';
+// Per-creator fonts — deliberately varied to show typographic range
+interface Creator {
+  slug: string;
+  brandName: string;
+  colors: { primary: string; secondary: string; accent: string };
+  fontHeading: string;
+  fontBody: string;
+  headline: string;
+  bodyText: string;
+  photoUrl: string;
+  photos?: string[];
+  tagline?: string;
+}
 
 // Canvas: 1080×1440 (3:4). Every template renders at this uniform size.
 // Templates are now fully canvas-responsive so the same size works across all.
@@ -101,76 +112,77 @@ const TEMPLATES: TemplateDef[] = [
   { slug: 'apple-note', component: AppleNote },
 ];
 
-interface Creator {
-  slug: string;
-  brandName: string;
-  colors: { primary: string; secondary: string; accent: string };
-  headline: string;
-  bodyText: string;
-  photoUrl: string;
-  photos?: string[];
-  tagline?: string;
-}
-
 const CREATORS: Creator[] = [
   {
     slug: 'wedding',
     brandName: 'Sarah Lane',
-    colors: { primary: '#1a1520', secondary: '#f5efe8', accent: '#d4a574' },
+    colors: { primary: '#1a1520', secondary: '#f5efe8', accent: '#c08a4a' },
+    fontHeading: 'Playfair Display',
+    fontBody: 'DM Sans',
     headline: 'A LOVE STORY TOLD IN LIGHT',
     bodyText: 'Sarah and James said their vows at a sunset vineyard. We were there for every laugh, every tear, and every quiet look. You get a full wedding album plus a highlight reel for sharing.',
     photoUrl: '/samples/wedding-couple.jpg',
-    photos: ['/samples/wedding-couple.jpg', '/samples/wedding-rings.jpg', '/samples/wedding-bouquet.jpg', '/samples/couple-engagement.jpg'],
+    photos: ['/samples/wedding-couple.jpg', '/samples/wedding-couple.jpg', '/samples/wedding-couple.jpg', '/samples/wedding-couple.jpg'],
     tagline: 'Wedding photography in California',
   },
   {
     slug: 'portrait',
     brandName: 'Mira Studios',
-    colors: { primary: '#2a2520', secondary: '#f7f4ef', accent: '#8b6914' },
+    colors: { primary: '#1e1b18', secondary: '#f7f4ef', accent: '#8b6914' },
+    fontHeading: 'DM Serif Display',
+    fontBody: 'Inter',
     headline: 'THE CONFIDENCE SESSION',
     bodyText: 'This is a fun 90 minute portrait shoot made to help you love how you look on camera. We handle the styling, the posing, and the editing. You walk away with 40 retouched photos ready to use.',
-    photoUrl: '/samples/portrait-woman.jpg',
-    photos: ['/samples/portrait-woman.jpg', '/samples/fashion-editorial.jpg', '/samples/portrait-man.jpg', '/samples/maternity.jpg'],
+    photoUrl: '/samples/wedding-couple.jpg',
+    photos: ['/samples/wedding-couple.jpg', '/samples/wedding-couple.jpg', '/samples/wedding-couple.jpg', '/samples/wedding-couple.jpg'],
     tagline: 'Personal brand portraits',
   },
   {
     slug: 'realestate',
     brandName: 'Apex Visuals',
-    colors: { primary: '#1a1a1a', secondary: '#fafafa', accent: '#4a5940' },
+    colors: { primary: '#0f1712', secondary: '#fafafa', accent: '#3a5a3a' },
+    fontHeading: 'Montserrat',
+    fontBody: 'Inter',
     headline: 'JUST LISTED IN WEST AUSTIN',
     bodyText: 'A modern farmhouse with 4 bedrooms, 3 bathrooms, and 2,400 square feet of living space. High ceilings, a chef kitchen, and a big backyard with old oak trees. Open house this Saturday.',
-    photoUrl: '/samples/realestate-interior.jpg',
-    photos: ['/samples/realestate-interior.jpg', '/samples/realestate-kitchen.jpg', '/samples/realestate-living.jpg', '/samples/landscape-mountain.jpg'],
+    photoUrl: '/samples/wedding-couple.jpg',
+    photos: ['/samples/wedding-couple.jpg', '/samples/wedding-couple.jpg', '/samples/wedding-couple.jpg', '/samples/wedding-couple.jpg'],
     tagline: 'Austin real estate listing',
   },
   {
     slug: 'food',
     brandName: 'Savory & Co',
-    colors: { primary: '#f0e8d8', secondary: '#2c2418', accent: '#c17c3e' },
+    colors: { primary: '#f4ebd5', secondary: '#1f1a10', accent: '#d38a42' },
+    fontHeading: 'Cormorant Garamond',
+    fontBody: 'DM Sans',
     headline: 'FARM TO FRAME',
     bodyText: 'We spent a day in the kitchen with Chef Mira. Every ingredient comes from farms within 50 miles. Every plate looks as good as it tastes. Book your shoot now for your menu or website.',
-    photoUrl: '/samples/food-flatlay.jpg',
-    photos: ['/samples/food-flatlay.jpg', '/samples/food-plating.jpg', '/samples/food-pasta.jpg', '/samples/food-dessert.jpg'],
+    photoUrl: '/samples/wedding-couple.jpg',
+    photos: ['/samples/wedding-couple.jpg', '/samples/wedding-couple.jpg', '/samples/wedding-couple.jpg', '/samples/wedding-couple.jpg'],
     tagline: 'Restaurant food photography',
   },
   {
     slug: 'event',
     brandName: 'Flash Collective',
-    colors: { primary: '#0a0a0a', secondary: '#ffffff', accent: '#ff4d2e' },
+    colors: { primary: '#0a0a0a', secondary: '#ffffff', accent: '#e04220' },
+    fontHeading: 'Oswald',
+    fontBody: 'DM Sans',
     headline: 'SXSW 2026 AFTERMATH',
     bodyText: 'Three days. Fourteen stages. Four thousand photos. We were front row, backstage, and in the crowd for every big moment. Hire us for your next concert, launch, or conference.',
-    photoUrl: '/samples/event-party.jpg',
-    photos: ['/samples/event-party.jpg', '/samples/fashion-editorial.jpg', '/samples/event-party.jpg', '/samples/portrait-man.jpg'],
+    photoUrl: '/samples/wedding-couple.jpg',
+    photos: ['/samples/wedding-couple.jpg', '/samples/wedding-couple.jpg', '/samples/wedding-couple.jpg', '/samples/wedding-couple.jpg'],
     tagline: 'Event and concert photography',
   },
   {
     slug: 'travel',
     brandName: 'Atlas Journal',
-    colors: { primary: '#1c2a1c', secondary: '#e8e4d8', accent: '#a8b896' },
+    colors: { primary: '#132418', secondary: '#ece8d8', accent: '#6a7a52' },
+    fontHeading: 'Libre Baskerville',
+    fontBody: 'DM Sans',
     headline: 'KYOTO, 5:47 AM',
     bodyText: 'The temple opens before the rest of the city wakes up. Just the monks, the mist, and the sound of raked gravel. New prints from this Japan trip are now in the shop.',
-    photoUrl: '/samples/travel-temple.jpg',
-    photos: ['/samples/travel-temple.jpg', '/samples/travel-japan.jpg', '/samples/travel-mountain.jpg', '/samples/landscape-mountain.jpg'],
+    photoUrl: '/samples/wedding-couple.jpg',
+    photos: ['/samples/wedding-couple.jpg', '/samples/wedding-couple.jpg', '/samples/wedding-couple.jpg', '/samples/wedding-couple.jpg'],
     tagline: 'Travel photography prints',
   },
 ];
@@ -186,8 +198,8 @@ function buildData(creator: Creator): TemplateData {
     colorPrimary: creator.colors.primary,
     colorSecondary: creator.colors.secondary,
     colorAccent: creator.colors.accent,
-    fontHeading: FONT_HEADING,
-    fontBody: FONT_BODY,
+    fontHeading: creator.fontHeading,
+    fontBody: creator.fontBody,
     width: CANVAS_W,
     height: CANVAS_H,
     photos: creator.photos,
