@@ -15,6 +15,7 @@ import {
   Image,
   FolderOpen,
   ChevronDown,
+  CreditCard,
   Sun,
   Moon,
   Menu,
@@ -33,6 +34,7 @@ const navItems = [
   { href: '/brands', label: 'My Brands', icon: Palette },
   { href: '/connections', label: 'Connections', icon: Link2 },
   { href: '/schedule', label: 'Schedule', icon: Calendar },
+  { href: '/pricing', label: 'Pricing', icon: CreditCard },
 ];
 
 export function Sidebar() {
