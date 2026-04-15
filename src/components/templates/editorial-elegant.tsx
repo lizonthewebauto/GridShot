@@ -1,4 +1,5 @@
 import type { TemplateData } from '@/types';
+import { BrandMark } from './_brand-mark';
 
 export function EditorialElegant({ data }: { data: TemplateData }) {
   return (
@@ -43,26 +44,18 @@ export function EditorialElegant({ data }: { data: TemplateData }) {
           {data.bodyText}
         </p>
 
-        <div className="mt-8 flex items-center gap-4">
-          <span
-            className="text-lg font-semibold"
-            style={{
-              fontFamily: data.fontHeading,
-              color: data.colorPrimary,
-            }}
-          >
-            {data.brandName}
-          </span>
-          {data.reviewCount && (
+        {data.reviewCount && (
+          <div className="mt-8">
             <span
               className="text-sm opacity-60"
               style={{ color: data.colorPrimary }}
             >
               {data.reviewCount}
             </span>
-          )}
-        </div>
+          </div>
+        )}
       </div>
+      <BrandMark data={data} color={data.colorPrimary} />
     </div>
   );
 }

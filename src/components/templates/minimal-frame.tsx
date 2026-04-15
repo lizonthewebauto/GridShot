@@ -1,4 +1,5 @@
 import type { TemplateData } from '@/types';
+import { BrandMark } from './_brand-mark';
 
 export function MinimalFrame({ data }: { data: TemplateData }) {
   const heading = data.fontHeading || 'Inter';
@@ -6,7 +7,7 @@ export function MinimalFrame({ data }: { data: TemplateData }) {
 
   return (
     <div
-      className="flex flex-col items-center justify-center"
+      className="relative flex flex-col items-center justify-center"
       style={{
         width: `${data.width}px`,
         height: `${data.height}px`,
@@ -15,21 +16,6 @@ export function MinimalFrame({ data }: { data: TemplateData }) {
         padding: '120px 80px',
       }}
     >
-      {/* Brand name small top */}
-      <div
-        style={{
-          fontFamily: `${body}, sans-serif`,
-          fontSize: '13px',
-          letterSpacing: '0.4em',
-          textTransform: 'uppercase',
-          color: data.colorPrimary,
-          opacity: 0.6,
-          marginBottom: '90px',
-        }}
-      >
-        {data.brandName || 'Brand'}
-      </div>
-
       {/* Framed photo */}
       <div
         style={{
@@ -87,6 +73,8 @@ export function MinimalFrame({ data }: { data: TemplateData }) {
       >
         {data.bodyText || 'Less is more. Let the image breathe.'}
       </div>
+
+      <BrandMark data={data} />
     </div>
   );
 }

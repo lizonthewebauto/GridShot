@@ -1,6 +1,15 @@
 import type { TemplateData } from '@/types';
+import { BrandMark } from './_brand-mark';
 
+// Flex fields this template reads:
+// - colorGradientFrom / colorGradientTo → gradient color stops (fallbacks: colorPrimary)
+// - gradientAngle → overlay direction (default 180 = fades up from bottom)
+// - colorPrimary / colorSecondary preserved for existing behavior
 export function CinematicOverlay({ data }: { data: TemplateData }) {
+  const fromColor = data.colorGradientFrom ?? data.colorPrimary ?? '#000000';
+  const toColor = data.colorGradientTo ?? data.colorPrimary ?? '#000000';
+  const angle = data.gradientAngle ?? 180;
+
   return (
     <div className="relative w-[1080px] h-[1080px] overflow-hidden">
       {/* Full-bleed photo */}
@@ -15,26 +24,17 @@ export function CinematicOverlay({ data }: { data: TemplateData }) {
         </div>
       )}
 
-      {/* Gradient overlay */}
+      {/* Gradient overlay — configurable via colorGradientFrom/To + gradientAngle */}
       <div
         className="absolute inset-0"
         style={{
-          background: `linear-gradient(to top, ${data.colorPrimary} 0%, ${data.colorPrimary}cc 30%, transparent 70%)`,
+          background: `linear-gradient(${angle}deg, ${fromColor} 0%, ${hexWithAlpha(toColor, 0.8)} 30%, transparent 70%)`,
         }}
       />
 
-      {/* Top brand bar */}
-      <div className="absolute top-0 left-0 right-0 p-12 flex items-center justify-between z-10">
-        <span
-          className="text-sm tracking-[0.25em] uppercase opacity-80"
-          style={{
-            fontFamily: data.fontBody,
-            color: data.colorSecondary,
-          }}
-        >
-          {data.brandName}
-        </span>
-        {data.reviewCount && (
+      {/* Top review count (if provided) */}
+      {data.reviewCount && (
+        <div className="absolute top-0 right-0 p-12 z-10">
           <span
             className="text-sm opacity-60"
             style={{
@@ -44,8 +44,8 @@ export function CinematicOverlay({ data }: { data: TemplateData }) {
           >
             {data.reviewCount}
           </span>
-        )}
-      </div>
+        </div>
+      )}
 
       {/* Bottom content */}
       <div className="absolute bottom-0 left-0 right-0 p-16 z-10">
@@ -69,6 +69,17 @@ export function CinematicOverlay({ data }: { data: TemplateData }) {
           {data.bodyText}
         </p>
       </div>
+
+      <BrandMark data={data} color={data.colorSecondary} opacity={0.85} />
     </div>
   );
+}
+
+function hexWithAlpha(hex: string, alpha: number): string {
+  const normalized = hex.replace('#', '');
+  if (normalized.length !== 6) return hex;
+  const r = parseInt(normalized.slice(0, 2), 16);
+  const g = parseInt(normalized.slice(2, 4), 16);
+  const b = parseInt(normalized.slice(4, 6), 16);
+  return `rgba(${r}, ${g}, ${b}, ${alpha})`;
 }

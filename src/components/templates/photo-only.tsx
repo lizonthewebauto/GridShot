@@ -1,4 +1,5 @@
 import type { TemplateData } from '@/types';
+import { BrandMark } from './_brand-mark';
 
 export function PhotoOnly({ data }: { data: TemplateData }) {
   return (
@@ -28,6 +29,8 @@ export function PhotoOnly({ data }: { data: TemplateData }) {
           </span>
         </div>
       )}
+
+      <BrandMark data={data} color="#fff" opacity={0.9} />
     </div>
   );
 }

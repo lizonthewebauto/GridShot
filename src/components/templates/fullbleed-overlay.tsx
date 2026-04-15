@@ -1,8 +1,13 @@
 import type { TemplateData } from '@/types';
+import { BrandMark } from './_brand-mark';
 
+// Flex fields this template reads:
+// - tagline → small uppercase label above the headline
+// - colorAccent → accent underline beneath the headline (fallback: colorPrimary)
 export function FullbleedOverlay({ data }: { data: TemplateData }) {
   const heading = data.fontHeading || 'Inter';
   const body = data.fontBody || 'Inter';
+  const accent = data.colorAccent ?? data.colorPrimary ?? '#d4b87a';
 
   return (
     <div
@@ -40,28 +45,28 @@ export function FullbleedOverlay({ data }: { data: TemplateData }) {
         }}
       />
 
-      {/* Brand name top-right */}
-      <div
-        className="absolute top-10 right-12"
-        style={{
-          color: '#fff',
-          fontFamily: `${body}, sans-serif`,
-          fontSize: '16px',
-          letterSpacing: '0.3em',
-          textTransform: 'uppercase',
-          fontWeight: 600,
-          padding: '10px 18px',
-          border: '1px solid rgba(255,255,255,0.6)',
-        }}
-      >
-        {data.brandName || 'Brand'}
-      </div>
+      <BrandMark data={data} color="#fff" opacity={0.85} />
 
       {/* Bottom text stack */}
       <div
         className="absolute left-12 right-12"
         style={{ bottom: '72px', color: '#fff' }}
       >
+        {data.tagline && (
+          <div
+            style={{
+              fontFamily: `${body}, sans-serif`,
+              fontSize: '14px',
+              letterSpacing: '0.35em',
+              textTransform: 'uppercase',
+              marginBottom: '18px',
+              opacity: 0.85,
+              color: accent,
+            }}
+          >
+            {data.tagline}
+          </div>
+        )}
         <div
           style={{
             fontFamily: `${heading}, sans-serif`,
@@ -74,6 +79,15 @@ export function FullbleedOverlay({ data }: { data: TemplateData }) {
         >
           {data.headline || 'Your Bold Headline'}
         </div>
+        {/* Accent underline mark */}
+        <div
+          style={{
+            marginTop: '20px',
+            height: '4px',
+            width: '96px',
+            backgroundColor: accent,
+          }}
+        />
         <div
           style={{
             marginTop: '24px',

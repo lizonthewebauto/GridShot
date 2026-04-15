@@ -159,7 +159,16 @@ export const DEFAULT_SLIDE_SIZE = '1440x1080' as const;
 
 export type SlideSize = keyof typeof SLIDE_SIZES;
 
+export type ImageAspect = '1/1' | '4/5' | '3/4' | '16/9' | '2/3' | '3/2' | '9/16';
+export type ImageShape = 'square' | 'circle' | 'arch' | 'hexagon' | 'rounded' | 'polaroid' | 'oval';
+export type BrandPosition =
+  | 'top-left' | 'top-center' | 'top-right'
+  | 'middle-left' | 'middle-center' | 'middle-right'
+  | 'bottom-left' | 'bottom-center' | 'bottom-right'
+  | 'none';
+
 export interface TemplateData {
+  // Core
   brandName: string;
   photoUrl: string | null;
   headline: string;
@@ -172,6 +181,23 @@ export interface TemplateData {
   fontBody: string;
   width: number;
   height: number;
+
+  // Flex fields — all optional, templates read what they need
+  colorAccent?: string;
+  colorGradientFrom?: string;
+  colorGradientTo?: string;
+  gradientAngle?: number;
+  imageAspect?: ImageAspect;
+  imageShape?: ImageShape;
+  photos?: (string | null)[];
+  tagline?: string | null;
+  dateText?: string | null;
+  locationText?: string | null;
+  customText?: string | null;
+  customText2?: string | null;
+  customText3?: string | null;
+  variant?: string;
+  brandPosition?: BrandPosition;
 }
 
 export interface Preset {

@@ -1,11 +1,20 @@
 import type { TemplateData } from '@/types';
+import { BrandMark } from './_brand-mark';
 
+// Flex fields this template reads:
+// - tagline → handwritten caption inside the polaroid frame (no fallback to brand)
+// - colorSecondary → outer paper-textured background
+// - colorPrimary → secondary headline/body text color
+// - brandName → rendered once, bottom-left of outer canvas
 export function PolaroidStack({ data }: { data: TemplateData }) {
   const heading = data.fontHeading || 'Caveat';
   const body = data.fontBody || 'Inter';
 
-  // Subtle paper texture via layered gradients
+  // Outer paper background
   const bg = data.colorSecondary;
+
+  // Caption inside the polaroid — tagline only (no brand fallback)
+  const caption = (data.tagline ?? '').trim() || '—';
 
   return (
     <div
@@ -14,44 +23,50 @@ export function PolaroidStack({ data }: { data: TemplateData }) {
         width: `${data.width}px`,
         height: `${data.height}px`,
         backgroundColor: bg,
+        // Paper texture — layered fine noise + warm vignette
         backgroundImage:
-          'radial-gradient(circle at 20% 20%, rgba(0,0,0,0.04) 0 1px, transparent 2px), radial-gradient(circle at 70% 60%, rgba(0,0,0,0.035) 0 1px, transparent 2px)',
-        backgroundSize: '6px 6px, 9px 9px',
+          'radial-gradient(circle at 20% 20%, rgba(0,0,0,0.045) 0 1px, transparent 2px), radial-gradient(circle at 70% 60%, rgba(0,0,0,0.04) 0 1px, transparent 2px), radial-gradient(circle at 55% 45%, rgba(0,0,0,0.03) 0 1.5px, transparent 3px), radial-gradient(ellipse at center, rgba(0,0,0,0) 55%, rgba(0,0,0,0.08) 100%)',
+        backgroundSize: '6px 6px, 9px 9px, 14px 14px, 100% 100%',
         fontFamily: `${body}, sans-serif`,
       }}
     >
-      {/* Brand name */}
-      <div
-        style={{
-          position: 'absolute',
-          top: '60px',
-          left: 0,
-          right: 0,
-          textAlign: 'center',
-          fontFamily: `${body}, sans-serif`,
-          fontSize: '14px',
-          letterSpacing: '0.4em',
-          textTransform: 'uppercase',
-          color: data.colorPrimary,
-          opacity: 0.6,
-        }}
-      >
-        {data.brandName || 'Brand'}
-      </div>
+      <BrandMark data={data} />
 
-      {/* Polaroid */}
+      {/* Realistic polaroid — thick white card, square photo, deep drop shadow, slight rotation */}
       <div
         style={{
-          transform: 'rotate(-3deg)',
-          backgroundColor: '#fff',
-          padding: '28px 28px 90px 28px',
-          boxShadow: '0 30px 60px -20px rgba(0,0,0,0.35), 0 10px 20px rgba(0,0,0,0.15)',
-          marginTop: '20px',
+          transform: 'rotate(-4deg)',
+          backgroundColor: '#fdfcf7',
+          padding: '24px 24px 64px 24px',
+          boxShadow:
+            '0 1px 0 rgba(255,255,255,0.6) inset, 0 40px 80px -24px rgba(0,0,0,0.45), 0 20px 40px -12px rgba(0,0,0,0.25), 0 2px 4px rgba(0,0,0,0.12)',
+          marginTop: '40px',
         }}
       >
-        <div style={{ width: '640px', height: '640px', overflow: 'hidden' }}>
+        {/* Forced 1:1 square photo with inner shadow */}
+        <div
+          style={{
+            width: '640px',
+            height: '640px',
+            overflow: 'hidden',
+            position: 'relative',
+            boxShadow: 'inset 0 2px 8px rgba(0,0,0,0.35), inset 0 0 40px rgba(0,0,0,0.15)',
+            backgroundColor: '#1a1a1a',
+          }}
+        >
           {data.photoUrl ? (
-            <img src={data.photoUrl} alt="Polaroid" className="w-full h-full object-cover" />
+            /* eslint-disable-next-line @next/next/no-img-element */
+            <img
+              src={data.photoUrl}
+              alt="Polaroid"
+              style={{
+                width: '100%',
+                height: '100%',
+                objectFit: 'cover',
+                aspectRatio: '1 / 1',
+                display: 'block',
+              }}
+            />
           ) : (
             <div
               className="w-full h-full flex items-center justify-center"
@@ -60,21 +75,33 @@ export function PolaroidStack({ data }: { data: TemplateData }) {
               <span style={{ color: '#999', fontSize: '14px' }}>Upload a photo</span>
             </div>
           )}
+          {/* Subtle inner shadow overlay so the photo looks inset */}
+          <div
+            style={{
+              position: 'absolute',
+              inset: 0,
+              pointerEvents: 'none',
+              boxShadow: 'inset 0 0 24px rgba(0,0,0,0.25)',
+            }}
+          />
         </div>
+
+        {/* Handwritten caption inside the polaroid */}
         <div
           style={{
             textAlign: 'center',
-            marginTop: '28px',
-            fontFamily: `${heading}, cursive`,
-            fontSize: '28px',
+            marginTop: '24px',
+            fontFamily: `${heading}, Caveat, cursive`,
+            fontSize: '32px',
             color: '#2b2b2b',
+            lineHeight: 1,
           }}
         >
-          {data.headline ? data.headline.slice(0, 32) : 'a moment'}
+          {caption.slice(0, 40)}
         </div>
       </div>
 
-      {/* Handwritten headline below */}
+      {/* Outer headline below */}
       <div
         style={{
           marginTop: '70px',

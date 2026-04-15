@@ -1,4 +1,5 @@
 import type { TemplateData } from '@/types';
+import { BrandMark } from './_brand-mark';
 
 export function SplitPortfolio({ data }: { data: TemplateData }) {
   const heading = data.fontHeading || 'Playfair Display';
@@ -6,7 +7,7 @@ export function SplitPortfolio({ data }: { data: TemplateData }) {
 
   return (
     <div
-      className="flex"
+      className="relative flex"
       style={{
         width: `${data.width}px`,
         height: `${data.height}px`,
@@ -76,20 +77,8 @@ export function SplitPortfolio({ data }: { data: TemplateData }) {
           {data.bodyText || 'A considered look at recent work.'}
         </div>
 
-        <div
-          style={{
-            marginTop: '56px',
-            paddingTop: '28px',
-            borderTop: '1px solid rgba(255,255,255,0.25)',
-            fontFamily: `${heading}, serif`,
-            fontSize: '22px',
-            fontWeight: 600,
-            letterSpacing: '0.04em',
-          }}
-        >
-          {data.brandName || 'Brand'}
-        </div>
       </div>
+      <BrandMark data={data} color={data.colorSecondary} />
     </div>
   );
 }

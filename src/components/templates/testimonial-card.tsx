@@ -1,4 +1,5 @@
 import type { TemplateData } from '@/types';
+import { BrandMark } from './_brand-mark';
 
 export function TestimonialCard({ data }: { data: TemplateData }) {
   const heading = data.fontHeading || 'Playfair Display';
@@ -6,7 +7,7 @@ export function TestimonialCard({ data }: { data: TemplateData }) {
 
   return (
     <div
-      className="flex items-center justify-center"
+      className="relative flex items-center justify-center"
       style={{
         width: `${data.width}px`,
         height: `${data.height}px`,
@@ -113,22 +114,9 @@ export function TestimonialCard({ data }: { data: TemplateData }) {
             </div>
           </div>
 
-          {/* Brand name */}
-          <div
-            style={{
-              marginTop: '26px',
-              paddingTop: '22px',
-              borderTop: `1px solid ${data.colorPrimary}22`,
-              fontFamily: `${heading}, serif`,
-              fontSize: '22px',
-              fontWeight: 700,
-              letterSpacing: '0.03em',
-            }}
-          >
-            {data.brandName || 'Brand'}
-          </div>
         </div>
       </div>
+      <BrandMark data={data} color={data.colorPrimary} />
     </div>
   );
 }

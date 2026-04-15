@@ -1,9 +1,23 @@
 import type { TemplateData } from '@/types';
+import { BrandMark } from './_brand-mark';
 
+// Flex fields this template reads:
+// - photos → up to 3 frame URLs. Falls back to photoUrl repeated.
+// - imageAspect → aspect ratio for each frame (default '1/1')
 export function FilmStrip({ data }: { data: TemplateData }) {
   const body = data.fontBody || 'JetBrains Mono';
 
   const sprockets = Array.from({ length: 14 });
+
+  // Build frames array — up to 3 slots. Null entries use photoUrl fallback.
+  const providedPhotos = data.photos ?? [];
+  const frames: (string | null)[] = [0, 1, 2].map((i) => {
+    const p = providedPhotos[i];
+    if (p !== undefined) return p;
+    return data.photoUrl;
+  });
+  const hasMultiple = providedPhotos.length > 1;
+  const aspect = data.imageAspect ?? '1/1';
 
   return (
     <div
@@ -27,7 +41,7 @@ export function FilmStrip({ data }: { data: TemplateData }) {
           marginBottom: '30px',
         }}
       >
-        {data.brandName || 'KODAK PORTRA 400'} &nbsp;•&nbsp; 35MM
+        {data.customText || 'KODAK PORTRA 400'} &nbsp;•&nbsp; 35MM
       </div>
 
       {/* Filmstrip */}
@@ -58,19 +72,65 @@ export function FilmStrip({ data }: { data: TemplateData }) {
           ))}
         </div>
 
-        {/* Photo window */}
-        <div style={{ width: '820px', height: '620px', margin: '0 auto', overflow: 'hidden' }}>
-          {data.photoUrl ? (
-            <img src={data.photoUrl} alt="Film frame" className="w-full h-full object-cover" />
-          ) : (
-            <div
-              className="w-full h-full flex items-center justify-center"
-              style={{ backgroundColor: '#1e1e1e' }}
-            >
-              <span style={{ color: '#666', fontSize: '14px' }}>Upload a photo</span>
-            </div>
-          )}
-        </div>
+        {/* Photo window(s) — single big frame when only photoUrl; up to 3 frames when photos[] provided */}
+        {hasMultiple ? (
+          <div
+            style={{
+              width: '820px',
+              height: '620px',
+              margin: '0 auto',
+              display: 'flex',
+              gap: '8px',
+              overflow: 'hidden',
+            }}
+          >
+            {frames.map((src, i) => (
+              <div
+                key={`frame-${i}`}
+                style={{
+                  flex: 1,
+                  overflow: 'hidden',
+                  aspectRatio: aspect.replace('/', ' / '),
+                  backgroundColor: '#1e1e1e',
+                }}
+              >
+                {src ? (
+                  /* eslint-disable-next-line @next/next/no-img-element */
+                  <img
+                    src={src}
+                    alt={`Film frame ${i + 1}`}
+                    className="w-full h-full object-cover"
+                  />
+                ) : (
+                  <div className="w-full h-full flex items-center justify-center">
+                    <span style={{ color: '#666', fontSize: '12px' }}>—</span>
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+        ) : (
+          <div
+            style={{
+              width: '820px',
+              height: '620px',
+              margin: '0 auto',
+              overflow: 'hidden',
+            }}
+          >
+            {data.photoUrl ? (
+              /* eslint-disable-next-line @next/next/no-img-element */
+              <img src={data.photoUrl} alt="Film frame" className="w-full h-full object-cover" />
+            ) : (
+              <div
+                className="w-full h-full flex items-center justify-center"
+                style={{ backgroundColor: '#1e1e1e' }}
+              >
+                <span style={{ color: '#666', fontSize: '14px' }}>Upload a photo</span>
+              </div>
+            )}
+          </div>
+        )}
 
         {/* Bottom sprockets */}
         <div
@@ -138,6 +198,8 @@ export function FilmStrip({ data }: { data: TemplateData }) {
       >
         {data.bodyText || 'Grain, warmth, and the sound of a shutter.'}
       </div>
+
+      <BrandMark data={data} defaultPosition="bottom-center" color={data.colorSecondary || '#e6c36b'} />
     </div>
   );
 }

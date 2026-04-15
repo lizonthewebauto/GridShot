@@ -1,4 +1,5 @@
 import type { TemplateData } from '@/types';
+import { BrandMark } from './_brand-mark';
 
 export function BoldShowcase({ data }: { data: TemplateData }) {
   return (
@@ -38,22 +39,8 @@ export function BoldShowcase({ data }: { data: TemplateData }) {
           {data.bodyText}
         </p>
 
-        <div className="mt-6 flex items-center gap-3">
-          <div
-            className="w-8 h-8 rounded-full"
-            style={{ backgroundColor: data.colorSecondary }}
-          />
-          <span
-            className="text-base font-bold uppercase tracking-widest"
-            style={{
-              fontFamily: data.fontBody,
-              color: data.colorSecondary,
-            }}
-          >
-            {data.brandName}
-          </span>
-        </div>
       </div>
+      <BrandMark data={data} color={data.colorSecondary} />
     </div>
   );
 }
