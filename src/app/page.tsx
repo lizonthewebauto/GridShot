@@ -480,40 +480,15 @@ export default function HomePage() {
                 {templates.length} templates · tap to enlarge
               </span>
             </div>
-            <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-7 gap-3">
-              <SampleLightbox
-                samples={templates.map((tpl) => ({
-                  src: `/samples/sample-${creatorMatrix[0].slug}-${tpl.slug}.jpg`,
-                  alt: `${tpl.name} template`,
-                  label: tpl.name,
-                }))}
-              >
-                {(s, onClick) => (
-                  <button
-                    type="button"
-                    onClick={onClick}
-                    className="group flex flex-col gap-2 text-left"
-                  >
-                    <div
-                      className="relative w-full overflow-hidden rounded-sm border border-border/50 bg-card transition-all group-hover:border-accent-warm/60 group-hover:scale-[1.02]"
-                      style={{ aspectRatio: '1080 / 1440' }}
-                    >
-                      <Image
-                        src={s.src}
-                        alt={s.alt}
-                        fill
-                        sizes="(max-width: 640px) 33vw, (max-width: 1024px) 25vw, 200px"
-                        quality={95}
-                        className="object-cover"
-                      />
-                    </div>
-                    <span className="text-[11px] uppercase tracking-widest text-muted text-center group-hover:text-accent-warm transition-colors">
-                      {s.label}
-                    </span>
-                  </button>
-                )}
-              </SampleLightbox>
-            </div>
+            <SampleLightbox
+              gridClassName="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-7 gap-3"
+              sizes="(max-width: 640px) 33vw, (max-width: 1024px) 25vw, 200px"
+              samples={templates.map((tpl) => ({
+                src: `/samples/sample-${creatorMatrix[0].slug}-${tpl.slug}.jpg`,
+                alt: `${tpl.name} template`,
+                label: tpl.name,
+              }))}
+            />
           </div>
 
           <div className="my-20 border-t border-border/60" />
@@ -547,40 +522,15 @@ export default function HomePage() {
                   </span>
                 </div>
 
-                <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-3">
-                  <SampleLightbox
-                    samples={creatorMatrix.map((creator) => ({
-                      src: `/samples/sample-${creator.slug}-${tpl.slug}.jpg`,
-                      alt: `${creator.brandName} — ${tpl.name}`,
-                      label: `${tpl.name} · ${creator.brandName}`,
-                    }))}
-                  >
-                    {(s, onClick) => (
-                      <button
-                        type="button"
-                        onClick={onClick}
-                        className="group flex flex-col gap-2 text-left"
-                      >
-                        <div
-                          className="relative w-full overflow-hidden rounded-sm border border-border/50 bg-card transition-all group-hover:border-accent-warm/60 group-hover:scale-[1.02]"
-                          style={{ aspectRatio: '1080 / 1440' }}
-                        >
-                          <Image
-                            src={s.src}
-                            alt={s.alt}
-                            fill
-                            sizes="(max-width: 640px) 33vw, (max-width: 1024px) 20vw, 180px"
-                            quality={95}
-                            className="object-cover"
-                          />
-                        </div>
-                        <span className="text-[10px] uppercase tracking-widest text-muted text-center">
-                          {s.label?.split('·')[1]?.trim()}
-                        </span>
-                      </button>
-                    )}
-                  </SampleLightbox>
-                </div>
+                <SampleLightbox
+                  gridClassName="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-3"
+                  sizes="(max-width: 640px) 33vw, (max-width: 1024px) 20vw, 180px"
+                  samples={creatorMatrix.map((creator) => ({
+                    src: `/samples/sample-${creator.slug}-${tpl.slug}.jpg`,
+                    alt: `${creator.brandName} — ${tpl.name}`,
+                    label: creator.brandName,
+                  }))}
+                />
               </div>
             ))}
           </div>
