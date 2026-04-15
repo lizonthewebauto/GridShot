@@ -19,26 +19,43 @@ export function FilmStrip({ data }: { data: TemplateData }) {
   const hasMultiple = providedPhotos.length > 1;
   const aspect = data.imageAspect ?? '1/1';
 
+  const padTop = Math.round(data.height * 0.08);
+  const padX = Math.round(data.width * 0.056);
+  const padBottom = Math.round(data.height * 0.056);
+  const stripW = Math.round(data.width * 0.89);
+  const stripPadY = Math.round(data.width * 0.037);
+  const sprocketInset = Math.round(data.width * 0.022);
+  const sprocketW = Math.round(data.width * 0.033);
+  const sprocketH = Math.round(sprocketW * 0.5);
+  const sprocketTop = Math.round(data.width * 0.011);
+  const photoWindowW = Math.round(data.width * 0.76);
+  const photoWindowH = Math.round(photoWindowW * 0.756);
+  const frameGap = Math.round(data.width * 0.0074);
+  const labelFont = Math.round(data.width * 0.013);
+  const bigHeadlineFont = Math.round(data.width * 0.041);
+  const bodyFont = Math.round(data.width * 0.0148);
+  const brandInset = Math.round(data.width * 0.03);
+
   return (
     <div
-      className="relative flex flex-col items-center"
+      className="relative flex flex-col items-center overflow-hidden"
       style={{
         width: `${data.width}px`,
         height: `${data.height}px`,
         backgroundColor: '#0a0a0a',
         fontFamily: 'monospace',
-        padding: '90px 60px 60px 60px',
+        padding: `${padTop}px ${padX}px ${padBottom}px ${padX}px`,
       }}
     >
       {/* Top label */}
       <div
         style={{
           fontFamily: 'monospace',
-          fontSize: '14px',
+          fontSize: `${labelFont}px`,
           letterSpacing: '0.35em',
           textTransform: 'uppercase',
           color: data.colorSecondary || '#e6c36b',
-          marginBottom: '30px',
+          marginBottom: `${Math.round(data.height * 0.028)}px`,
         }}
       >
         {data.customText || 'KODAK PORTRA 400'} &nbsp;•&nbsp; 35MM
@@ -47,9 +64,9 @@ export function FilmStrip({ data }: { data: TemplateData }) {
       {/* Filmstrip */}
       <div
         style={{
-          width: '960px',
+          width: `${stripW}px`,
           backgroundColor: '#111',
-          padding: '40px 0',
+          padding: `${stripPadY}px 0`,
           position: 'relative',
         }}
       >
@@ -57,9 +74,9 @@ export function FilmStrip({ data }: { data: TemplateData }) {
         <div
           style={{
             position: 'absolute',
-            top: '12px',
-            left: '24px',
-            right: '24px',
+            top: `${sprocketTop}px`,
+            left: `${sprocketInset}px`,
+            right: `${sprocketInset}px`,
             display: 'flex',
             justifyContent: 'space-between',
           }}
@@ -67,7 +84,7 @@ export function FilmStrip({ data }: { data: TemplateData }) {
           {sprockets.map((_, i) => (
             <div
               key={`t-${i}`}
-              style={{ width: '36px', height: '18px', backgroundColor: '#0a0a0a' }}
+              style={{ width: `${sprocketW}px`, height: `${sprocketH}px`, backgroundColor: '#0a0a0a' }}
             />
           ))}
         </div>
@@ -76,11 +93,11 @@ export function FilmStrip({ data }: { data: TemplateData }) {
         {hasMultiple ? (
           <div
             style={{
-              width: '820px',
-              height: '620px',
+              width: `${photoWindowW}px`,
+              height: `${photoWindowH}px`,
               margin: '0 auto',
               display: 'flex',
-              gap: '8px',
+              gap: `${frameGap}px`,
               overflow: 'hidden',
             }}
           >
@@ -103,7 +120,7 @@ export function FilmStrip({ data }: { data: TemplateData }) {
                   />
                 ) : (
                   <div className="w-full h-full flex items-center justify-center">
-                    <span style={{ color: '#666', fontSize: '12px' }}>—</span>
+                    <span style={{ color: '#666', fontSize: `${Math.round(data.width * 0.011)}px` }}>—</span>
                   </div>
                 )}
               </div>
@@ -112,8 +129,8 @@ export function FilmStrip({ data }: { data: TemplateData }) {
         ) : (
           <div
             style={{
-              width: '820px',
-              height: '620px',
+              width: `${photoWindowW}px`,
+              height: `${photoWindowH}px`,
               margin: '0 auto',
               overflow: 'hidden',
             }}
@@ -126,7 +143,7 @@ export function FilmStrip({ data }: { data: TemplateData }) {
                 className="w-full h-full flex items-center justify-center"
                 style={{ backgroundColor: '#1e1e1e' }}
               >
-                <span style={{ color: '#666', fontSize: '14px' }}>Upload a photo</span>
+                <span style={{ color: '#666', fontSize: `${labelFont}px` }}>Upload a photo</span>
               </div>
             )}
           </div>
@@ -136,9 +153,9 @@ export function FilmStrip({ data }: { data: TemplateData }) {
         <div
           style={{
             position: 'absolute',
-            bottom: '12px',
-            left: '24px',
-            right: '24px',
+            bottom: `${sprocketTop}px`,
+            left: `${sprocketInset}px`,
+            right: `${sprocketInset}px`,
             display: 'flex',
             justifyContent: 'space-between',
           }}
@@ -146,7 +163,7 @@ export function FilmStrip({ data }: { data: TemplateData }) {
           {sprockets.map((_, i) => (
             <div
               key={`b-${i}`}
-              style={{ width: '36px', height: '18px', backgroundColor: '#0a0a0a' }}
+              style={{ width: `${sprocketW}px`, height: `${sprocketH}px`, backgroundColor: '#0a0a0a' }}
             />
           ))}
         </div>
@@ -157,9 +174,9 @@ export function FilmStrip({ data }: { data: TemplateData }) {
         style={{
           color: data.colorSecondary || '#e6c36b',
           fontFamily: 'monospace',
-          fontSize: '12px',
+          fontSize: `${Math.round(data.width * 0.011)}px`,
           letterSpacing: '0.3em',
-          marginTop: '18px',
+          marginTop: `${Math.round(data.height * 0.017)}px`,
           opacity: 0.8,
         }}
       >
@@ -169,9 +186,9 @@ export function FilmStrip({ data }: { data: TemplateData }) {
       {/* Headline */}
       <div
         style={{
-          marginTop: '42px',
+          marginTop: `${Math.round(data.height * 0.04)}px`,
           fontFamily: `${body}, monospace`,
-          fontSize: '44px',
+          fontSize: `${bigHeadlineFont}px`,
           fontWeight: 700,
           color: '#f4f1ea',
           textAlign: 'center',
@@ -186,12 +203,12 @@ export function FilmStrip({ data }: { data: TemplateData }) {
       {/* Body */}
       <div
         style={{
-          marginTop: '20px',
+          marginTop: `${Math.round(data.height * 0.019)}px`,
           fontFamily: `${body}, monospace`,
-          fontSize: '16px',
+          fontSize: `${bodyFont}px`,
           color: '#bbb',
           textAlign: 'center',
-          maxWidth: '720px',
+          maxWidth: `${Math.round(data.width * 0.67)}px`,
           lineHeight: 1.6,
           opacity: 0.85,
         }}
@@ -199,7 +216,12 @@ export function FilmStrip({ data }: { data: TemplateData }) {
         {data.bodyText || 'Grain, warmth, and the sound of a shutter.'}
       </div>
 
-      <BrandMark data={data} defaultPosition="bottom-center" color={data.colorSecondary || '#e6c36b'} />
+      <BrandMark
+        data={data}
+        defaultPosition="bottom-center"
+        color={data.colorSecondary || '#e6c36b'}
+        inset={brandInset}
+      />
     </div>
   );
 }

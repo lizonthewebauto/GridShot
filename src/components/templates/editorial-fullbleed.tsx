@@ -47,7 +47,7 @@ export function EditorialFullbleed({ data }: { data: TemplateData }) {
         }}
       />
 
-      <BrandMark data={data} color={textColor} opacity={0.85} zIndex={2} />
+      <BrandMark data={data} color={textColor} opacity={0.85} zIndex={2} inset={Math.round(data.width * 0.03)} />
 
       <div
         className="absolute left-0 right-0 flex flex-col items-center text-center px-10"

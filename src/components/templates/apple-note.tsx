@@ -125,7 +125,7 @@ export function AppleNote({ data }: { data: TemplateData }) {
         )}
       </div>
 
-      <BrandMark data={data} color={metaColor} fontSize={12} />
+      <BrandMark data={data} color={metaColor} fontSize={Math.max(10, Math.round(data.width * 0.012))} inset={Math.round(data.width * 0.03)} />
     </div>
   );
 }

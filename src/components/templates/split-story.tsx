@@ -8,9 +8,14 @@ import { BrandMark } from './_brand-mark';
 export function SplitStory({ data }: { data: TemplateData }) {
   const isReversed = data.variant === 'reverse';
   const aspect = data.imageAspect ?? null;
+  const pad = Math.round(data.width * 0.045);
+  const brandInset = Math.round(data.width * 0.03);
 
   const photoPane = (
-    <div className="w-1/2 h-full relative" key="photo">
+    <div
+      key="photo"
+      style={{ width: '50%', height: '100%', position: 'relative' }}
+    >
       {data.photoUrl ? (
         /* eslint-disable-next-line @next/next/no-img-element */
         <img
@@ -30,30 +35,45 @@ export function SplitStory({ data }: { data: TemplateData }) {
 
   const contentPane = (
     <div
-      className="w-1/2 h-full flex flex-col justify-center px-14"
       key="content"
-      style={{ backgroundColor: data.colorSecondary }}
+      className="flex flex-col justify-center"
+      style={{
+        width: '50%',
+        height: '100%',
+        padding: `${pad}px`,
+        backgroundColor: data.colorSecondary,
+      }}
     >
       <div
-        className="w-10 h-10 rounded-full mb-8"
-        style={{ backgroundColor: data.colorPrimary, opacity: 0.15 }}
+        className="rounded-full"
+        style={{
+          width: `${Math.round(data.width * 0.035)}px`,
+          height: `${Math.round(data.width * 0.035)}px`,
+          backgroundColor: data.colorPrimary,
+          opacity: 0.15,
+          marginBottom: `${Math.round(data.width * 0.03)}px`,
+        }}
       />
 
       <h2
-        className="text-4xl font-bold mb-6 leading-snug"
+        className="font-bold leading-snug"
         style={{
           fontFamily: data.fontHeading,
           color: data.colorPrimary,
+          fontSize: `${Math.round(data.width * 0.04)}px`,
+          marginBottom: `${Math.round(data.width * 0.022)}px`,
         }}
       >
         {data.headline}
       </h2>
 
       <p
-        className="text-lg leading-relaxed opacity-70 mb-8"
+        className="leading-relaxed opacity-70"
         style={{
           fontFamily: data.fontBody,
           color: data.colorPrimary,
+          fontSize: `${Math.round(data.width * 0.018)}px`,
+          marginBottom: `${Math.round(data.width * 0.03)}px`,
         }}
       >
         {data.bodyText}
@@ -61,10 +81,11 @@ export function SplitStory({ data }: { data: TemplateData }) {
 
       {data.reviewTagline && (
         <span
-          className="text-sm opacity-50"
+          className="opacity-50"
           style={{
             fontFamily: data.fontBody,
             color: data.colorPrimary,
+            fontSize: `${Math.round(data.width * 0.014)}px`,
           }}
         >
           {data.reviewTagline}
@@ -74,9 +95,12 @@ export function SplitStory({ data }: { data: TemplateData }) {
   );
 
   return (
-    <div className="relative w-[1080px] h-[1080px] overflow-hidden flex">
+    <div
+      className="relative overflow-hidden flex"
+      style={{ width: `${data.width}px`, height: `${data.height}px` }}
+    >
       {isReversed ? [contentPane, photoPane] : [photoPane, contentPane]}
-      <BrandMark data={data} color={data.colorPrimary} />
+      <BrandMark data={data} color={data.colorPrimary} inset={brandInset} />
     </div>
   );
 }

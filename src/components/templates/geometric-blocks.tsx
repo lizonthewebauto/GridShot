@@ -61,8 +61,10 @@ export function GeometricBlocks({ data }: { data: TemplateData }) {
 
       {data.headline && (
         <div
-          className="absolute top-8 left-8"
+          className="absolute"
           style={{
+            top: `${Math.round(data.height * 0.04)}px`,
+            left: `${Math.round(data.width * 0.04)}px`,
             fontFamily: `${data.fontHeading}, serif`,
             fontSize: `${Math.round(data.width * 0.035)}px`,
             color: textColor,
@@ -77,8 +79,10 @@ export function GeometricBlocks({ data }: { data: TemplateData }) {
 
       {data.tagline && (
         <div
-          className="absolute bottom-6 right-8 uppercase text-right"
+          className="absolute uppercase text-right"
           style={{
+            bottom: `${Math.round(data.height * 0.03)}px`,
+            right: `${Math.round(data.width * 0.04)}px`,
             fontSize: `${Math.round(data.width * 0.012)}px`,
             letterSpacing: '0.3em',
             color: '#fff',
@@ -88,7 +92,7 @@ export function GeometricBlocks({ data }: { data: TemplateData }) {
         </div>
       )}
 
-      <BrandMark data={data} color="#fff" />
+      <BrandMark data={data} color="#fff" inset={Math.round(data.width * 0.03)} />
     </div>
   );
 }

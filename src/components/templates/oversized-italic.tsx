@@ -90,7 +90,7 @@ export function OversizedItalic({ data }: { data: TemplateData }) {
         </div>
       )}
 
-      <BrandMark data={data} color="#fff" opacity={0.9} />
+      <BrandMark data={data} color="#fff" opacity={0.9} inset={Math.round(data.width * 0.03)} />
     </div>
   );
 }

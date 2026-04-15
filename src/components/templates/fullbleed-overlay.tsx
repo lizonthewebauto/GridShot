@@ -8,6 +8,9 @@ export function FullbleedOverlay({ data }: { data: TemplateData }) {
   const heading = data.fontHeading || 'Inter';
   const body = data.fontBody || 'Inter';
   const accent = data.colorAccent ?? data.colorPrimary ?? '#d4b87a';
+  const padX = Math.round(data.width * 0.045);
+  const padBottom = Math.round(data.height * 0.06);
+  const brandInset = Math.round(data.width * 0.03);
 
   return (
     <div
@@ -21,6 +24,7 @@ export function FullbleedOverlay({ data }: { data: TemplateData }) {
     >
       {/* Full bleed photo */}
       {data.photoUrl ? (
+        // eslint-disable-next-line @next/next/no-img-element
         <img
           src={data.photoUrl}
           alt="Background"
@@ -45,21 +49,26 @@ export function FullbleedOverlay({ data }: { data: TemplateData }) {
         }}
       />
 
-      <BrandMark data={data} color="#fff" opacity={0.85} />
+      <BrandMark data={data} color="#fff" opacity={0.85} inset={brandInset} />
 
       {/* Bottom text stack */}
       <div
-        className="absolute left-12 right-12"
-        style={{ bottom: '72px', color: '#fff' }}
+        className="absolute"
+        style={{
+          left: `${padX}px`,
+          right: `${padX}px`,
+          bottom: `${padBottom}px`,
+          color: '#fff',
+        }}
       >
         {data.tagline && (
           <div
             style={{
               fontFamily: `${body}, sans-serif`,
-              fontSize: '14px',
+              fontSize: `${Math.round(data.width * 0.013)}px`,
               letterSpacing: '0.35em',
               textTransform: 'uppercase',
-              marginBottom: '18px',
+              marginBottom: `${Math.round(data.width * 0.017)}px`,
               opacity: 0.85,
               color: accent,
             }}
@@ -70,7 +79,7 @@ export function FullbleedOverlay({ data }: { data: TemplateData }) {
         <div
           style={{
             fontFamily: `${heading}, sans-serif`,
-            fontSize: '96px',
+            fontSize: `${Math.round(data.width * 0.089)}px`,
             fontWeight: 800,
             lineHeight: 1,
             letterSpacing: '-0.02em',
@@ -82,20 +91,20 @@ export function FullbleedOverlay({ data }: { data: TemplateData }) {
         {/* Accent underline mark */}
         <div
           style={{
-            marginTop: '20px',
-            height: '4px',
-            width: '96px',
+            marginTop: `${Math.round(data.width * 0.018)}px`,
+            height: `${Math.max(3, Math.round(data.width * 0.0037))}px`,
+            width: `${Math.round(data.width * 0.089)}px`,
             backgroundColor: accent,
           }}
         />
         <div
           style={{
-            marginTop: '24px',
+            marginTop: `${Math.round(data.width * 0.022)}px`,
             fontFamily: `${body}, sans-serif`,
-            fontSize: '22px',
+            fontSize: `${Math.round(data.width * 0.02)}px`,
             lineHeight: 1.5,
             opacity: 0.92,
-            maxWidth: '820px',
+            maxWidth: `${Math.round(data.width * 0.76)}px`,
           }}
         >
           {data.bodyText || 'Body text overlaid on the image.'}

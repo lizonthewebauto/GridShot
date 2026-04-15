@@ -125,7 +125,7 @@ export function Risograph({ data }: { data: TemplateData }) {
         </div>
       )}
 
-      <BrandMark data={data} color={accent} opacity={0.85} />
+      <BrandMark data={data} color={accent} opacity={0.85} inset={Math.round(data.width * 0.03)} />
 
 
       {data.bodyText && (

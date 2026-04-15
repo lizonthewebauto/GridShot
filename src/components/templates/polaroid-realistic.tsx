@@ -30,7 +30,7 @@ export function PolaroidRealistic({ data }: { data: TemplateData }) {
           'radial-gradient(circle at 30% 20%, rgba(255,255,255,0.35), transparent 50%), radial-gradient(circle at 70% 80%, rgba(0,0,0,0.06), transparent 60%)',
       }}
     >
-      <BrandMark data={data} color={data.colorSecondary ?? '#4a3f2e'} zIndex={3} />
+      <BrandMark data={data} color={data.colorSecondary ?? '#4a3f2e'} zIndex={3} inset={Math.round(data.width * 0.03)} />
 
       <div
         style={{

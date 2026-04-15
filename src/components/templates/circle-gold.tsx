@@ -35,7 +35,7 @@ export function CircleGold({ data }: { data: TemplateData }) {
         padding: `${Math.round(data.width * 0.07)}px`,
       }}
     >
-      <BrandMark data={data} color={gold} opacity={0.9} />
+      <BrandMark data={data} color={gold} opacity={0.9} inset={Math.round(data.width * 0.03)} />
 
       <div
         style={{

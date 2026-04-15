@@ -98,7 +98,7 @@ export function Grid2x2({ data }: { data: TemplateData }) {
         )}
       </div>
 
-      <BrandMark data={data} color={textColor} />
+      <BrandMark data={data} color={textColor} inset={Math.round(data.width * 0.03)} />
     </div>
   );
 }

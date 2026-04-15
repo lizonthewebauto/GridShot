@@ -52,15 +52,25 @@ export function DuotoneWash({ data }: { data: TemplateData }) {
         }}
       />
 
-      <div className="absolute bottom-8 left-8 right-8" style={{ color: textColor, zIndex: 2 }}>
+      <div
+        className="absolute"
+        style={{
+          bottom: `${Math.round(data.height * 0.04)}px`,
+          left: `${Math.round(data.width * 0.04)}px`,
+          right: `${Math.round(data.width * 0.04)}px`,
+          color: textColor,
+          zIndex: 2,
+        }}
+      >
         {data.tagline && (
           <div
-            className="uppercase mb-3"
+            className="uppercase"
             style={{
               fontFamily: `${data.fontBody}, sans-serif`,
               fontSize: `${Math.round(data.width * 0.011)}px`,
               letterSpacing: '0.3em',
               opacity: 0.9,
+              marginBottom: `${Math.round(data.width * 0.012)}px`,
             }}
           >
             {data.tagline}
@@ -85,7 +95,7 @@ export function DuotoneWash({ data }: { data: TemplateData }) {
               lineHeight: 1.5,
               opacity: 0.9,
               maxWidth: '75%',
-              marginTop: '14px',
+              marginTop: `${Math.round(data.width * 0.014)}px`,
             }}
           >
             {data.bodyText}
@@ -93,7 +103,7 @@ export function DuotoneWash({ data }: { data: TemplateData }) {
         )}
       </div>
 
-      <BrandMark data={data} color={textColor} opacity={0.85} />
+      <BrandMark data={data} color={textColor} opacity={0.85} inset={Math.round(data.width * 0.03)} />
     </div>
   );
 }

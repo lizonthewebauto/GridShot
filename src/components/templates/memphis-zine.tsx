@@ -171,7 +171,7 @@ export function MemphisZine({ data }: { data: TemplateData }) {
         {data.headline || 'LOUD & CLEAR'}
       </h1>
 
-      <BrandMark data={data} color={ink} opacity={1} />
+      <BrandMark data={data} color={ink} opacity={1} inset={Math.round(data.width * 0.03)} />
     </div>
   );
 }

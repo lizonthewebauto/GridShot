@@ -85,7 +85,7 @@ export function StackedLetterforms({ data }: { data: TemplateData }) {
         </div>
       )}
 
-      <BrandMark data={data} color={textColor} zIndex={3} />
+      <BrandMark data={data} color={textColor} zIndex={3} inset={Math.round(data.width * 0.03)} />
     </div>
   );
 }

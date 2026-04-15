@@ -31,7 +31,7 @@ export function TypographicHero({ data }: { data: TemplateData }) {
         padding: `${Math.round(data.width * 0.04)}px`,
       }}
     >
-      <BrandMark data={data} color={accent} opacity={0.85} />
+      <BrandMark data={data} color={accent} opacity={0.85} inset={Math.round(data.width * 0.03)} />
 
       {/* Giant canvas word */}
       <div

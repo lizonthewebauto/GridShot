@@ -105,7 +105,7 @@ export function TriptychStrip({ data }: { data: TemplateData }) {
         </h1>
       </div>
 
-      <BrandMark data={data} color={textColor} />
+      <BrandMark data={data} color={textColor} inset={Math.round(data.width * 0.03)} />
     </div>
   );
 }

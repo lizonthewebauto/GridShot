@@ -13,8 +13,10 @@ const browser = await puppeteer.launch({
 
 try {
   const page = await browser.newPage();
-  await page.setViewport({ width: 2400, height: 2400, deviceScaleFactor: 1 });
-  await page.goto(URL, { waitUntil: 'networkidle0', timeout: 120000 });
+  await page.setViewport({ width: 2400, height: 2400, deviceScaleFactor: 2 });
+  await page.goto(URL, { waitUntil: 'networkidle0', timeout: 180000 });
+  // Let Google Fonts finish loading
+  await page.evaluate(() => document.fonts.ready);
 
   await page.evaluate(async () => {
     const imgs = Array.from(document.querySelectorAll('[id^="sample-"] img, [id^="slide-"] img'));
@@ -29,7 +31,7 @@ try {
   for (const id of ids) {
     const el = await page.$(`#${id}`);
     if (!el) { console.warn(`Missing: ${id}`); continue; }
-    const buf = await el.screenshot({ type: 'jpeg', quality: 85, omitBackground: false });
+    const buf = await el.screenshot({ type: 'jpeg', quality: 95, omitBackground: false });
     const path = join(OUT_DIR, `${id}.jpg`);
     writeFileSync(path, buf);
     process.stdout.write(`.`);

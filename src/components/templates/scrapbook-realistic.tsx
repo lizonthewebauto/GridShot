@@ -49,7 +49,7 @@ export function ScrapbookRealistic({ data }: { data: TemplateData }) {
         }}
       />
 
-      <BrandMark data={data} color={ink} opacity={0.7} zIndex={5} />
+      <BrandMark data={data} color={ink} opacity={0.7} zIndex={5} inset={Math.round(data.width * 0.03)} />
 
       {/* Polaroid photo with tape */}
       <div

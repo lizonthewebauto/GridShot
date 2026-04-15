@@ -9,9 +9,18 @@ export function CinematicOverlay({ data }: { data: TemplateData }) {
   const fromColor = data.colorGradientFrom ?? data.colorPrimary ?? '#000000';
   const toColor = data.colorGradientTo ?? data.colorPrimary ?? '#000000';
   const angle = data.gradientAngle ?? 180;
+  const pad = Math.round(data.width * 0.045);
+  const brandInset = Math.round(data.width * 0.03);
 
   return (
-    <div className="relative w-[1080px] h-[1080px] overflow-hidden">
+    <div
+      className="relative overflow-hidden"
+      style={{
+        width: `${data.width}px`,
+        height: `${data.height}px`,
+        backgroundColor: data.colorPrimary ?? '#000',
+      }}
+    >
       {/* Full-bleed photo */}
       {data.photoUrl && (
         <div className="absolute inset-0">
@@ -34,12 +43,19 @@ export function CinematicOverlay({ data }: { data: TemplateData }) {
 
       {/* Top review count (if provided) */}
       {data.reviewCount && (
-        <div className="absolute top-0 right-0 p-12 z-10">
+        <div
+          className="absolute z-10"
+          style={{
+            top: `${pad}px`,
+            right: `${pad}px`,
+          }}
+        >
           <span
-            className="text-sm opacity-60"
+            className="opacity-60"
             style={{
               fontFamily: data.fontBody,
               color: data.colorSecondary,
+              fontSize: `${Math.round(data.width * 0.014)}px`,
             }}
           >
             {data.reviewCount}
@@ -48,29 +64,37 @@ export function CinematicOverlay({ data }: { data: TemplateData }) {
       )}
 
       {/* Bottom content */}
-      <div className="absolute bottom-0 left-0 right-0 p-16 z-10">
+      <div
+        className="absolute bottom-0 left-0 right-0 z-10"
+        style={{ padding: `${Math.round(data.width * 0.055)}px` }}
+      >
         <h2
-          className="text-6xl font-bold mb-4 leading-tight max-w-[800px]"
+          className="font-bold leading-tight"
           style={{
             fontFamily: data.fontHeading,
             color: data.colorSecondary,
+            fontSize: `${Math.round(data.width * 0.062)}px`,
+            marginBottom: `${Math.round(data.width * 0.015)}px`,
+            maxWidth: `${Math.round(data.width * 0.78)}px`,
           }}
         >
           {data.headline}
         </h2>
 
         <p
-          className="text-xl leading-relaxed opacity-80 max-w-[650px]"
+          className="leading-relaxed opacity-80"
           style={{
             fontFamily: data.fontBody,
             color: data.colorSecondary,
+            fontSize: `${Math.round(data.width * 0.02)}px`,
+            maxWidth: `${Math.round(data.width * 0.62)}px`,
           }}
         >
           {data.bodyText}
         </p>
       </div>
 
-      <BrandMark data={data} color={data.colorSecondary} opacity={0.85} />
+      <BrandMark data={data} color={data.colorSecondary} opacity={0.85} inset={brandInset} />
     </div>
   );
 }

@@ -4,10 +4,13 @@ import { BrandMark } from './_brand-mark';
 export function SplitPortfolio({ data }: { data: TemplateData }) {
   const heading = data.fontHeading || 'Playfair Display';
   const body = data.fontBody || 'Inter';
+  const padY = Math.round(data.height * 0.06);
+  const padX = Math.round(data.width * 0.055);
+  const brandInset = Math.round(data.width * 0.03);
 
   return (
     <div
-      className="relative flex"
+      className="relative flex overflow-hidden"
       style={{
         width: `${data.width}px`,
         height: `${data.height}px`,
@@ -16,15 +19,18 @@ export function SplitPortfolio({ data }: { data: TemplateData }) {
       }}
     >
       {/* Left: photo */}
-      <div style={{ width: '540px', height: '1350px', flexShrink: 0 }}>
+      <div style={{ width: '50%', height: '100%', flexShrink: 0 }}>
         {data.photoUrl ? (
+          // eslint-disable-next-line @next/next/no-img-element
           <img src={data.photoUrl} alt="Portfolio" className="w-full h-full object-cover" />
         ) : (
           <div
             className="w-full h-full flex items-center justify-center"
             style={{ backgroundColor: '#bbb2a4' }}
           >
-            <span style={{ color: '#fff', opacity: 0.6, fontSize: '14px' }}>Upload a photo</span>
+            <span style={{ color: '#fff', opacity: 0.6, fontSize: `${Math.round(data.width * 0.014)}px` }}>
+              Upload a photo
+            </span>
           </div>
         )}
       </div>
@@ -33,21 +39,21 @@ export function SplitPortfolio({ data }: { data: TemplateData }) {
       <div
         className="flex flex-col justify-center"
         style={{
-          width: '540px',
-          height: '1350px',
+          width: '50%',
+          height: '100%',
           backgroundColor: data.colorPrimary,
           color: data.colorSecondary,
-          padding: '80px 60px',
+          padding: `${padY}px ${padX}px`,
         }}
       >
         <div
           style={{
             fontFamily: `${body}, sans-serif`,
-            fontSize: '13px',
+            fontSize: `${Math.round(data.width * 0.013)}px`,
             letterSpacing: '0.4em',
             textTransform: 'uppercase',
             opacity: 0.7,
-            marginBottom: '24px',
+            marginBottom: `${Math.round(data.width * 0.022)}px`,
           }}
         >
           Portfolio
@@ -56,7 +62,7 @@ export function SplitPortfolio({ data }: { data: TemplateData }) {
         <div
           style={{
             fontFamily: `${heading}, serif`,
-            fontSize: '72px',
+            fontSize: `${Math.round(data.width * 0.067)}px`,
             fontWeight: 700,
             lineHeight: 1.05,
             letterSpacing: '-0.01em',
@@ -67,9 +73,9 @@ export function SplitPortfolio({ data }: { data: TemplateData }) {
 
         <div
           style={{
-            marginTop: '32px',
+            marginTop: `${Math.round(data.width * 0.03)}px`,
             fontFamily: `${body}, sans-serif`,
-            fontSize: '20px',
+            fontSize: `${Math.round(data.width * 0.019)}px`,
             lineHeight: 1.6,
             opacity: 0.88,
           }}
@@ -78,7 +84,7 @@ export function SplitPortfolio({ data }: { data: TemplateData }) {
         </div>
 
       </div>
-      <BrandMark data={data} color={data.colorSecondary} />
+      <BrandMark data={data} color={data.colorSecondary} inset={brandInset} />
     </div>
   );
 }

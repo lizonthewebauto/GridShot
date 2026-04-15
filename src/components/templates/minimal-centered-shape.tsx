@@ -35,7 +35,7 @@ export function MinimalCenteredShape({ data }: { data: TemplateData }) {
         padding: `${Math.round(data.width * 0.08)}px`,
       }}
     >
-      <BrandMark data={data} color={textColor} />
+      <BrandMark data={data} color={textColor} inset={Math.round(data.width * 0.03)} />
 
       <div
         style={{

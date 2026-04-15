@@ -4,39 +4,42 @@ import { BrandMark } from './_brand-mark';
 export function TestimonialCard({ data }: { data: TemplateData }) {
   const heading = data.fontHeading || 'Playfair Display';
   const body = data.fontBody || 'Inter';
+  const pad = Math.round(data.width * 0.055);
+  const brandInset = Math.round(data.width * 0.03);
 
   return (
     <div
-      className="relative flex items-center justify-center"
+      className="relative flex items-center justify-center overflow-hidden"
       style={{
         width: `${data.width}px`,
         height: `${data.height}px`,
         backgroundColor: data.colorSecondary,
         fontFamily: `${body}, sans-serif`,
-        padding: '60px',
+        padding: `${pad}px`,
       }}
     >
       <div
         className="flex flex-col"
         style={{
-          width: '960px',
-          height: '1230px',
+          width: '100%',
+          height: '100%',
           backgroundColor: '#fff',
-          borderRadius: '32px',
+          borderRadius: `${Math.round(data.width * 0.03)}px`,
           overflow: 'hidden',
           boxShadow: '0 40px 80px -30px rgba(0,0,0,0.25), 0 20px 30px -20px rgba(0,0,0,0.15)',
         }}
       >
         {/* Top: photo */}
-        <div style={{ width: '100%', height: '560px', flexShrink: 0 }}>
+        <div style={{ width: '100%', flex: '1 1 50%', minHeight: 0 }}>
           {data.photoUrl ? (
+            // eslint-disable-next-line @next/next/no-img-element
             <img src={data.photoUrl} alt="Client" className="w-full h-full object-cover" />
           ) : (
             <div
               className="w-full h-full flex items-center justify-center"
               style={{ backgroundColor: '#e6e0d3' }}
             >
-              <span style={{ color: data.colorPrimary, opacity: 0.5, fontSize: '14px' }}>
+              <span style={{ color: data.colorPrimary, opacity: 0.5, fontSize: `${Math.round(data.width * 0.013)}px` }}>
                 Upload a photo
               </span>
             </div>
@@ -45,17 +48,22 @@ export function TestimonialCard({ data }: { data: TemplateData }) {
 
         {/* Bottom: quote */}
         <div
-          className="flex flex-col flex-1"
-          style={{ padding: '50px 60px', color: data.colorPrimary }}
+          className="flex flex-col"
+          style={{
+            flex: '1 1 50%',
+            minHeight: 0,
+            padding: `${Math.round(data.width * 0.046)}px ${Math.round(data.width * 0.055)}px`,
+            color: data.colorPrimary,
+          }}
         >
           <div
             style={{
               fontFamily: `${heading}, serif`,
-              fontSize: '140px',
+              fontSize: `${Math.round(data.width * 0.13)}px`,
               lineHeight: 0.8,
               color: data.colorPrimary,
               opacity: 0.18,
-              marginBottom: '-20px',
+              marginBottom: `${-Math.round(data.width * 0.018)}px`,
             }}
           >
             &ldquo;
@@ -64,7 +72,7 @@ export function TestimonialCard({ data }: { data: TemplateData }) {
           <div
             style={{
               fontFamily: `${heading}, serif`,
-              fontSize: '34px',
+              fontSize: `${Math.round(data.width * 0.032)}px`,
               fontWeight: 500,
               lineHeight: 1.35,
               letterSpacing: '-0.005em',
@@ -76,9 +84,9 @@ export function TestimonialCard({ data }: { data: TemplateData }) {
           {/* Headline as attribution */}
           <div
             style={{
-              marginTop: '24px',
+              marginTop: `${Math.round(data.width * 0.022)}px`,
               fontFamily: `${body}, sans-serif`,
-              fontSize: '18px',
+              fontSize: `${Math.round(data.width * 0.017)}px`,
               fontWeight: 600,
               opacity: 0.75,
             }}
@@ -93,17 +101,17 @@ export function TestimonialCard({ data }: { data: TemplateData }) {
             style={{
               display: 'flex',
               alignItems: 'center',
-              gap: '14px',
-              marginTop: '20px',
+              gap: `${Math.round(data.width * 0.013)}px`,
+              marginTop: `${Math.round(data.width * 0.018)}px`,
             }}
           >
-            <div style={{ color: '#e8b547', fontSize: '22px', letterSpacing: '0.1em' }}>
+            <div style={{ color: '#e8b547', fontSize: `${Math.round(data.width * 0.02)}px`, letterSpacing: '0.1em' }}>
               ★★★★★
             </div>
             <div
               style={{
                 fontFamily: `${body}, sans-serif`,
-                fontSize: '16px',
+                fontSize: `${Math.round(data.width * 0.015)}px`,
                 color: data.colorPrimary,
                 opacity: 0.7,
               }}
@@ -116,7 +124,7 @@ export function TestimonialCard({ data }: { data: TemplateData }) {
 
         </div>
       </div>
-      <BrandMark data={data} color={data.colorPrimary} />
+      <BrandMark data={data} color={data.colorPrimary} inset={brandInset} />
     </div>
   );
 }

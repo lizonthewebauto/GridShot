@@ -38,15 +38,25 @@ export function CinematicFade({ data }: { data: TemplateData }) {
         }}
       />
 
-      <div className="absolute bottom-8 left-8 right-8" style={{ color: textColor, zIndex: 2 }}>
+      <div
+        className="absolute"
+        style={{
+          bottom: `${Math.round(data.height * 0.04)}px`,
+          left: `${Math.round(data.width * 0.04)}px`,
+          right: `${Math.round(data.width * 0.04)}px`,
+          color: textColor,
+          zIndex: 2,
+        }}
+      >
         {data.tagline && (
           <div
-            className="uppercase mb-3"
+            className="uppercase"
             style={{
               fontFamily: `${data.fontHeading}, serif`,
-              fontSize: '10px',
+              fontSize: `${Math.round(data.width * 0.011)}px`,
               letterSpacing: '0.3em',
               opacity: 0.8,
+              marginBottom: `${Math.round(data.width * 0.012)}px`,
             }}
           >
             {data.tagline}
@@ -58,7 +68,7 @@ export function CinematicFade({ data }: { data: TemplateData }) {
             fontSize: `${Math.round(data.width * 0.065)}px`,
             lineHeight: 1.05,
             fontWeight: 700,
-            marginBottom: '14px',
+            marginBottom: `${Math.round(data.width * 0.015)}px`,
           }}
         >
           {data.headline || 'Your headline here'}
@@ -77,7 +87,7 @@ export function CinematicFade({ data }: { data: TemplateData }) {
         )}
       </div>
 
-      <BrandMark data={data} color={textColor} opacity={0.85} />
+      <BrandMark data={data} color={textColor} opacity={0.85} inset={Math.round(data.width * 0.03)} />
     </div>
   );
 }

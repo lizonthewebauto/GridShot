@@ -65,8 +65,14 @@ export function CollageOffset({ data }: { data: TemplateData }) {
       </div>
 
       <div
-        className="absolute bottom-12 left-0 right-0 text-center"
-        style={{ color: textColor, padding: '0 10%' }}
+        className="absolute text-center"
+        style={{
+          bottom: `${Math.round(data.height * 0.06)}px`,
+          left: 0,
+          right: 0,
+          color: textColor,
+          padding: '0 10%',
+        }}
       >
         <h1
           style={{
@@ -92,7 +98,7 @@ export function CollageOffset({ data }: { data: TemplateData }) {
           </div>
         )}
       </div>
-      <BrandMark data={data} color={textColor} />
+      <BrandMark data={data} color={textColor} inset={Math.round(data.width * 0.03)} />
     </div>
   );
 }

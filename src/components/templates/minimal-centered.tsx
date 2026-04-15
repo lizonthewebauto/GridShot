@@ -9,19 +9,27 @@ export function MinimalCentered({ data }: { data: TemplateData }) {
   // Default to 'circle' to preserve prior behavior (prev template always used rounded-full).
   const shape: ImageShape = data.imageShape ?? 'circle';
 
-  const { wrapperStyle, innerStyle } = getShapeStyles(shape);
+  const minDim = Math.min(data.width, data.height);
+  const photoSize = Math.round(minDim * 0.37);
+  const { wrapperStyle, innerStyle } = getShapeStyles(shape, photoSize);
+  const brandInset = Math.round(data.width * 0.03);
 
   return (
     <div
-      className="relative w-[1080px] h-[1080px] overflow-hidden flex flex-col items-center justify-center text-center"
-      style={{ backgroundColor: data.colorSecondary }}
+      className="relative overflow-hidden flex flex-col items-center justify-center text-center"
+      style={{
+        width: `${data.width}px`,
+        height: `${data.height}px`,
+        backgroundColor: data.colorSecondary,
+        padding: `${Math.round(data.width * 0.06)}px`,
+      }}
     >
       {data.photoUrl && (
         <div
-          className="mb-12"
           style={{
-            width: '400px',
-            height: '400px',
+            width: `${photoSize}px`,
+            height: `${photoSize}px`,
+            marginBottom: `${Math.round(data.height * 0.045)}px`,
             ...wrapperStyle,
           }}
         >
@@ -37,37 +45,46 @@ export function MinimalCentered({ data }: { data: TemplateData }) {
       )}
 
       <h2
-        className="text-5xl font-light mb-6 leading-tight max-w-[800px]"
+        className="font-light leading-tight"
         style={{
           fontFamily: data.fontHeading,
           color: data.colorPrimary,
+          fontSize: `${Math.round(data.width * 0.05)}px`,
+          marginBottom: `${Math.round(data.width * 0.022)}px`,
+          maxWidth: `${Math.round(data.width * 0.78)}px`,
         }}
       >
         {data.headline}
       </h2>
 
       <div
-        className="w-12 h-[2px] mb-6"
-        style={{ backgroundColor: data.colorPrimary }}
+        style={{
+          width: `${Math.round(data.width * 0.045)}px`,
+          height: `${Math.max(2, Math.round(data.width * 0.002))}px`,
+          backgroundColor: data.colorPrimary,
+          marginBottom: `${Math.round(data.width * 0.022)}px`,
+        }}
       />
 
       <p
-        className="text-xl leading-relaxed opacity-70 max-w-[600px]"
+        className="leading-relaxed opacity-70"
         style={{
           fontFamily: data.fontBody,
           color: data.colorPrimary,
+          fontSize: `${Math.round(data.width * 0.02)}px`,
+          maxWidth: `${Math.round(data.width * 0.56)}px`,
         }}
       >
         {data.bodyText}
       </p>
 
-      <BrandMark data={data} />
+      <BrandMark data={data} inset={brandInset} />
     </div>
   );
 }
 
 // Shape → wrapper (outer frame, e.g. polaroid card) + inner clip
-function getShapeStyles(shape: ImageShape): {
+function getShapeStyles(shape: ImageShape, size: number): {
   wrapperStyle: CSSProperties;
   innerStyle: CSSProperties;
 } {
@@ -90,14 +107,14 @@ function getShapeStyles(shape: ImageShape): {
         },
       };
     case 'rounded':
-      return { wrapperStyle: {}, innerStyle: { borderRadius: '20px' } };
+      return { wrapperStyle: {}, innerStyle: { borderRadius: `${Math.round(size * 0.05)}px` } };
     case 'oval':
       return { wrapperStyle: {}, innerStyle: { borderRadius: '50% / 40%' } };
     case 'polaroid':
       return {
         wrapperStyle: {
           backgroundColor: '#fdfcf7',
-          padding: '16px 16px 48px 16px',
+          padding: `${Math.round(size * 0.04)}px ${Math.round(size * 0.04)}px ${Math.round(size * 0.12)}px ${Math.round(size * 0.04)}px`,
           boxShadow:
             '0 24px 48px -16px rgba(0,0,0,0.35), 0 8px 16px rgba(0,0,0,0.15)',
         },
