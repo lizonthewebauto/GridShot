@@ -1,5 +1,6 @@
 import { createServerClient } from '@supabase/ssr';
 import { NextResponse, type NextRequest } from 'next/server';
+import { isAdmin } from '@/lib/admin';
 
 const PUBLIC_PATHS = ['/', '/login', '/signup', '/auth/callback', '/terms', '/privacy', '/fonts'];
 const STRIPE_WEBHOOK_PATH = '/api/stripe/webhook';
@@ -54,16 +55,36 @@ export async function middleware(request: NextRequest) {
     return NextResponse.redirect(new URL('/onboarding', request.url));
   }
 
-  // Enforce onboarding completion for dashboard routes
+  // Enforce onboarding completion for dashboard routes, but auto-clear it
+  // for admin accounts (lizontheweb.com domain) — admins skip payment and
+  // have unlimited access.
   if (user && !isPublic && !isOnboarding && !pathname.startsWith('/api/')) {
     const { data: profile } = await supabase
       .from('profiles')
-      .select('onboarding_completed')
+      .select('onboarding_completed, subscription_tier')
       .eq('id', user.id)
       .single();
 
     if (profile && !profile.onboarding_completed) {
-      return NextResponse.redirect(new URL('/onboarding', request.url));
+      if (isAdmin(user.email)) {
+        await supabase
+          .from('profiles')
+          .update({
+            onboarding_completed: true,
+            onboarding_step: 4,
+            subscription_tier: 'pro',
+            subscription_status: 'admin',
+          })
+          .eq('id', user.id);
+      } else {
+        return NextResponse.redirect(new URL('/onboarding', request.url));
+      }
+    } else if (profile && profile.subscription_tier !== 'pro' && isAdmin(user.email)) {
+      // Keep admins permanently on pro tier even if something downgraded them
+      await supabase
+        .from('profiles')
+        .update({ subscription_tier: 'pro', subscription_status: 'admin' })
+        .eq('id', user.id);
     }
   }
 
