@@ -53,18 +53,31 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: 'Invalid brand' }, { status: 400 });
   }
 
-  // Resolve template_slug → templates.id, upserting via admin client if missing
-  // (templates table only ships with 5 seeded rows but the registry has 41).
-  let { data: template } = await supabase
+  // Resolve template_slug → templates.id. Try a plain SELECT first (RLS allows
+  // reads of active templates). If missing, use the SECURITY DEFINER RPC
+  // `ensure_template` to register it. As a last resort, try the admin client
+  // (only works if SUPABASE_SERVICE_ROLE_KEY is set).
+  const meta = TEMPLATE_REGISTRY[templateSlug as keyof typeof TEMPLATE_REGISTRY];
+
+  let templateId: string | null = null;
+  const { data: existing } = await supabase
     .from('templates')
     .select('id')
     .eq('slug', templateSlug)
     .maybeSingle();
+  if (existing?.id) templateId = existing.id;
 
-  if (!template) {
+  if (!templateId) {
+    const { data: rpcId, error: rpcErr } = await supabase.rpc('ensure_template', {
+      p_slug: templateSlug,
+      p_name: meta.name,
+    });
+    if (!rpcErr && typeof rpcId === 'string') templateId = rpcId;
+  }
+
+  if (!templateId) {
     try {
       const admin = createAdminClient();
-      const meta = TEMPLATE_REGISTRY[templateSlug as keyof typeof TEMPLATE_REGISTRY];
       const { data: inserted, error: insertErr } = await admin
         .from('templates')
         .upsert(
@@ -74,11 +87,11 @@ export async function POST(request: Request) {
         .select('id')
         .single();
       if (insertErr) throw insertErr;
-      template = inserted;
+      templateId = inserted.id;
     } catch (err) {
-      console.error('Template upsert error:', err);
+      console.error('Template registration failed:', err);
       return NextResponse.json(
-        { error: 'Template not registered. Run the templates seed migration.' },
+        { error: 'Template not registered. Run supabase/templates-seed.sql in your Supabase SQL editor.' },
         { status: 500 }
       );
     }
@@ -89,7 +102,7 @@ export async function POST(request: Request) {
     .insert({
       user_id: user.id,
       brand_id: body.brand_id,
-      template_id: template.id,
+      template_id: templateId,
       photo_url: body.photo_url ?? null,
       photo_storage_path: body.photo_storage_path ?? null,
       vibe: body.vibe || 'Authentic',
