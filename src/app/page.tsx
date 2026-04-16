@@ -665,8 +665,8 @@ export default function HomePage() {
                     sizes="(max-width: 640px) 50vw, (max-width: 1024px) 25vw, 240px"
                     samples={allSamples}
                     initialCount={heroSamples.length}
-                    expandLabel={`See all ${allSamples.length} ${creator.brandName} samples`}
-                    collapseLabel="Show fewer"
+                    expandLabel="See more"
+                    collapseLabel="Show less"
                   />
                 </div>
               );
