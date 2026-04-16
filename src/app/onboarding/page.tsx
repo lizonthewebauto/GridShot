@@ -6,7 +6,7 @@ import { createClient } from '@/lib/supabase/client';
 import { getStripe } from '@/lib/stripe/client';
 import {
   Globe, Sparkles, Loader2, Check, Upload, Camera,
-  CreditCard, ArrowRight, ArrowLeft, X,
+  CreditCard, ArrowRight, ArrowLeft, X, RefreshCw,
 } from 'lucide-react';
 import type { BrandExtraction } from '@/types';
 
@@ -78,9 +78,13 @@ function OnboardingContent() {
   }, [handleCheckoutReturn]);
 
   // ----- Step 1: Brand extraction -----
-  async function handleExtract() {
+  type ExtractScope = 'all' | 'identity' | 'voice' | 'colors';
+  const [reExtractScope, setReExtractScope] = useState<ExtractScope | null>(null);
+
+  async function handleExtract(scope: ExtractScope = 'all') {
     if (!websiteUrl) return;
     setExtracting(true);
+    setReExtractScope(scope);
     setError('');
     try {
       const res = await fetch('/api/brands/extract', {
@@ -93,26 +97,33 @@ function OnboardingContent() {
         throw new Error(data.error || 'Extraction failed');
       }
       const data: BrandExtraction = await res.json();
-      // Fill fields
-      if (data.name) setBrandName(data.name);
-      if (data.tagline) setTagline(data.tagline);
-      if (data.niche) setNiche(data.niche);
-      if (data.voice_description) setVoiceDescription(data.voice_description);
-      if (data.brand_personality) setBrandPersonality(data.brand_personality);
-      if (data.style_keywords?.length) setStyleKeywords(data.style_keywords.join(', '));
-      if (data.tone_presets?.length) setTonePresets(data.tone_presets.join(', '));
-      if (data.color_primary) setColorPrimary(data.color_primary);
-      if (data.color_secondary) setColorSecondary(data.color_secondary);
-      if (data.color_accent) setColorAccent(data.color_accent || '');
-      if (data.font_heading) setFontHeading(data.font_heading);
-      if (data.font_body) setFontBody(data.font_body);
-      if (data.instagram_handle) setInstagramHandle(data.instagram_handle);
-      setExtractionData(data);
+      // Fill only the fields in scope
+      if (scope === 'all' || scope === 'identity') {
+        if (data.name) setBrandName(data.name);
+        if (data.tagline) setTagline(data.tagline);
+        if (data.niche) setNiche(data.niche);
+        if (data.instagram_handle) setInstagramHandle(data.instagram_handle);
+      }
+      if (scope === 'all' || scope === 'voice') {
+        if (data.voice_description) setVoiceDescription(data.voice_description);
+        if (data.brand_personality) setBrandPersonality(data.brand_personality);
+        if (data.style_keywords?.length) setStyleKeywords(data.style_keywords.join(', '));
+        if (data.tone_presets?.length) setTonePresets(data.tone_presets.join(', '));
+      }
+      if (scope === 'all' || scope === 'colors') {
+        if (data.color_primary) setColorPrimary(data.color_primary);
+        if (data.color_secondary) setColorSecondary(data.color_secondary);
+        if (data.color_accent) setColorAccent(data.color_accent || '');
+        if (data.font_heading) setFontHeading(data.font_heading);
+        if (data.font_body) setFontBody(data.font_body);
+      }
+      setExtractionData((prev) => ({ ...prev, ...data }));
       setExtracted(true);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Extraction failed');
     } finally {
       setExtracting(false);
+      setReExtractScope(null);
     }
   }
 
@@ -360,7 +371,7 @@ function OnboardingContent() {
                       className="flex-1 px-3 py-2 border border-border rounded bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-accent"
                     />
                     <button
-                      onClick={handleExtract}
+                      onClick={() => handleExtract('all')}
                       disabled={extracting || !websiteUrl}
                       className="flex items-center gap-2 px-4 py-2 bg-accent-warm text-white rounded hover:bg-accent-warm-hover transition-colors disabled:opacity-50"
                     >
@@ -389,9 +400,58 @@ function OnboardingContent() {
               {/* Brand form (shown after extract or for manual entry) */}
               {(brandMethod === 'manual' || extracted) && (
                 <div className="space-y-6">
+                  {/* Re-extract banner (only after auto-extraction) */}
+                  {extracted && (
+                    <section className="bg-card border border-border rounded-lg p-4">
+                      <div className="flex items-center gap-3">
+                        <Globe size={16} className="text-muted shrink-0" />
+                        <input
+                          type="url"
+                          value={websiteUrl}
+                          onChange={(e) => setWebsiteUrl(e.target.value)}
+                          placeholder="https://yourwebsite.com"
+                          className="flex-1 px-3 py-2 text-sm border border-border rounded bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-accent"
+                        />
+                        <button
+                          onClick={() => handleExtract('all')}
+                          disabled={extracting || !websiteUrl}
+                          className="flex items-center gap-2 px-3 py-2 text-sm bg-accent-warm text-white rounded hover:bg-accent-warm-hover transition-colors disabled:opacity-50 shrink-0"
+                          title="Re-run extraction for all fields"
+                        >
+                          {extracting && reExtractScope === 'all' ? (
+                            <Loader2 size={14} className="animate-spin" />
+                          ) : (
+                            <RefreshCw size={14} />
+                          )}
+                          Re-extract all
+                        </button>
+                      </div>
+                      <p className="mt-2 text-xs text-muted">
+                        Edit the URL or click re-extract to refill all fields. Or use per-section re-extract buttons below to refresh just one area.
+                      </p>
+                    </section>
+                  )}
+
                   {/* Identity */}
                   <section className="bg-card border border-border rounded-lg p-6">
-                    <h2 className="text-lg font-semibold text-foreground mb-4">Brand Identity</h2>
+                    <div className="flex items-center justify-between mb-4">
+                      <h2 className="text-lg font-semibold text-foreground">Brand Identity</h2>
+                      {extracted && (
+                        <button
+                          onClick={() => handleExtract('identity')}
+                          disabled={extracting || !websiteUrl}
+                          className="flex items-center gap-1.5 px-2 py-1 text-xs text-muted hover:text-foreground border border-border rounded hover:bg-background transition-colors disabled:opacity-50"
+                          title="Re-extract just identity fields"
+                        >
+                          {extracting && reExtractScope === 'identity' ? (
+                            <Loader2 size={12} className="animate-spin" />
+                          ) : (
+                            <RefreshCw size={12} />
+                          )}
+                          Re-extract
+                        </button>
+                      )}
+                    </div>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                       <div>
                         <label className="block text-sm font-medium text-foreground mb-1">Brand Name *</label>
@@ -437,7 +497,24 @@ function OnboardingContent() {
 
                   {/* Voice */}
                   <section className="bg-card border border-border rounded-lg p-6">
-                    <h2 className="text-lg font-semibold text-foreground mb-4">Brand Voice</h2>
+                    <div className="flex items-center justify-between mb-4">
+                      <h2 className="text-lg font-semibold text-foreground">Brand Voice</h2>
+                      {extracted && (
+                        <button
+                          onClick={() => handleExtract('voice')}
+                          disabled={extracting || !websiteUrl}
+                          className="flex items-center gap-1.5 px-2 py-1 text-xs text-muted hover:text-foreground border border-border rounded hover:bg-background transition-colors disabled:opacity-50"
+                          title="Re-extract just voice fields"
+                        >
+                          {extracting && reExtractScope === 'voice' ? (
+                            <Loader2 size={12} className="animate-spin" />
+                          ) : (
+                            <RefreshCw size={12} />
+                          )}
+                          Re-extract
+                        </button>
+                      )}
+                    </div>
                     <div className="space-y-4">
                       <div>
                         <label className="block text-sm font-medium text-foreground mb-1">Voice Description</label>
@@ -476,7 +553,24 @@ function OnboardingContent() {
 
                   {/* Colors & Fonts */}
                   <section className="bg-card border border-border rounded-lg p-6">
-                    <h2 className="text-lg font-semibold text-foreground mb-4">Colors & Typography</h2>
+                    <div className="flex items-center justify-between mb-4">
+                      <h2 className="text-lg font-semibold text-foreground">Colors & Typography</h2>
+                      {extracted && (
+                        <button
+                          onClick={() => handleExtract('colors')}
+                          disabled={extracting || !websiteUrl}
+                          className="flex items-center gap-1.5 px-2 py-1 text-xs text-muted hover:text-foreground border border-border rounded hover:bg-background transition-colors disabled:opacity-50"
+                          title="Re-extract just colors and fonts"
+                        >
+                          {extracting && reExtractScope === 'colors' ? (
+                            <Loader2 size={12} className="animate-spin" />
+                          ) : (
+                            <RefreshCw size={12} />
+                          )}
+                          Re-extract
+                        </button>
+                      )}
+                    </div>
                     <div className="grid grid-cols-3 gap-4 mb-4">
                       {[
                         { label: 'Primary', value: colorPrimary, setter: setColorPrimary },
