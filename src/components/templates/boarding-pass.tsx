@@ -12,7 +12,7 @@ export function BoardingPass({ data }: { data: TemplateData }) {
   const ink = '#1a1a1a';
   const accent = data.colorAccent ?? '#c25b3a';
 
-  const short = (s: string | undefined, fallback: string) =>
+  const short = (s: string | null | undefined, fallback: string) =>
     s ? s.replace(/[^a-zA-Z0-9]/g, '').slice(0, 3).toUpperCase().padEnd(3, fallback[0]) : fallback;
 
   const fromCode = short(data.customText, short(data.brandName, 'GSX'));
