@@ -51,6 +51,7 @@ import { TEMPLATE_COMPONENTS, TEMPLATE_FONT_URL } from '@/lib/templates/componen
 import { cn } from '@/lib/utils';
 import { ElementEditor } from './element-editor';
 import { PublishModal, type PublishPayload } from './publish-modal';
+import { useBrand } from '@/components/brand-context';
 
 const CANVAS_W = 1080;
 const CANVAS_H = 1440;
@@ -83,14 +84,10 @@ function makeSlide(partial: Partial<SlideState> = {}): SlideState {
   };
 }
 
-interface SlideCreatorProps {
-  brands: Brand[];
-}
-
-export function SlideCreator({ brands }: SlideCreatorProps) {
-  const defaultBrand = brands.find((b) => b.is_default) ?? brands[0] ?? null;
-
-  const [brandId, setBrandId] = useState<string>(defaultBrand?.id ?? '');
+export function SlideCreator() {
+  const { brands, selectedBrandId, setSelectedBrandId } = useBrand();
+  const brandId = selectedBrandId;
+  const setBrandId = setSelectedBrandId;
   const [templateSlug, setTemplateSlug] = useState<string>('editorial-pro');
   const [slides, setSlides] = useState<SlideState[]>([makeSlide()]);
   const [activeIndex, setActiveIndex] = useState(0);
@@ -662,20 +659,16 @@ export function SlideCreator({ brands }: SlideCreatorProps) {
       <div className="grid grid-cols-1 lg:grid-cols-[300px_minmax(0,1fr)_360px] gap-4">
         {/* LEFT — global setup */}
         <div className="bg-card border border-border rounded-lg p-4 space-y-5 h-fit lg:sticky lg:top-4">
-          <div>
-            <label className="text-sm font-semibold text-foreground">Brand</label>
-            <select
-              value={brandId}
-              onChange={(e) => setBrandId(e.target.value)}
-              className="mt-1.5 w-full rounded border border-border bg-background px-3 py-2.5 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-accent"
-            >
-              {brands.map((b) => (
-                <option key={b.id} value={b.id}>
-                  {b.name}
-                </option>
-              ))}
-            </select>
-            {brand && (
+          {brand && (
+            <div>
+              <label className="text-sm font-semibold text-foreground">Designing as</label>
+              <div className="mt-1.5 flex items-center gap-2 rounded border border-border bg-background px-3 py-2">
+                <span
+                  className="w-4 h-4 rounded-full border border-border shrink-0"
+                  style={{ backgroundColor: brand.color_primary }}
+                />
+                <span className="text-sm font-medium text-foreground truncate">{brand.name}</span>
+              </div>
               <div className="mt-2 flex items-center gap-2">
                 <div className="w-5 h-5 rounded border border-border" style={{ backgroundColor: brand.color_primary }} title="Primary" />
                 <div className="w-5 h-5 rounded border border-border" style={{ backgroundColor: brand.color_secondary }} title="Secondary" />
@@ -684,8 +677,9 @@ export function SlideCreator({ brands }: SlideCreatorProps) {
                 )}
                 <span className="text-xs text-muted truncate">{brand.font_heading} / {brand.font_body}</span>
               </div>
-            )}
-          </div>
+              <p className="text-xs text-muted mt-1.5">Switch brands from the sidebar.</p>
+            </div>
+          )}
 
           {presets.length > 0 && (
             <div>

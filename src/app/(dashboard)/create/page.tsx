@@ -1,20 +1,17 @@
 import Link from 'next/link';
 import { createClient } from '@/lib/supabase/server';
 import { SlideCreator } from '@/components/creator/slide-creator';
-import type { Brand } from '@/types';
 
 export default async function CreatePage() {
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
 
-  const { data: brands } = await supabase
+  const { count } = await supabase
     .from('brands')
-    .select('*')
-    .eq('user_id', user!.id)
-    .order('is_default', { ascending: false })
-    .order('created_at', { ascending: false });
+    .select('id', { count: 'exact', head: true })
+    .eq('user_id', user!.id);
 
-  if (!brands || brands.length === 0) {
+  if (!count || count === 0) {
     return (
       <div>
         <h1
@@ -38,5 +35,5 @@ export default async function CreatePage() {
     );
   }
 
-  return <SlideCreator brands={brands as Brand[]} />;
+  return <SlideCreator />;
 }
