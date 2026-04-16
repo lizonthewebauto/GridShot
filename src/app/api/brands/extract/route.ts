@@ -2,10 +2,17 @@ import { NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
 import { chatCompletion } from '@/lib/ai/client';
 
+function normalizeUrl(urlString: string): string {
+  const trimmed = urlString.trim();
+  if (!/^https?:\/\//i.test(trimmed)) return `https://${trimmed}`;
+  return trimmed;
+}
+
 function isValidPublicUrl(urlString: string): boolean {
   try {
     const parsed = new URL(urlString);
     if (parsed.protocol !== 'https:' && parsed.protocol !== 'http:') return false;
+    if (!parsed.hostname.includes('.')) return false;
     const hostname = parsed.hostname.toLowerCase();
     // Block IPv6 literals
     if (hostname.startsWith('[') || hostname === '::1') return false;
@@ -45,12 +52,13 @@ export async function POST(request: Request) {
   const { url } = await request.json();
   if (!url) return NextResponse.json({ error: 'URL required' }, { status: 400 });
 
-  if (!isValidPublicUrl(url)) {
+  const normalizedUrl = normalizeUrl(url);
+  if (!isValidPublicUrl(normalizedUrl)) {
     return NextResponse.json({ error: 'Please provide a valid public website URL' }, { status: 400 });
   }
 
   try {
-    const res = await fetch(url, {
+    const res = await fetch(normalizedUrl, {
       headers: {
         'User-Agent': 'Mozilla/5.0 (compatible; Gridshot/1.0)',
         Accept: 'text/html',
