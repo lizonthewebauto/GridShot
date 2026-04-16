@@ -13,7 +13,7 @@ export function TestimonialCard({ data }: { data: TemplateData }) {
       style={{
         width: `${data.width}px`,
         height: `${data.height}px`,
-        backgroundColor: data.colorSecondary,
+        backgroundColor: data.colorPrimary,
         fontFamily: `${body}, sans-serif`,
         padding: `${pad}px`,
       }}
@@ -53,7 +53,7 @@ export function TestimonialCard({ data }: { data: TemplateData }) {
             flex: '1 1 50%',
             minHeight: 0,
             padding: `${Math.round(data.width * 0.046)}px ${Math.round(data.width * 0.055)}px`,
-            color: data.colorPrimary,
+            color: '#1a1a1a',
           }}
         >
           <div
@@ -61,7 +61,7 @@ export function TestimonialCard({ data }: { data: TemplateData }) {
               fontFamily: `${heading}, serif`,
               fontSize: `${Math.round(data.width * 0.13)}px`,
               lineHeight: 0.8,
-              color: data.colorPrimary,
+              color: '#1a1a1a',
               opacity: 0.18,
               marginBottom: `${-Math.round(data.width * 0.018)}px`,
             }}
@@ -112,7 +112,7 @@ export function TestimonialCard({ data }: { data: TemplateData }) {
               style={{
                 fontFamily: `${body}, sans-serif`,
                 fontSize: `${Math.round(data.width * 0.015)}px`,
-                color: data.colorPrimary,
+                color: '#1a1a1a',
                 opacity: 0.7,
               }}
             >
@@ -124,7 +124,7 @@ export function TestimonialCard({ data }: { data: TemplateData }) {
 
         </div>
       </div>
-      <BrandMark data={data} color={data.colorPrimary} inset={brandInset} />
+      <BrandMark data={data} color={data.colorSecondary ?? '#f5efe8'} inset={brandInset} />
     </div>
   );
 }

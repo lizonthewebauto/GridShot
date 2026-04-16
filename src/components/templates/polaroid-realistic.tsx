@@ -77,32 +77,23 @@ export function PolaroidRealistic({ data }: { data: TemplateData }) {
           )}
         </div>
 
-        {/* Caption on bottom border */}
+        {/* Caption on bottom border — single handwritten line; bodyText
+            is intentionally ignored since a polaroid caption isn't a paragraph. */}
         <div
           style={{
             position: 'absolute',
             left: `${sidePadding}px`,
             right: `${sidePadding}px`,
-            bottom: `${Math.round(bottomPadding * 0.3)}px`,
+            bottom: `${Math.round(bottomPadding * 0.35)}px`,
             textAlign: 'center',
-            fontFamily: `${data.fontHeading}, 'Caveat', cursive`,
-            fontSize: `${Math.round(frameSize * 0.06)}px`,
+            fontFamily: `'Caveat', ${data.fontHeading}, cursive`,
+            fontSize: `${Math.round(frameSize * 0.08)}px`,
             color: '#2d2418',
-            lineHeight: 1.2,
+            lineHeight: 1.1,
+            fontWeight: 400,
           }}
         >
-          {data.headline || 'a moment'}
-          {data.bodyText && (
-            <div
-              style={{
-                fontSize: `${Math.round(frameSize * 0.035)}px`,
-                opacity: 0.6,
-                marginTop: '4px',
-              }}
-            >
-              {data.bodyText}
-            </div>
-          )}
+          {data.tagline || data.headline || 'a moment'}
         </div>
       </div>
     </div>

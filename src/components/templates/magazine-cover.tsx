@@ -28,12 +28,29 @@ export function MagazineCover({ data }: { data: TemplateData }) {
       }}
     >
       {data.photoUrl ? (
-        // eslint-disable-next-line @next/next/no-img-element
-        <img
-          src={data.photoUrl}
-          alt="Cover"
-          className="absolute inset-0 w-full h-full object-cover"
-        />
+        <>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={data.photoUrl}
+            alt="Cover"
+            className="absolute inset-0 w-full h-full object-cover"
+          />
+          {/* Top + bottom vignettes so masthead + coverlines always read */}
+          <div
+            className="absolute inset-x-0 top-0 pointer-events-none"
+            style={{
+              height: '30%',
+              background: 'linear-gradient(to bottom, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0) 100%)',
+            }}
+          />
+          <div
+            className="absolute inset-x-0 bottom-0 pointer-events-none"
+            style={{
+              height: '40%',
+              background: 'linear-gradient(to top, rgba(0,0,0,0.45) 0%, rgba(0,0,0,0) 100%)',
+            }}
+          />
+        </>
       ) : (
         <div
           className="absolute inset-0 flex items-center justify-center"
@@ -55,8 +72,8 @@ export function MagazineCover({ data }: { data: TemplateData }) {
             letterSpacing: '0.3em',
             textTransform: 'uppercase',
             textAlign: 'right',
-            color: secondary,
-            mixBlendMode: 'difference',
+            color: '#ffffff',
+            textShadow: '0 2px 12px rgba(0,0,0,0.8)',
             opacity: 0.9,
             whiteSpace: 'pre-line',
             lineHeight: 1.4,
@@ -75,7 +92,7 @@ export function MagazineCover({ data }: { data: TemplateData }) {
         letterSpacing="-0.03em"
         uppercase
         opacity={1}
-        color={accent}
+        color="#ffffff"
         inset={Math.round(data.height * 0.05)}
         zIndex={2}
         fontFamily={`${data.fontHeading}, 'Playfair Display', serif`}
@@ -92,12 +109,12 @@ export function MagazineCover({ data }: { data: TemplateData }) {
             right: `${Math.round(data.width * 0.06)}px`,
             top: `${Math.round(data.height * 0.28)}px`,
             fontFamily: `${heading}, serif`,
-            fontSize: `${Math.round(data.width * 0.18)}px`,
+            fontSize: `${Math.round(data.width * 0.14)}px`,
             fontWeight: 900,
-            lineHeight: 0.9,
-            color: accent,
-            textShadow: '0 4px 30px rgba(0,0,0,0.25)',
-            letterSpacing: '-0.04em',
+            lineHeight: 0.92,
+            color: '#ffffff',
+            textShadow: '0 4px 24px rgba(0,0,0,0.85), 0 1px 4px rgba(0,0,0,0.6)',
+            letterSpacing: '-0.03em',
             zIndex: 2,
           }}
         >
@@ -115,8 +132,8 @@ export function MagazineCover({ data }: { data: TemplateData }) {
             fontFamily: `${body}, sans-serif`,
             fontSize: `${Math.round(data.width * 0.014)}px`,
             letterSpacing: '0.3em',
-            color: secondary,
-            mixBlendMode: 'difference',
+            color: '#ffffff',
+            textShadow: '0 2px 12px rgba(0,0,0,0.8)',
             opacity: 0.9,
             zIndex: 2,
           }}
@@ -134,8 +151,8 @@ export function MagazineCover({ data }: { data: TemplateData }) {
             top: '50%',
             transform: 'translateY(-50%) rotate(90deg)',
             transformOrigin: 'center',
-            color: secondary,
-            mixBlendMode: 'difference',
+            color: '#ffffff',
+            textShadow: '0 2px 12px rgba(0,0,0,0.8)',
             fontFamily: `${body}, sans-serif`,
             fontSize: `${Math.round(data.width * 0.016)}px`,
             letterSpacing: '0.35em',

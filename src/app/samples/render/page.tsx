@@ -170,7 +170,7 @@ const CREATORS: Creator[] = [
     headline: 'SXSW 2026 AFTERMATH',
     bodyText: 'Three days. Fourteen stages. Four thousand photos. We were front row, backstage, and in the crowd for every big moment. Hire us for your next concert, launch, or conference.',
     photoUrl: '/samples/event-party.jpg',
-    photos: ['/samples/event-party.jpg', '/samples/event-party.jpg', '/samples/event-party.jpg', '/samples/event-party.jpg'],
+    photos: ['/samples/event-party.jpg', '/samples/fashion-editorial.jpg', '/samples/portrait-man.jpg', '/samples/couple-engagement.jpg'],
     tagline: 'Concerts, launches, conferences',
   },
   {
@@ -206,7 +206,7 @@ const CREATORS: Creator[] = [
     headline: 'SPRING 26 LOOKBOOK',
     bodyText: 'Twelve looks shot over two days on the Italian coast. Silks, denim, and sharp tailoring against rough stone walls. The full lookbook is live and every piece is available to shop.',
     photoUrl: '/samples/fashion-editorial.jpg',
-    photos: ['/samples/fashion-editorial.jpg', '/samples/fashion-editorial.jpg', '/samples/fashion-editorial.jpg', '/samples/fashion-editorial.jpg'],
+    photos: ['/samples/fashion-editorial.jpg', '/samples/portrait-woman.jpg', '/samples/portrait-man.jpg', '/samples/fashion-editorial.jpg'],
     tagline: 'Fashion editorial + lookbooks',
   },
   {
@@ -218,7 +218,7 @@ const CREATORS: Creator[] = [
     headline: 'OBJECT No. 47',
     bodyText: 'Studio product photography for makers and brands. Clean backdrops, precise lighting, and every angle you need for your shop, your deck, and your wholesale catalog.',
     photoUrl: '/samples/product-still.jpg',
-    photos: ['/samples/product-still.jpg', '/samples/product-still.jpg', '/samples/product-still.jpg', '/samples/product-still.jpg'],
+    photos: ['/samples/product-still.jpg', '/samples/food-flatlay.jpg', '/samples/food-plating.jpg', '/samples/food-dessert.jpg'],
     tagline: 'Product stills + brand imagery',
   },
   {
@@ -257,7 +257,7 @@ function buildData(creator: Creator): TemplateData {
     customText: 'Issue 01',
     customText2: 'No. 47',
     customText3: 'Vol. III',
-    brandPosition: 'bottom-left',
+    // intentionally omit brandPosition so each template uses its own defaultPosition
   };
 }
 

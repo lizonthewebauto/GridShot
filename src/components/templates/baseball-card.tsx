@@ -1,5 +1,4 @@
 import type { TemplateData } from '@/types';
-import { BrandMark } from './_brand-mark';
 
 // Flex fields this template reads:
 // - colorAccent → gold border gradient base (default #c9a84c)
@@ -65,8 +64,23 @@ export function BaseballCard({ data }: { data: TemplateData }) {
           )}
         </div>
 
-        {/* Spacer where the player-name brand sits (rendered via BrandMark) */}
-        <div style={{ height: `${Math.round(data.width * 0.07)}px` }} />
+        {/* Brand name in the player-name slot */}
+        {data.brandName && (
+          <div
+            className="text-center uppercase"
+            style={{
+              fontFamily: `${data.fontHeading}, serif`,
+              fontSize: `${Math.round(data.width * 0.055)}px`,
+              fontWeight: 700,
+              letterSpacing: '0.04em',
+              lineHeight: 1.1,
+              padding: `${Math.round(data.width * 0.02)}px 0 ${Math.round(data.width * 0.006)}px`,
+              color: ink,
+            }}
+          >
+            {data.brandName}
+          </div>
+        )}
 
         {data.tagline && (
           <div
@@ -74,7 +88,7 @@ export function BaseballCard({ data }: { data: TemplateData }) {
             style={{
               fontSize: `${Math.round(data.width * 0.013)}px`,
               letterSpacing: '0.35em',
-              marginTop: `${Math.round(data.width * 0.008)}px`,
+              marginTop: `${Math.round(data.width * 0.004)}px`,
               opacity: 0.75,
             }}
           >
@@ -115,15 +129,6 @@ export function BaseballCard({ data }: { data: TemplateData }) {
           ))}
         </div>
       </div>
-
-      <BrandMark
-        data={data}
-        defaultPosition="middle-center"
-        fontSize={Math.round(data.width * 0.05)}
-        letterSpacing="0.04em"
-        opacity={1}
-        color={ink}
-      />
     </div>
   );
 }

@@ -38,12 +38,15 @@ export function EditorialFullbleed({ data }: { data: TemplateData }) {
         />
       )}
 
-      {/* Subtle darkening vignette for text legibility */}
+      {/* Horizontal band behind the centered headline — tinted to the brand
+          primary so headline text (colorSecondary) always reads. Adapts to
+          both dark- and light-primary palettes. */}
       <div
-        className="absolute inset-0"
+        className="absolute left-0 right-0"
         style={{
-          background:
-            'linear-gradient(180deg, rgba(0,0,0,0.25) 0%, rgba(0,0,0,0) 30%, rgba(0,0,0,0) 70%, rgba(0,0,0,0.35) 100%)',
+          top: '25%',
+          height: '50%',
+          background: `linear-gradient(180deg, ${hexWithAlpha(bgColor, 0)} 0%, ${hexWithAlpha(bgColor, 0.7)} 40%, ${hexWithAlpha(bgColor, 0.7)} 60%, ${hexWithAlpha(bgColor, 0)} 100%)`,
         }}
       />
 
@@ -90,4 +93,14 @@ export function EditorialFullbleed({ data }: { data: TemplateData }) {
       </div>
     </div>
   );
+}
+
+function hexWithAlpha(hex: string, alpha: number): string {
+  const n = hex.replace('#', '');
+  const normalized = n.length === 3 ? n.split('').map((c) => c + c).join('') : n;
+  if (normalized.length !== 6) return hex;
+  const r = parseInt(normalized.slice(0, 2), 16);
+  const g = parseInt(normalized.slice(2, 4), 16);
+  const b = parseInt(normalized.slice(4, 6), 16);
+  return `rgba(${r}, ${g}, ${b}, ${alpha})`;
 }

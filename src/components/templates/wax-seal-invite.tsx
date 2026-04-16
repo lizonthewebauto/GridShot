@@ -8,7 +8,9 @@ export function WaxSealInvite({ data }: { data: TemplateData }) {
   const waxColor = data.colorPrimary ?? '#8a1e1e';
   const waxColorDark = darken(waxColor, 0.25);
   const cream = '#f5ede0';
-  const ink = data.colorSecondary ?? '#2b2418';
+  // Always a dark ink on the cream card — colorSecondary often ships as
+  // a light paper color and would vanish on this background.
+  const ink = '#2b2418';
   const sealLetter = (data.customText || data.brandName || 'G').trim().charAt(0).toUpperCase();
 
   const outerPad = Math.round(data.width * 0.04);

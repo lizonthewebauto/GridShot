@@ -8,8 +8,10 @@ export function MemphisZine({ data }: { data: TemplateData }) {
   const pink = data.colorAccent ?? '#ff7ab6';
   const teal = data.colorPrimary ?? '#48c7c4';
   const yellow = '#ffd23f';
-  const headlineColor = data.colorSecondary ?? '#1a1a1a';
   const ink = '#1a1a1a';
+  // Headline is always dark ink on the cream bg — brand color comes through
+  // the pastel shapes, not the type, so variable secondary colors don't vanish.
+  const headlineColor = ink;
 
   const pad = Math.round(data.width * 0.05);
   const photoW = Math.round(data.width * 0.42);

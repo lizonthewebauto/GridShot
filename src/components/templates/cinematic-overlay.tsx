@@ -6,9 +6,11 @@ import { BrandMark } from './_brand-mark';
 // - gradientAngle → overlay direction (default 180 = fades up from bottom)
 // - colorPrimary / colorSecondary preserved for existing behavior
 export function CinematicOverlay({ data }: { data: TemplateData }) {
+  // Gradient always darkens the BOTTOM of the photo so the headline + body
+  // (which live at the bottom) stay legible regardless of what's in the image.
   const fromColor = data.colorGradientFrom ?? data.colorPrimary ?? '#000000';
   const toColor = data.colorGradientTo ?? data.colorPrimary ?? '#000000';
-  const angle = data.gradientAngle ?? 180;
+  const angle = data.gradientAngle ?? 0; // 0deg = to top, so fromColor sits at bottom
   const pad = Math.round(data.width * 0.045);
   const brandInset = Math.round(data.width * 0.03);
 
@@ -73,21 +75,24 @@ export function CinematicOverlay({ data }: { data: TemplateData }) {
           style={{
             fontFamily: data.fontHeading,
             color: data.colorSecondary,
-            fontSize: `${Math.round(data.width * 0.062)}px`,
-            marginBottom: `${Math.round(data.width * 0.015)}px`,
-            maxWidth: `${Math.round(data.width * 0.78)}px`,
+            fontSize: `${Math.round(data.width * 0.068)}px`,
+            marginBottom: `${Math.round(data.width * 0.018)}px`,
+            maxWidth: `${Math.round(data.width * 0.82)}px`,
+            textShadow: '0 2px 14px rgba(0,0,0,0.55)',
           }}
         >
           {data.headline}
         </h2>
 
         <p
-          className="leading-relaxed opacity-80"
+          className="leading-relaxed"
           style={{
             fontFamily: data.fontBody,
             color: data.colorSecondary,
-            fontSize: `${Math.round(data.width * 0.02)}px`,
-            maxWidth: `${Math.round(data.width * 0.62)}px`,
+            fontSize: `${Math.round(data.width * 0.022)}px`,
+            maxWidth: `${Math.round(data.width * 0.7)}px`,
+            opacity: 0.95,
+            textShadow: '0 1px 10px rgba(0,0,0,0.55)',
           }}
         >
           {data.bodyText}

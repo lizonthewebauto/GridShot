@@ -10,8 +10,10 @@ export function TypographicHero({ data }: { data: TemplateData }) {
   const textColor = data.colorPrimary ?? '#1a1f3a';
   const accent = data.colorAccent ?? textColor;
 
-  const rawWord = (data.customText ?? data.headline ?? 'Hello').trim();
-  const giantWord = rawWord.split(/\s+/)[0] ?? 'Hello';
+  // Grab the most striking word from the headline (falls back to customText
+  // only if no headline is provided).
+  const rawWord = (data.headline ?? data.customText ?? 'Hello').trim();
+  const giantWord = rawWord.split(/\s+/)[0]?.replace(/[.,;:!?]+$/, '') ?? 'Hello';
 
   const shape = data.imageShape ?? 'rounded';
   const photoRadius =

@@ -36,23 +36,28 @@ export function PhotoboothStrip({ data }: { data: TemplateData }) {
         color: ink,
       }}
     >
-      {/* Left labels (brand rendered separately via BrandMark) */}
+      {/* Left labels column — vertical to stay clear of the strip */}
       <div
-        className="absolute uppercase flex flex-col justify-between items-start"
+        className="absolute uppercase flex flex-col items-start"
         style={{
           left: `${pad}px`,
-          top: `${pad}px`,
+          top: `${pad * 2.5}px`,
           bottom: `${pad}px`,
           fontSize: `${labelFont}px`,
           letterSpacing: '0.3em',
           opacity: 0.7,
         }}
       >
-        <span style={{ visibility: 'hidden' }}>brand-spacer</span>
-        <span style={{ writingMode: 'vertical-rl', transform: 'rotate(180deg)' }}>
+        <span
+          style={{
+            writingMode: 'vertical-rl',
+            transform: 'rotate(180deg)',
+            marginTop: 'auto',
+            marginBottom: 'auto',
+          }}
+        >
           {data.headline || 'STRIP // 01'}
         </span>
-        <span>{dateLabel}</span>
       </div>
 
       {/* Strip */}
@@ -95,9 +100,10 @@ export function PhotoboothStrip({ data }: { data: TemplateData }) {
         ))}
       </div>
 
-      {/* Right labels */}
+      {/* Right labels column — top date, bottom location; tagline runs
+          vertically so long brand lines don't collide with the strip. */}
       <div
-        className="absolute uppercase flex flex-col justify-between items-end"
+        className="absolute uppercase flex flex-col items-end"
         style={{
           right: `${pad}px`,
           top: `${pad}px`,
@@ -108,8 +114,16 @@ export function PhotoboothStrip({ data }: { data: TemplateData }) {
         }}
       >
         <span>{dateLabel}</span>
-        <span>{data.tagline || 'NO. 04'}</span>
-        <span>{data.locationText || 'NYC'}</span>
+        <span
+          style={{
+            writingMode: 'vertical-rl',
+            marginTop: 'auto',
+            marginBottom: 'auto',
+          }}
+        >
+          {data.tagline || 'NO. 04'}
+        </span>
+        <span>{data.locationText || ''}</span>
       </div>
 
       <BrandMark

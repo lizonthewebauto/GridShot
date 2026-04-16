@@ -52,12 +52,23 @@ export function DuotoneWash({ data }: { data: TemplateData }) {
         }}
       />
 
+      {/* Bottom backdrop plate tinted with fromColor so the text area always
+          has a consistent tint (the duotone blend varies by photo). */}
+      <div
+        className="absolute inset-x-0 bottom-0 pointer-events-none"
+        style={{
+          height: '42%',
+          background: `linear-gradient(to top, ${hexWithAlpha(fromColor, 0.85)} 0%, ${hexWithAlpha(fromColor, 0.55)} 60%, ${hexWithAlpha(fromColor, 0)} 100%)`,
+          zIndex: 1,
+        }}
+      />
+
       <div
         className="absolute"
         style={{
-          bottom: `${Math.round(data.height * 0.04)}px`,
-          left: `${Math.round(data.width * 0.04)}px`,
-          right: `${Math.round(data.width * 0.04)}px`,
+          bottom: `${Math.round(data.height * 0.05)}px`,
+          left: `${Math.round(data.width * 0.05)}px`,
+          right: `${Math.round(data.width * 0.05)}px`,
           color: textColor,
           zIndex: 2,
         }}
@@ -103,7 +114,17 @@ export function DuotoneWash({ data }: { data: TemplateData }) {
         )}
       </div>
 
-      <BrandMark data={data} color={textColor} opacity={0.85} inset={Math.round(data.width * 0.03)} />
+      <BrandMark data={data} color={textColor} opacity={0.85} inset={Math.round(data.width * 0.03)} zIndex={3} />
     </div>
   );
+}
+
+function hexWithAlpha(hex: string, alpha: number): string {
+  const n = hex.replace('#', '');
+  const normalized = n.length === 3 ? n.split('').map((c) => c + c).join('') : n;
+  if (normalized.length !== 6) return hex;
+  const r = parseInt(normalized.slice(0, 2), 16);
+  const g = parseInt(normalized.slice(2, 4), 16);
+  const b = parseInt(normalized.slice(4, 6), 16);
+  return `rgba(${r}, ${g}, ${b}, ${alpha})`;
 }

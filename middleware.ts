@@ -35,7 +35,8 @@ export async function middleware(request: NextRequest) {
 
   const { data: { user } } = await supabase.auth.getUser();
 
-  const isPublic = PUBLIC_PATHS.some((p) => pathname === p);
+  const isPublic =
+    PUBLIC_PATHS.some((p) => pathname === p) || pathname.startsWith('/samples/');
   const isOnboarding = pathname.startsWith('/onboarding');
 
   // Protect dashboard and API routes (allow onboarding + API through for logged-in users)

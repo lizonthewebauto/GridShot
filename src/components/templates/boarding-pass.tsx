@@ -4,9 +4,12 @@ import { BrandMark } from './_brand-mark';
 // Flex fields: customText (FROM code), customText2 (TO code), customText3 (flight #),
 // brandName (passenger), dateText (date), locationText (gate), photoUrl (stub photo)
 export function BoardingPass({ data }: { data: TemplateData }) {
+  // Boarding pass is always monochrome dark ink on cream card for readability,
+  // with the brand's accent used for highlights only. Avoid mapping creator
+  // secondary (often cream) into ink — it vanishes on the cream card.
   const bg = data.colorPrimary ?? '#dcd5c4';
   const card = '#fefcf7';
-  const ink = data.colorSecondary ?? '#1a1a1a';
+  const ink = '#1a1a1a';
   const accent = data.colorAccent ?? '#c25b3a';
 
   const fromCode = data.customText ?? 'NYC';
@@ -63,7 +66,7 @@ export function BoardingPass({ data }: { data: TemplateData }) {
           {/* FROM / TO codes */}
           <div className="flex items-center justify-between">
             <div>
-              <div className="uppercase" style={{ fontSize: `${fsLabel}px`, letterSpacing: '0.3em', opacity: 0.6 }}>
+              <div className="uppercase" style={{ fontSize: `${fsLabel}px`, letterSpacing: '0.3em', opacity: 0.85 }}>
                 FROM
               </div>
               <div
@@ -82,7 +85,7 @@ export function BoardingPass({ data }: { data: TemplateData }) {
               →
             </div>
             <div style={{ textAlign: 'right' }}>
-              <div className="uppercase" style={{ fontSize: `${fsLabel}px`, letterSpacing: '0.3em', opacity: 0.6 }}>
+              <div className="uppercase" style={{ fontSize: `${fsLabel}px`, letterSpacing: '0.3em', opacity: 0.85 }}>
                 TO
               </div>
               <div
@@ -105,7 +108,7 @@ export function BoardingPass({ data }: { data: TemplateData }) {
             style={{ fontSize: `${fsLabel}px`, letterSpacing: '0.25em', borderTop: `1px solid ${ink}`, paddingTop: `${pad * 0.4}px` }}
           >
             <div>
-              <div style={{ opacity: 0.6 }}>DATE</div>
+              <div style={{ opacity: 0.85 }}>DATE</div>
               <div style={{ fontWeight: 700, marginTop: 4, fontSize: `${Math.round(fsLabel * 1.3)}px` }}>{dateLabel}</div>
             </div>
           </div>
@@ -117,7 +120,7 @@ export function BoardingPass({ data }: { data: TemplateData }) {
             width: '1px',
             margin: `${pad * 0.5}px 0`,
             borderLeft: `2px dotted ${ink}`,
-            opacity: 0.6,
+            opacity: 0.85,
           }}
         />
 
@@ -150,7 +153,7 @@ export function BoardingPass({ data }: { data: TemplateData }) {
           </div>
 
           <div className="uppercase" style={{ fontSize: `${fsLabel}px`, letterSpacing: '0.25em', textAlign: 'center' }}>
-            <div style={{ opacity: 0.6 }}>GATE</div>
+            <div style={{ opacity: 0.85 }}>GATE</div>
             <div style={{ fontWeight: 700, marginTop: 4 }}>{gate}</div>
           </div>
         </div>
