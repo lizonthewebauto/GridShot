@@ -220,6 +220,13 @@ export const VIBE_OPTIONS = [
 
 export type Vibe = typeof VIBE_OPTIONS[number];
 
+export interface UploadedFile {
+  name: string;
+  url: string;
+  storagePath: string;
+  createdAt?: string;
+}
+
 export const PLATFORM_OPTIONS = [
   'INSTAGRAM', 'THREADS', 'FACEBOOK', 'TWITTER',
   'TIKTOK', 'BLUESKY', 'LINKEDIN', 'PINTEREST',
