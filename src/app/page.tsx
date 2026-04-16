@@ -186,19 +186,19 @@ const faqs = [
   },
   {
     q: 'Can I use my own fonts and colors?',
-    a: 'Yes. You set up your brand with custom colors, heading font, body font, and voice description. Gridshot includes 12+ premium heading fonts and 10 body fonts. Every carousel you create automatically uses your brand settings.',
+    a: 'Yes. You set up your brand with custom colors, heading font, body font, and voice description. Gridshot includes 12+ premium heading fonts and 10 body fonts. Every piece of content you create automatically uses your brand settings.',
   },
   {
     q: 'What platforms can I publish to?',
     a: 'Instagram, Threads, X, Facebook, TikTok, Bluesky, LinkedIn, Pinterest, YouTube, Reddit, Google Business, Mastodon, Discord, and Slack. 14 platforms total. Connect your accounts once and publish to any or all of them directly from Gridshot.',
   },
   {
-    q: 'Can I export carousels as images instead of publishing?',
-    a: 'Yes. Export individual slides or the entire carousel as high-quality JPEGs. Download them and post manually, send to clients for approval, or use them anywhere you want.',
+    q: 'Can I export content as images instead of publishing?',
+    a: 'Yes. Export individual slides or the entire post as high-quality JPEGs. Download them and post manually, send to clients for approval, or use them anywhere you want.',
   },
   {
-    q: 'How many slides can a carousel have?',
-    a: 'Between 1 and 10 slides per carousel. Each slide gets its own photo, headline, body text, and optional footer. You control the layout and text styling per slide.',
+    q: 'How many slides can a post have?',
+    a: 'Between 1 and 10 slides per post. Each slide gets its own photo, headline, body text, and optional footer. You control the layout and text styling per slide.',
   },
   {
     q: 'Is there a free plan?',
@@ -228,13 +228,13 @@ const buyerTypes = [
     title: 'Photographers',
     pain: "You're incredible behind the lens. But writing captions and posting consistently? That's a different skill entirely.",
     solution:
-      'Gridshot writes copy that matches your visual style. Upload your shots, pick a vibe, and get scroll-stopping carousels ready to post.',
+      'Gridshot writes copy that matches your visual style. Upload your shots, pick a vibe, and get scroll-stopping content ready to post.',
   },
   {
     title: 'Content Creators',
-    pain: "You know you need to post more carousels. They get more saves, more shares. But building them slide-by-slide takes forever.",
+    pain: "You know you need to post more content. It gets more saves, more shares. But building it slide-by-slide takes forever.",
     solution:
-      'Go from photos to a full branded carousel in minutes. AI handles the copy. You keep creative control over every detail.',
+      'Go from photos to a full branded post in minutes. AI handles the copy. You keep creative control over every detail.',
   },
   {
     title: 'Small Business Owners',
@@ -272,8 +272,8 @@ const features = [
     icon: 'M4 6h16M4 12h16M4 18h7',
   },
   {
-    title: 'Multi-Slide Carousels',
-    desc: 'Build 1 to 10 slide carousels with unique photos and copy per slide. Swipe indicators included.',
+    title: 'Multi-Slide Content',
+    desc: 'Build 1 to 10 slide posts with unique photos and copy per slide. Swipe indicators included.',
     icon: 'M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10',
   },
   {
@@ -422,7 +422,7 @@ export default function HomePage() {
           {/* Camera-style badge */}
           <div className="inline-flex items-center gap-2 rounded-sm border border-accent-warm/20 bg-accent-warm/5 px-4 py-1.5 text-xs font-medium text-accent-warm uppercase tracking-widest mb-8">
             <Crosshair className="w-3.5 h-3.5" />
-            AI-powered carousel creator
+            AI-powered content creator
           </div>
 
           {/* Viewfinder-framed headline */}
@@ -441,7 +441,7 @@ export default function HomePage() {
 
           <p className="text-lg sm:text-xl text-muted max-w-2xl mx-auto mb-10 leading-relaxed">
             Smarter social content on autopilot. Gridshot turns your photos
-            into branded carousels with AI-written copy and publishes to
+            into branded content with AI-written copy and publishes to
             Instagram, Threads, X, and 11 more platforms. Consistent marketing
             across every channel without the busywork.
           </p>
@@ -502,7 +502,7 @@ export default function HomePage() {
               Three steps. That&apos;s it.
             </h2>
             <p className="text-lg text-muted">
-              From raw photos to published carousels in minutes.
+              From raw photos to published content in minutes.
             </p>
           </div>
 
@@ -560,7 +560,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ───── Carousel Showcase ───── */}
+      {/* ───── Content Showcase ───── */}
       <section className="relative z-10 px-6 py-20 sm:py-28 bg-card-hover">
         <div className="max-w-7xl mx-auto">
           {/* Intro */}
@@ -730,7 +730,7 @@ export default function HomePage() {
                   'Manually match fonts, colors, spacing across slides',
                   'Export, open Instagram, upload, write caption again',
                   'Repeat for Threads, X, Facebook, LinkedIn...',
-                  'Total time: 45-90 minutes per carousel',
+                  'Total time: 45-90 minutes per post',
                 ].map((item) => (
                   <li key={item} className="flex items-start gap-3 text-sm text-muted">
                     <span className="w-1.5 h-1.5 rounded-full bg-muted shrink-0 mt-1.5" />
@@ -759,7 +759,7 @@ export default function HomePage() {
                   'Brand colors, fonts, and voice applied automatically',
                   'Tweak anything you want or publish as-is',
                   'One click publishes to all 14 platforms at once',
-                  'Total time: 3-5 minutes per carousel',
+                  'Total time: 3-5 minutes per post',
                 ].map((item) => (
                   <li key={item} className="flex items-start gap-3 text-sm">
                     <Check />
@@ -784,7 +784,7 @@ export default function HomePage() {
               Everything you need to create and publish
             </h2>
             <p className="text-lg text-muted">
-              Professional carousel creation without the professional price tag.
+              Professional content creation without the professional price tag.
             </p>
           </div>
 
@@ -922,7 +922,7 @@ export default function HomePage() {
             className="text-3xl sm:text-4xl font-bold tracking-tight mb-4"
             style={{ fontFamily: 'var(--font-heading)' }}
           >
-            One carousel. <span className="text-accent-warm">14 platforms.</span>
+            One post. <span className="text-accent-warm">14 platforms.</span>
           </h2>
           <p className="text-lg text-muted mb-12">
             Connect your accounts and publish directly from Gridshot. Every major social network, plus YouTube, Reddit, Discord, and more.
@@ -1062,7 +1062,7 @@ export default function HomePage() {
                   'Per-slide headline, body, footer, and swipe indicator',
                   '10+ swipe indicator styles',
                   'Re-generate copy for any individual slide',
-                  'Export individual slides or the full carousel as JPEG',
+                  'Export individual slides or the full post as JPEG',
                 ].map((item) => (
                   <li key={item} className="flex items-start gap-3 text-sm">
                     <Check />
@@ -1183,7 +1183,7 @@ export default function HomePage() {
             >
               Stop spending hours
               <br />
-              on carousel posts.
+              building posts by hand.
             </h2>
           </ViewfinderBrackets>
           <p className="text-lg text-muted mb-10 max-w-xl mx-auto">
