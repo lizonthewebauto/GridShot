@@ -30,7 +30,8 @@ const creatorMatrix: {
     tagline: 'Cinematic wedding films + stills',
     palette: { primary: '#1a1520', secondary: '#f5efe8', accent: '#c08a4a' },
     fonts: { heading: 'Playfair Display', body: 'DM Sans' },
-    heroTemplates: ['cinematic-overlay', 'editorial-elegant', 'polaroid-stack', 'testimonial-card'],
+    // full-bleed photo + overlay, stacked polaroids, pure-typography quote, scrapbook collage
+    heroTemplates: ['cinematic-overlay', 'polaroid-stack', 'quote-card', 'scrapbook-realistic'],
   },
   {
     slug: 'portrait',
@@ -40,7 +41,8 @@ const creatorMatrix: {
     tagline: 'Personal brand portraits',
     palette: { primary: '#1e1b18', secondary: '#f7f4ef', accent: '#8b6914' },
     fonts: { heading: 'DM Serif Display', body: 'Inter' },
-    heroTemplates: ['editorial-elegant', 'magazine-cover', 'minimal-centered', 'split-portfolio'],
+    // magazine cover, multi-photo strip, oversized italic type, circular portrait frame
+    heroTemplates: ['magazine-cover', 'triptych-strip', 'oversized-italic', 'circle-gold'],
   },
   {
     slug: 'realestate',
@@ -50,7 +52,8 @@ const creatorMatrix: {
     tagline: 'Austin listing photography',
     palette: { primary: '#0f1f2e', secondary: '#fafafa', accent: '#c47e3c' },
     fonts: { heading: 'Montserrat', body: 'Inter' },
-    heroTemplates: ['minimal-frame', 'minimal-centered', 'bold-showcase', 'split-story'],
+    // full-bleed hero, 2x2 grid, newspaper listing, minimal framed photo
+    heroTemplates: ['fullbleed-overlay', 'grid-2x2', 'newspaper', 'minimal-frame'],
   },
   {
     slug: 'food',
@@ -60,7 +63,8 @@ const creatorMatrix: {
     tagline: 'Restaurant + menu photography',
     palette: { primary: '#f4ebd5', secondary: '#1f1a10', accent: '#d38a42' },
     fonts: { heading: 'Cormorant Garamond', body: 'Bitter' },
-    heroTemplates: ['split-story', 'fullbleed-overlay', 'magazine-cover', 'film-strip'],
+    // editorial full-bleed, film strip, art-deco menu, stacked letterforms
+    heroTemplates: ['editorial-fullbleed', 'film-strip', 'art-deco-fan', 'stacked-letterforms'],
   },
   {
     slug: 'event',
@@ -70,7 +74,8 @@ const creatorMatrix: {
     tagline: 'Concerts, launches, conferences',
     palette: { primary: '#0a0a0a', secondary: '#ffffff', accent: '#e04220' },
     fonts: { heading: 'Oswald', body: 'Inter' },
-    heroTemplates: ['bold-showcase', 'fullbleed-overlay', 'cinematic-overlay', 'photo-only'],
+    // giant-type hero, three-photo strip, risograph print, photobooth strip
+    heroTemplates: ['typographic-hero', 'triptych-strip', 'risograph', 'photobooth-strip'],
   },
   {
     slug: 'travel',
@@ -80,7 +85,8 @@ const creatorMatrix: {
     tagline: 'Travel prints + editorial',
     palette: { primary: '#132418', secondary: '#ece8d8', accent: '#6a7a52' },
     fonts: { heading: 'Libre Baskerville', body: 'Inter' },
-    heroTemplates: ['cinematic-overlay', 'film-strip', 'polaroid-stack', 'minimal-frame'],
+    // landscape overlay, single polaroid, boarding pass, handwritten note
+    heroTemplates: ['cinematic-overlay', 'polaroid-realistic', 'boarding-pass', 'apple-note'],
   },
   {
     slug: 'newborn',
@@ -90,7 +96,8 @@ const creatorMatrix: {
     tagline: 'Newborn + maternity sessions',
     palette: { primary: '#f4e4e8', secondary: '#3d2a3a', accent: '#b5739a' },
     fonts: { heading: 'Caveat', body: 'Inter' },
-    heroTemplates: ['polaroid-realistic', 'quote-card', 'scrapbook-realistic', 'minimal-centered'],
+    // scrapbook, single polaroid, pure-type quote, soft minimal shape
+    heroTemplates: ['scrapbook-realistic', 'polaroid-realistic', 'quote-card', 'minimal-centered-shape'],
   },
   {
     slug: 'fashion',
@@ -100,7 +107,8 @@ const creatorMatrix: {
     tagline: 'Fashion editorial + lookbooks',
     palette: { primary: '#0f0f0f', secondary: '#f2efe9', accent: '#ff2d6b' },
     fonts: { heading: 'Bebas Neue', body: 'Inter' },
-    heroTemplates: ['magazine-cover', 'typographic-hero', 'oversized-italic', 'editorial-fullbleed'],
+    // magazine cover, oversized italic type, duotone wash, bold type hero
+    heroTemplates: ['magazine-cover', 'oversized-italic', 'duotone-wash', 'bold-showcase'],
   },
   {
     slug: 'product',
@@ -110,7 +118,8 @@ const creatorMatrix: {
     tagline: 'Product stills + brand imagery',
     palette: { primary: '#e8dccd', secondary: '#2b2520', accent: '#c44a2c' },
     fonts: { heading: 'Courier Prime', body: 'Inter' },
-    heroTemplates: ['blueprint-grid', 'sidebar-index', 'minimal-centered', 'grid-2x2'],
+    // 2x2 grid, blueprint schematic, newspaper catalog, minimal frame
+    heroTemplates: ['grid-2x2', 'blueprint-grid', 'newspaper', 'minimal-frame'],
   },
   {
     slug: 'family',
@@ -120,7 +129,8 @@ const creatorMatrix: {
     tagline: 'Family documentary photography',
     palette: { primary: '#2a1a10', secondary: '#fbe4c7', accent: '#e38a2a' },
     fonts: { heading: 'Amatic SC', body: 'DM Sans' },
-    heroTemplates: ['scrapbook-realistic', 'photobooth-strip', 'polaroid-stack', 'memphis-zine'],
+    // scrapbook, photobooth, memphis zine, stacked polaroids
+    heroTemplates: ['scrapbook-realistic', 'photobooth-strip', 'memphis-zine', 'polaroid-stack'],
   },
 ];
 
