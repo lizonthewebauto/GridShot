@@ -77,9 +77,84 @@ export async function POST(request: Request) {
     }
 
     const html = await res.text();
-    const truncatedHtml = html.slice(0, 30000);
+    const finalUrl = res.url || normalizedUrl;
 
-    const systemPrompt = `You are a brand strategist and web analyst. Analyze the provided website HTML and extract a comprehensive brand profile. Return ONLY valid JSON with this exact structure:
+    // Fetch external stylesheets so the model can actually see brand colors.
+    // Most sites define palette tokens in external CSS, not inline — without
+    // this, the model is guessing from class names.
+    const cssHrefs: string[] = [];
+    const linkRe = /<link[^>]+rel=["']?stylesheet["']?[^>]*>/gi;
+    const hrefRe = /href=["']([^"']+)["']/i;
+    for (const m of html.matchAll(linkRe)) {
+      const href = m[0].match(hrefRe)?.[1];
+      if (!href) continue;
+      try {
+        const abs = new URL(href, finalUrl).toString();
+        if (isValidPublicUrl(abs) && !cssHrefs.includes(abs)) cssHrefs.push(abs);
+      } catch {}
+      if (cssHrefs.length >= 6) break;
+    }
+
+    const cssTexts = await Promise.all(
+      cssHrefs.map(async (u) => {
+        try {
+          const r = await fetch(u, {
+            headers: { 'User-Agent': 'Mozilla/5.0 (compatible; Gridshot/1.0)' },
+            signal: AbortSignal.timeout(6000),
+            redirect: 'follow',
+          });
+          if (!r.ok) return '';
+          const t = await r.text();
+          return `/* ${u} */\n${t.slice(0, 60000)}`;
+        } catch {
+          return '';
+        }
+      })
+    );
+
+    // Also pull inline <style> blocks — hero sections often inline the palette.
+    const inlineStyles: string[] = [];
+    for (const m of html.matchAll(/<style[^>]*>([\s\S]*?)<\/style>/gi)) {
+      inlineStyles.push(m[1]);
+    }
+
+    const combinedCss = [...inlineStyles, ...cssTexts].join('\n\n').slice(0, 120000);
+
+    // Pre-rank colors by frequency so the model has concrete candidates to choose
+    // from rather than guessing from class names.
+    const colorCounts = new Map<string, number>();
+    const bump = (c: string) => colorCounts.set(c, (colorCounts.get(c) ?? 0) + 1);
+    for (const m of combinedCss.matchAll(/#([0-9a-fA-F]{6})\b/g)) bump('#' + m[1].toLowerCase());
+    for (const m of combinedCss.matchAll(/#([0-9a-fA-F]{3})\b(?![0-9a-fA-F])/g)) {
+      const s = m[1].toLowerCase();
+      bump('#' + s[0] + s[0] + s[1] + s[1] + s[2] + s[2]);
+    }
+    for (const m of combinedCss.matchAll(/rgba?\(\s*(\d{1,3})\s*,\s*(\d{1,3})\s*,\s*(\d{1,3})/g)) {
+      const toHex = (n: string) => Math.min(255, parseInt(n, 10)).toString(16).padStart(2, '0');
+      bump('#' + toHex(m[1]) + toHex(m[2]) + toHex(m[3]));
+    }
+    // Drop pure black/white noise — almost every site has them, and they rarely
+    // represent the actual brand palette.
+    const skip = new Set(['#000000', '#ffffff']);
+    const topColors = [...colorCounts.entries()]
+      .filter(([c]) => !skip.has(c))
+      .sort((a, b) => b[1] - a[1])
+      .slice(0, 30)
+      .map(([c, n]) => `${c} (${n}x)`)
+      .join(', ');
+
+    // Pull CSS custom properties (design tokens) — these are the single highest-
+    // signal source of brand colors when present.
+    const customProps: string[] = [];
+    for (const m of combinedCss.matchAll(/(--[a-z0-9-]*(?:color|brand|primary|secondary|accent|bg|background|text|fg|foreground)[a-z0-9-]*)\s*:\s*([^;}\n]+)/gi)) {
+      customProps.push(`${m[1]}: ${m[2].trim()}`);
+      if (customProps.length >= 60) break;
+    }
+
+    const truncatedHtml = html.slice(0, 25000);
+    const colorContext = `TOP COLORS BY FREQUENCY (from all CSS):\n${topColors || '(none found)'}\n\nCSS CUSTOM PROPERTIES (design tokens — highest signal):\n${customProps.join('\n') || '(none found)'}\n\nFULL CSS (inline + external stylesheets):\n${combinedCss.slice(0, 60000)}\n\nHTML:\n${truncatedHtml}`;
+
+    const systemPrompt = `You are a brand strategist and web analyst. Analyze the provided website assets and extract a comprehensive brand profile. Return ONLY valid JSON with this exact structure:
 
 {
   "name": "brand name or null",
@@ -114,16 +189,16 @@ export async function POST(request: Request) {
 
 Analyze the following:
 - Writing style and tone from all visible text
-- Color scheme from CSS variables, inline styles, class names, and style blocks
+- Color scheme: PREFER CSS CUSTOM PROPERTIES when present (e.g. --primary, --brand-color, --accent). Otherwise use the most frequent non-neutral colors from the TOP COLORS list. Never invent hex values that don't appear in the CSS. Avoid generic #000000 / #ffffff for primary/accent — pick the brand's actual color. If truly no brand color is detectable, use null rather than guessing.
 - Fonts from Google Fonts links, @font-face rules, and font-family declarations
 - Target audience from service descriptions, pricing language, and positioning
 - Social media links from href attributes containing instagram, facebook, twitter, tiktok, etc.
 - Logo from img tags in header/nav areas
 - Testimonials and reviews from quote/review sections
 
-Use common font names if you can identify them. For colors, extract actual hex values from the HTML/CSS. If you can't find a specific value, use reasonable defaults based on the overall aesthetic.`;
+Use common font names if you can identify them. For colors, ONLY use hex values that actually appear in the CSS sections above.`;
 
-    const result = await chatCompletion(systemPrompt, truncatedHtml);
+    const result = await chatCompletion(systemPrompt, colorContext);
 
     let cleaned = result.trim();
     if (cleaned.startsWith('```json')) cleaned = cleaned.slice(7);
