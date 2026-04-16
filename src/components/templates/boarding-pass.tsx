@@ -1,20 +1,23 @@
 import type { TemplateData } from '@/types';
-import { BrandMark } from './_brand-mark';
 
-// Flex fields: customText (FROM code), customText2 (TO code), customText3 (flight #),
-// brandName (passenger), dateText (date), locationText (gate), photoUrl (stub photo)
+// Flex fields this template reads:
+// - brandName → passenger line
+// - locationText → destination 3-letter code + gate footer
+// - customText / customText2 → optional FROM / TO overrides (clipped to 3 chars)
+// - customText3 → flight number
+// - dateText → boarding date
 export function BoardingPass({ data }: { data: TemplateData }) {
-  // Boarding pass is always monochrome dark ink on cream card for readability,
-  // with the brand's accent used for highlights only. Avoid mapping creator
-  // secondary (often cream) into ink — it vanishes on the cream card.
   const bg = data.colorPrimary ?? '#dcd5c4';
   const card = '#fefcf7';
   const ink = '#1a1a1a';
   const accent = data.colorAccent ?? '#c25b3a';
 
-  const fromCode = data.customText ?? 'NYC';
-  const toCode = data.customText2 ?? 'PAR';
-  const flightNo = data.customText3 ?? 'GS 404';
+  const short = (s: string | undefined, fallback: string) =>
+    s ? s.replace(/[^a-zA-Z0-9]/g, '').slice(0, 3).toUpperCase().padEnd(3, fallback[0]) : fallback;
+
+  const fromCode = short(data.customText, short(data.brandName, 'GSX'));
+  const toCode = short(data.customText2, short(data.locationText, 'DST'));
+  const flightNo = data.customText3 && data.customText3.length <= 10 ? data.customText3 : 'GS 404';
   const dateLabel = data.dateText ?? '04 APR 2026';
   const gate = data.locationText ?? 'GATE B12';
 
@@ -22,7 +25,7 @@ export function BoardingPass({ data }: { data: TemplateData }) {
   const ticketInset = Math.round(data.width * 0.05);
   const stubW = Math.round(data.width * 0.22);
   const fsLabel = Math.round(data.width * 0.012);
-  const fsCode = Math.round(data.width * 0.075);
+  const fsCode = Math.round(data.width * 0.09);
 
   return (
     <div
@@ -46,8 +49,8 @@ export function BoardingPass({ data }: { data: TemplateData }) {
       >
         {/* Main ticket body */}
         <div
-          className="flex-1 flex flex-col justify-between"
-          style={{ padding: `${pad}px` }}
+          className="flex-1 flex flex-col"
+          style={{ padding: `${pad}px`, gap: `${pad * 0.8}px` }}
         >
           {/* Top bar */}
           <div
@@ -63,8 +66,31 @@ export function BoardingPass({ data }: { data: TemplateData }) {
             <span>{flightNo}</span>
           </div>
 
+          {/* Passenger */}
+          <div>
+            <div
+              className="uppercase"
+              style={{ fontSize: `${fsLabel}px`, letterSpacing: '0.3em', opacity: 0.85 }}
+            >
+              PASSENGER
+            </div>
+            <div
+              style={{
+                fontFamily: `${data.fontHeading}, 'Courier Prime', monospace`,
+                fontSize: `${Math.round(fsLabel * 2.5)}px`,
+                fontWeight: 700,
+                marginTop: 6,
+                letterSpacing: '0.04em',
+                textTransform: 'uppercase',
+                lineHeight: 1.1,
+              }}
+            >
+              {data.brandName || 'PASSENGER'}
+            </div>
+          </div>
+
           {/* FROM / TO codes */}
-          <div className="flex items-center justify-between">
+          <div className="flex items-center justify-between" style={{ marginTop: 'auto' }}>
             <div>
               <div className="uppercase" style={{ fontSize: `${fsLabel}px`, letterSpacing: '0.3em', opacity: 0.85 }}>
                 FROM
@@ -102,14 +128,21 @@ export function BoardingPass({ data }: { data: TemplateData }) {
             </div>
           </div>
 
-          {/* Details row */}
+          {/* Date footer */}
           <div
             className="flex items-end justify-end uppercase"
-            style={{ fontSize: `${fsLabel}px`, letterSpacing: '0.25em', borderTop: `1px solid ${ink}`, paddingTop: `${pad * 0.4}px` }}
+            style={{
+              fontSize: `${fsLabel}px`,
+              letterSpacing: '0.25em',
+              borderTop: `1px solid ${ink}`,
+              paddingTop: `${pad * 0.4}px`,
+            }}
           >
-            <div>
+            <div style={{ textAlign: 'right' }}>
               <div style={{ opacity: 0.85 }}>DATE</div>
-              <div style={{ fontWeight: 700, marginTop: 4, fontSize: `${Math.round(fsLabel * 1.3)}px` }}>{dateLabel}</div>
+              <div style={{ fontWeight: 700, marginTop: 4, fontSize: `${Math.round(fsLabel * 1.3)}px` }}>
+                {dateLabel}
+              </div>
             </div>
           </div>
         </div>
@@ -158,16 +191,6 @@ export function BoardingPass({ data }: { data: TemplateData }) {
           </div>
         </div>
       </div>
-
-      <BrandMark
-        data={data}
-        defaultPosition="middle-left"
-        color={ink}
-        fontSize={Math.round(fsLabel * 1.3)}
-        letterSpacing="0.25em"
-        opacity={1}
-        inset={Math.round(ticketInset + pad)}
-      />
     </div>
   );
 }

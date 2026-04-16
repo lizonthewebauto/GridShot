@@ -1,5 +1,4 @@
 import type { TemplateData } from '@/types';
-import { BrandMark } from './_brand-mark';
 
 // Flex fields:
 // - colorPrimary → dark background
@@ -48,15 +47,26 @@ export function LuxuryGold({ data }: { data: TemplateData }) {
           padding: `${Math.round(data.width * 0.035)}px`,
         }}
       >
-        {/* Top: est line (brand rendered separately via BrandMark) */}
-        <div style={{ textAlign: 'center', width: '100%', marginTop: `${Math.round(data.width * 0.04)}px` }}>
+        {/* Top: brand wordmark + est line */}
+        <div style={{ textAlign: 'center', width: '100%', marginTop: `${Math.round(data.width * 0.02)}px` }}>
+          <div
+            style={{
+              fontFamily: `${data.fontHeading}, 'Cormorant Garamond', serif`,
+              fontStyle: 'italic',
+              fontSize: `${Math.round(data.width * 0.04)}px`,
+              lineHeight: 1,
+              color: gold,
+            }}
+          >
+            {data.brandName || 'Brand Name'}
+          </div>
           {data.dateText && (
             <div
               className="uppercase"
               style={{
-                fontSize: `${Math.round(data.width * 0.0095)}px`,
+                fontSize: `${Math.round(data.width * 0.011)}px`,
                 letterSpacing: '0.5em',
-                marginTop: `${Math.round(data.width * 0.01)}px`,
+                marginTop: `${Math.round(data.width * 0.015)}px`,
                 opacity: 0.85,
               }}
             >
@@ -132,18 +142,6 @@ export function LuxuryGold({ data }: { data: TemplateData }) {
         </div>
       </div>
 
-      <BrandMark
-        data={data}
-        defaultPosition="top-center"
-        fontSize={Math.round(data.width * 0.035)}
-        letterSpacing="0.02em"
-        uppercase={false}
-        opacity={1}
-        color={gold}
-        inset={Math.round(pad + data.width * 0.045)}
-        fontFamily={`${data.fontHeading}, 'Cormorant Garamond', serif`}
-        fontStyle="italic"
-      />
     </div>
   );
 }

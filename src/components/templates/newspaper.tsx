@@ -1,8 +1,8 @@
 import type { TemplateData } from '@/types';
-import { BrandMark } from './_brand-mark';
 
 // Flex fields:
-// - customText → optional decorative masthead override (else brand via BrandMark)
+// - brandName → masthead (the newspaper name IS the brand)
+// - customText → optional kicker above masthead (e.g. "Issue 01")
 // - tagline → small uppercase subtitle under headline
 // - dateText → date line in masthead area
 // - bodyText → renders in 2-column layout below the photo
@@ -24,24 +24,35 @@ export function Newspaper({ data }: { data: TemplateData }) {
         padding: `${pad}px`,
       }}
     >
-      {/* Decorative masthead override (if customText supplied) */}
       {data.customText && (
         <div
+          className="uppercase"
           style={{
-            fontFamily: `${data.fontHeading}, 'Playfair Display', serif`,
-            fontSize: `${Math.round(data.width * 0.058)}px`,
-            fontWeight: 900,
+            fontSize: `${Math.round(data.width * 0.012)}px`,
+            letterSpacing: '0.35em',
             textAlign: 'center',
-            letterSpacing: '0.04em',
-            lineHeight: 1,
+            opacity: 0.75,
+            marginBottom: `${Math.round(data.width * 0.005)}px`,
           }}
         >
-          {data.customText.toUpperCase()}
+          {data.customText}
         </div>
       )}
-      {!data.customText && (
-        <div style={{ height: `${Math.round(data.width * 0.058)}px` }} />
-      )}
+
+      {/* Masthead = brand name */}
+      <div
+        style={{
+          fontFamily: `${data.fontHeading}, 'Playfair Display', serif`,
+          fontSize: `${Math.round(data.width * 0.068)}px`,
+          fontWeight: 900,
+          textAlign: 'center',
+          letterSpacing: '0.04em',
+          lineHeight: 1,
+          textTransform: 'uppercase',
+        }}
+      >
+        {data.brandName || 'THE DAILY'}
+      </div>
 
       {/* Rule lines with date */}
       <div
@@ -140,15 +151,6 @@ export function Newspaper({ data }: { data: TemplateData }) {
         </div>
       )}
 
-      <BrandMark
-        data={data}
-        defaultPosition="top-center"
-        fontSize={18}
-        letterSpacing="0.4em"
-        color={ink}
-        opacity={1}
-        inset={pad}
-      />
     </div>
   );
 }

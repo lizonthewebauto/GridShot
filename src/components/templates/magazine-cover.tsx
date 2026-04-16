@@ -1,5 +1,4 @@
 import type { TemplateData } from '@/types';
-import { BrandMark } from './_brand-mark';
 
 // Flex fields this template reads:
 // - brandName → masthead (top)
@@ -60,23 +59,23 @@ export function MagazineCover({ data }: { data: TemplateData }) {
         </div>
       )}
 
-      {/* Issue line top-right */}
+      {/* Issue kicker — small centered line ABOVE the masthead so the two
+          never share the same horizontal band. */}
       {data.customText && (
         <div
           className="absolute"
           style={{
-            top: `${Math.round(data.height * 0.05)}px`,
-            right: `${Math.round(data.width * 0.06)}px`,
+            top: `${Math.round(data.height * 0.025)}px`,
+            left: 0,
+            right: 0,
             fontFamily: `${body}, sans-serif`,
-            fontSize: `${Math.round(data.width * 0.018)}px`,
-            letterSpacing: '0.3em',
+            fontSize: `${Math.round(data.width * 0.014)}px`,
+            letterSpacing: '0.4em',
             textTransform: 'uppercase',
-            textAlign: 'right',
+            textAlign: 'center',
             color: '#ffffff',
-            textShadow: '0 2px 12px rgba(0,0,0,0.8)',
-            opacity: 0.9,
-            whiteSpace: 'pre-line',
-            lineHeight: 1.4,
+            textShadow: '0 2px 10px rgba(0,0,0,0.7)',
+            opacity: 0.85,
             zIndex: 2,
           }}
         >
@@ -84,21 +83,33 @@ export function MagazineCover({ data }: { data: TemplateData }) {
         </div>
       )}
 
-      {/* Masthead — driven by BrandMark */}
-      <BrandMark
-        data={data}
-        defaultPosition="top-center"
-        fontSize={Math.round(data.width * 0.13)}
-        letterSpacing="-0.03em"
-        uppercase
-        opacity={1}
-        color="#ffffff"
-        inset={Math.round(data.height * 0.05)}
-        zIndex={2}
-        fontFamily={`${data.fontHeading}, 'Playfair Display', serif`}
-        fontWeight={900}
-        fontStyle="italic"
-      />
+      {/* Masthead — centered, capped width so the issue line at top-right stays clear */}
+      {data.brandName && (
+        <div
+          className="absolute uppercase"
+          style={{
+            top: `${Math.round(data.height * 0.07)}px`,
+            left: '50%',
+            transform: 'translateX(-50%)',
+            maxWidth: `${Math.round(data.width * 0.7)}px`,
+            fontFamily: `${data.fontHeading}, 'Playfair Display', serif`,
+            fontSize: `${Math.round(data.width * 0.11)}px`,
+            fontWeight: 900,
+            fontStyle: 'italic',
+            letterSpacing: '-0.03em',
+            lineHeight: 0.95,
+            color: '#ffffff',
+            textShadow: '0 2px 14px rgba(0,0,0,0.6)',
+            textAlign: 'center',
+            whiteSpace: 'nowrap',
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
+            zIndex: 2,
+          }}
+        >
+          {data.brandName}
+        </div>
+      )}
 
       {/* Oversized title */}
       {data.headline && (
@@ -142,26 +153,7 @@ export function MagazineCover({ data }: { data: TemplateData }) {
         </div>
       )}
 
-      {/* Optional vertical side strip */}
-      {data.customText2 && (
-        <div
-          className="absolute uppercase"
-          style={{
-            right: `${Math.round(data.width * 0.03)}px`,
-            top: '50%',
-            transform: 'translateY(-50%) rotate(90deg)',
-            transformOrigin: 'center',
-            color: '#ffffff',
-            textShadow: '0 2px 12px rgba(0,0,0,0.8)',
-            fontFamily: `${body}, sans-serif`,
-            fontSize: `${Math.round(data.width * 0.016)}px`,
-            letterSpacing: '0.35em',
-            zIndex: 2,
-          }}
-        >
-          {data.customText2}
-        </div>
-      )}
+      {/* (vertical side strip removed — it collided with the oversized headline) */}
 
       {/* Cover line block */}
       {(data.bodyText || data.tagline) && (
