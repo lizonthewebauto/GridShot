@@ -17,18 +17,29 @@ interface SampleLightboxProps {
   showLabel?: boolean;
   showSublabel?: boolean;
   sizes?: string;
+  // optional progressive disclosure — when set, only the first N tiles render
+  // until the user clicks the toggle. Lightbox nav always cycles through all samples.
+  initialCount?: number;
+  expandLabel?: string;
+  collapseLabel?: string;
 }
 
-// Renders a grid of clickable sample tiles + a fullscreen modal when one is clicked.
-// Pure data-in, renders everything itself — no render props (works in Server Component parents).
 export function SampleLightbox({
   samples,
   gridClassName = 'grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-7 gap-3',
   showLabel = true,
   showSublabel = false,
   sizes = '(max-width: 640px) 33vw, (max-width: 1024px) 25vw, 200px',
+  initialCount,
+  expandLabel,
+  collapseLabel = 'Show less',
 }: SampleLightboxProps) {
   const [activeIdx, setActiveIdx] = useState<number | null>(null);
+  const [expanded, setExpanded] = useState(false);
+
+  const canCollapse = initialCount !== undefined && samples.length > initialCount;
+  const visibleSamples = canCollapse && !expanded ? samples.slice(0, initialCount) : samples;
+  const hiddenCount = canCollapse ? samples.length - (initialCount ?? 0) : 0;
 
   const close = useCallback(() => setActiveIdx(null), []);
   const prev = useCallback(() => {
@@ -58,7 +69,7 @@ export function SampleLightbox({
   return (
     <>
       <div className={gridClassName}>
-        {samples.map((s, idx) => (
+        {visibleSamples.map((s, idx) => (
           <button
             key={`${s.src}-${idx}`}
             type="button"
@@ -79,18 +90,33 @@ export function SampleLightbox({
               />
             </div>
             {showLabel && s.label && (
-              <span className="text-[11px] uppercase tracking-widest text-muted text-center group-hover:text-accent-warm transition-colors">
+              <span className="text-[12px] font-medium uppercase tracking-widest text-foreground/75 text-center group-hover:text-accent-warm transition-colors">
                 {s.label}
               </span>
             )}
             {showSublabel && s.sublabel && (
-              <span className="text-[10px] uppercase tracking-widest text-muted text-center">
+              <span className="text-[11px] uppercase tracking-widest text-foreground/60 text-center">
                 {s.sublabel}
               </span>
             )}
           </button>
         ))}
       </div>
+
+      {canCollapse && (
+        <div className="mt-6 flex justify-center">
+          <button
+            type="button"
+            onClick={() => setExpanded((v) => !v)}
+            className="inline-flex items-center gap-2 rounded-sm border border-accent-warm/40 bg-accent-warm/5 px-5 py-2.5 text-xs font-bold uppercase tracking-widest text-accent-warm hover:bg-accent-warm hover:text-white transition-colors"
+          >
+            {expanded
+              ? collapseLabel
+              : (expandLabel ?? `See ${hiddenCount} more`)}
+            <span aria-hidden="true">{expanded ? '↑' : '↓'}</span>
+          </button>
+        </div>
+      )}
 
       {active && (
         <div

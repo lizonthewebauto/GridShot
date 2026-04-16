@@ -1,4 +1,3 @@
-import Image from 'next/image';
 import Link from 'next/link';
 import { SampleLightbox } from '@/components/sample-lightbox';
 
@@ -18,6 +17,9 @@ const creatorMatrix: {
   label: string;
   brandName: string;
   vibe: string;
+  tagline: string;
+  palette: { primary: string; secondary: string; accent: string };
+  fonts: { heading: string; body: string };
   heroTemplates: string[];
 }[] = [
   {
@@ -25,6 +27,9 @@ const creatorMatrix: {
     label: 'Wedding Photographer',
     brandName: 'Sarah Lane',
     vibe: 'Cinematic',
+    tagline: 'Cinematic wedding films + stills',
+    palette: { primary: '#1a1520', secondary: '#f5efe8', accent: '#c08a4a' },
+    fonts: { heading: 'Playfair Display', body: 'DM Sans' },
     heroTemplates: ['cinematic-overlay', 'editorial-elegant', 'polaroid-stack', 'testimonial-card'],
   },
   {
@@ -32,6 +37,9 @@ const creatorMatrix: {
     label: 'Portrait Photographer',
     brandName: 'Mira Studios',
     vibe: 'Editorial',
+    tagline: 'Personal brand portraits',
+    palette: { primary: '#1e1b18', secondary: '#f7f4ef', accent: '#8b6914' },
+    fonts: { heading: 'DM Serif Display', body: 'Inter' },
     heroTemplates: ['editorial-elegant', 'magazine-cover', 'minimal-centered', 'split-portfolio'],
   },
   {
@@ -39,6 +47,9 @@ const creatorMatrix: {
     label: 'Real Estate Photographer',
     brandName: 'Apex Visuals',
     vibe: 'Minimal',
+    tagline: 'Austin listing photography',
+    palette: { primary: '#0f1712', secondary: '#fafafa', accent: '#3a5a3a' },
+    fonts: { heading: 'Montserrat', body: 'Inter' },
     heroTemplates: ['minimal-frame', 'minimal-centered', 'bold-showcase', 'split-story'],
   },
   {
@@ -46,6 +57,9 @@ const creatorMatrix: {
     label: 'Food Photographer',
     brandName: 'Savory & Co',
     vibe: 'Moody',
+    tagline: 'Restaurant + menu photography',
+    palette: { primary: '#f4ebd5', secondary: '#1f1a10', accent: '#d38a42' },
+    fonts: { heading: 'Cormorant Garamond', body: 'DM Sans' },
     heroTemplates: ['split-story', 'fullbleed-overlay', 'magazine-cover', 'film-strip'],
   },
   {
@@ -53,6 +67,9 @@ const creatorMatrix: {
     label: 'Event Photographer',
     brandName: 'Flash Collective',
     vibe: 'Bold',
+    tagline: 'Concerts, launches, conferences',
+    palette: { primary: '#0a0a0a', secondary: '#ffffff', accent: '#e04220' },
+    fonts: { heading: 'Oswald', body: 'DM Sans' },
     heroTemplates: ['bold-showcase', 'fullbleed-overlay', 'cinematic-overlay', 'photo-only'],
   },
   {
@@ -60,6 +77,9 @@ const creatorMatrix: {
     label: 'Travel Photographer',
     brandName: 'Atlas Journal',
     vibe: 'Documentary',
+    tagline: 'Travel prints + editorial',
+    palette: { primary: '#132418', secondary: '#ece8d8', accent: '#6a7a52' },
+    fonts: { heading: 'Libre Baskerville', body: 'DM Sans' },
     heroTemplates: ['cinematic-overlay', 'film-strip', 'polaroid-stack', 'minimal-frame'],
   },
 ];
@@ -213,6 +233,18 @@ const features = [
   },
 ];
 
+/* Returns true if a hex color is dark enough to need light text on top. */
+function isDarkHex(hex: string): boolean {
+  const m = hex.replace('#', '');
+  const n = m.length === 3 ? m.split('').map((c) => c + c).join('') : m;
+  const r = parseInt(n.slice(0, 2), 16);
+  const g = parseInt(n.slice(2, 4), 16);
+  const b = parseInt(n.slice(4, 6), 16);
+  // Perceived luminance (0-255)
+  const lum = 0.299 * r + 0.587 * g + 0.114 * b;
+  return lum < 150;
+}
+
 /* Reusable SVG components */
 function Crosshair({ className = 'w-5 h-5' }: { className?: string }) {
   return (
@@ -261,9 +293,28 @@ function FocusRing({ className = '' }: { className?: string }) {
   );
 }
 
+// Fonts used in the brand-showcase header cards — loaded here so the brand
+// variety actually reads on the splash page.
+const SHOWCASE_FONT_URL =
+  'https://fonts.googleapis.com/css2?' +
+  [
+    'family=Playfair+Display:wght@700;900',
+    'family=DM+Serif+Display',
+    'family=Cormorant+Garamond:wght@600;700',
+    'family=Libre+Baskerville:wght@700',
+    'family=Montserrat:wght@700;900',
+    'family=Oswald:wght@500;700',
+    'family=Inter:wght@400;500',
+  ].join('&') +
+  '&display=swap';
+
 export default function HomePage() {
   return (
     <div className="min-h-screen flex flex-col overflow-hidden">
+      <link rel="preconnect" href="https://fonts.googleapis.com" />
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+      <link rel="stylesheet" href={SHOWCASE_FONT_URL} />
+
       {/* Rule-of-thirds grid background */}
       <div
         className="fixed inset-0 pointer-events-none z-0"
@@ -458,86 +509,127 @@ export default function HomePage() {
         <div className="max-w-7xl mx-auto">
           {/* Intro */}
           <div className="text-center mb-14">
-            <p className="text-xs uppercase tracking-[0.2em] text-accent-warm font-medium mb-3">Templates</p>
+            <p className="text-xs uppercase tracking-[0.2em] text-accent-warm font-semibold mb-3">Templates</p>
             <h2
               className="text-3xl sm:text-4xl font-bold tracking-tight mb-4"
               style={{ fontFamily: 'var(--font-heading)' }}
             >
               One photo. {templates.length} ways to tell the story.
             </h2>
-            <p className="text-lg text-muted max-w-2xl mx-auto">
-              Same image, {templates.length} different templates. Click any sample to see it full size.
+            <p className="text-lg text-foreground/75 max-w-2xl mx-auto">
+              Six brands. Six palettes. Six font pairings. Pick your photographer type and see a handful of samples, or expand to browse all {templates.length} templates.
             </p>
           </div>
 
-          {/* A. All templates gallery — one creator, all templates */}
-          <div className="mb-16">
-            <div className="flex flex-wrap items-baseline justify-between gap-3 px-1 mb-5 pb-3 border-b border-border/60">
-              <h3 className="text-lg font-bold" style={{ fontFamily: 'var(--font-heading)' }}>
-                Every template at a glance
-              </h3>
-              <span className="text-[10px] uppercase tracking-widest text-muted">
-                {templates.length} templates · tap to enlarge
-              </span>
-            </div>
-            <SampleLightbox
-              gridClassName="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-7 gap-3"
-              sizes="(max-width: 640px) 33vw, (max-width: 1024px) 25vw, 200px"
-              samples={templates.map((tpl) => ({
-                src: `/samples/sample-${creatorMatrix[0].slug}-${tpl.slug}.jpg`,
-                alt: `${tpl.name} template`,
-                label: tpl.name,
-              }))}
-            />
-          </div>
+          <div className="space-y-20">
+            {creatorMatrix.map((creator) => {
+              const heroSamples = creator.heroTemplates
+                .map((slug) => templates.find((t) => t.slug === slug))
+                .filter((t): t is { slug: string; name: string } => Boolean(t))
+                .map((tpl) => ({
+                  src: `/samples/sample-${creator.slug}-${tpl.slug}.jpg`,
+                  alt: `${creator.brandName} — ${tpl.name}`,
+                  label: tpl.name,
+                }));
 
-          <div className="my-20 border-t border-border/60" />
+              const remainingSamples = templates
+                .filter((tpl) => !creator.heroTemplates.includes(tpl.slug))
+                .map((tpl) => ({
+                  src: `/samples/sample-${creator.slug}-${tpl.slug}.jpg`,
+                  alt: `${creator.brandName} — ${tpl.name}`,
+                  label: tpl.name,
+                }));
 
-          {/* B. Color + font variety — each template × 6 palettes */}
-          <div className="text-center mb-10">
-            <p className="text-xs uppercase tracking-[0.2em] text-accent-warm font-medium mb-3">Variety</p>
-            <h3
-              className="text-2xl sm:text-3xl font-bold tracking-tight mb-3"
-              style={{ fontFamily: 'var(--font-heading)' }}
-            >
-              Six palettes. Six font pairings.
-            </h3>
-            <p className="text-base text-muted max-w-2xl mx-auto">
-              Same template, different brand. Click any sample to zoom in.
-            </p>
-          </div>
+              const allSamples = [...heroSamples, ...remainingSamples];
 
-          <div className="space-y-14">
-            {templates.map((tpl) => (
-              <div key={tpl.slug} id={`template-${tpl.slug}`} className="scroll-mt-24 space-y-4">
-                <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-2 px-1 border-b border-border/60 pb-3">
-                  <h4
-                    className="text-xl sm:text-2xl font-bold tracking-tight"
-                    style={{ fontFamily: 'var(--font-heading)' }}
+              // Dark palettes render white text over primary — pick the contrast-safe text color.
+              const primaryIsDark = isDarkHex(creator.palette.primary);
+
+              return (
+                <div key={creator.slug} id={`creator-${creator.slug}`} className="scroll-mt-24">
+                  {/* Branded header card — demonstrates brand variety */}
+                  <div
+                    className="rounded-sm border border-border/70 overflow-hidden mb-6"
+                    style={{
+                      background: creator.palette.primary,
+                      color: primaryIsDark ? '#ffffff' : '#111111',
+                    }}
                   >
-                    {tpl.name}
-                  </h4>
-                  <span className="text-[10px] uppercase tracking-widest text-muted">
-                    6 brand palettes
-                  </span>
-                </div>
+                    <div className="px-6 py-6 sm:px-8 sm:py-7 flex flex-col md:flex-row md:items-center md:justify-between gap-5">
+                      <div>
+                        <p
+                          className="text-[11px] font-semibold uppercase tracking-[0.25em] mb-2"
+                          style={{ color: creator.palette.accent }}
+                        >
+                          {creator.label} · {creator.vibe}
+                        </p>
+                        <h3
+                          className="text-2xl sm:text-3xl font-bold tracking-tight mb-1"
+                          style={{ fontFamily: `'${creator.fonts.heading}', serif` }}
+                        >
+                          {creator.brandName}
+                        </h3>
+                        <p
+                          className="text-sm"
+                          style={{
+                            fontFamily: `'${creator.fonts.body}', sans-serif`,
+                            color: primaryIsDark ? 'rgba(255,255,255,0.82)' : 'rgba(0,0,0,0.72)',
+                          }}
+                        >
+                          {creator.tagline}
+                        </p>
+                      </div>
 
-                <SampleLightbox
-                  gridClassName="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-3"
-                  sizes="(max-width: 640px) 33vw, (max-width: 1024px) 20vw, 180px"
-                  samples={creatorMatrix.map((creator) => ({
-                    src: `/samples/sample-${creator.slug}-${tpl.slug}.jpg`,
-                    alt: `${creator.brandName} — ${tpl.name}`,
-                    label: creator.brandName,
-                  }))}
-                />
-              </div>
-            ))}
+                      <div className="flex items-center gap-5">
+                        {/* Color swatches */}
+                        <div className="flex -space-x-1.5">
+                          {[creator.palette.primary, creator.palette.secondary, creator.palette.accent].map(
+                            (color, i) => (
+                              <div
+                                key={i}
+                                className="w-8 h-8 rounded-full border-2"
+                                style={{
+                                  background: color,
+                                  borderColor: primaryIsDark ? 'rgba(255,255,255,0.25)' : 'rgba(0,0,0,0.2)',
+                                }}
+                                aria-hidden="true"
+                              />
+                            ),
+                          )}
+                        </div>
+                        {/* Font pairing */}
+                        <div
+                          className="hidden sm:block text-[11px] uppercase tracking-widest"
+                          style={{ color: primaryIsDark ? 'rgba(255,255,255,0.65)' : 'rgba(0,0,0,0.6)' }}
+                        >
+                          <div style={{ fontFamily: `'${creator.fonts.heading}', serif` }}>
+                            {creator.fonts.heading}
+                          </div>
+                          <div style={{ fontFamily: `'${creator.fonts.body}', sans-serif` }}>
+                            {creator.fonts.body}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Samples — hero count with see-more toggle */}
+                  <SampleLightbox
+                    gridClassName="grid grid-cols-2 sm:grid-cols-4 gap-4"
+                    sizes="(max-width: 640px) 50vw, (max-width: 1024px) 25vw, 240px"
+                    samples={allSamples}
+                    initialCount={heroSamples.length}
+                    expandLabel={`See all ${allSamples.length} ${creator.brandName} samples`}
+                    collapseLabel="Show fewer"
+                  />
+                </div>
+              );
+            })}
           </div>
 
           {/* Final CTA */}
           <div className="text-center mt-20">
-            <p className="text-sm text-muted mb-6">
+            <p className="text-sm text-foreground/75 mb-6">
               Upload your own photos. Pick your own colors. Let the AI do the rest.
             </p>
             <Link
