@@ -72,7 +72,7 @@ export function SplitStory({ data }: { data: TemplateData }) {
         style={{
           fontFamily: data.fontBody,
           color: data.colorPrimary,
-          fontSize: `${Math.round(data.width * 0.018)}px`,
+          fontSize: `${Math.max(28, Math.round(data.width * 0.018))}px`,
           marginBottom: `${Math.round(data.width * 0.03)}px`,
         }}
       >
@@ -85,7 +85,7 @@ export function SplitStory({ data }: { data: TemplateData }) {
           style={{
             fontFamily: data.fontBody,
             color: data.colorPrimary,
-            fontSize: `${Math.round(data.width * 0.014)}px`,
+            fontSize: `${Math.max(28, Math.round(data.width * 0.014))}px`,
           }}
         >
           {data.reviewTagline}

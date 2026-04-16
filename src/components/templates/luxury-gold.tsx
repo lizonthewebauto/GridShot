@@ -64,7 +64,7 @@ export function LuxuryGold({ data }: { data: TemplateData }) {
             <div
               className="uppercase"
               style={{
-                fontSize: `${Math.round(data.width * 0.011)}px`,
+                fontSize: `${Math.max(28, Math.round(data.width * 0.011))}px`,
                 letterSpacing: '0.5em',
                 marginTop: `${Math.round(data.width * 0.015)}px`,
                 opacity: 0.85,
@@ -130,7 +130,7 @@ export function LuxuryGold({ data }: { data: TemplateData }) {
             <div
               className="uppercase"
               style={{
-                fontSize: `${Math.round(data.width * 0.016)}px`,
+                fontSize: `${Math.max(28, Math.round(data.width * 0.016))}px`,
                 letterSpacing: '0.35em',
                 marginTop: `${Math.round(data.width * 0.015)}px`,
                 opacity: 0.9,

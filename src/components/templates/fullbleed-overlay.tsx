@@ -65,7 +65,7 @@ export function FullbleedOverlay({ data }: { data: TemplateData }) {
           <div
             style={{
               fontFamily: `${body}, sans-serif`,
-              fontSize: `${Math.round(data.width * 0.013)}px`,
+              fontSize: `${Math.max(28, Math.round(data.width * 0.013))}px`,
               letterSpacing: '0.35em',
               textTransform: 'uppercase',
               marginBottom: `${Math.round(data.width * 0.017)}px`,

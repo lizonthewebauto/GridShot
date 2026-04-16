@@ -1,4 +1,7 @@
 export const TEMPLATE_REGISTRY = {
+  // Flagship configurable template — every element is editable
+  'editorial-pro': { slug: 'editorial-pro', name: 'Editorial Pro', component: 'EditorialPro' },
+
   // Original set
   'editorial-elegant': { slug: 'editorial-elegant', name: 'Editorial Elegant', component: 'EditorialElegant' },
   'bold-showcase': { slug: 'bold-showcase', name: 'Bold Showcase', component: 'BoldShowcase' },

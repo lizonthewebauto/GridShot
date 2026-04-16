@@ -81,7 +81,7 @@ export function TriptychStrip({ data }: { data: TemplateData }) {
           <div
             className="uppercase"
             style={{
-              fontSize: `${Math.round(data.width * 0.014)}px`,
+              fontSize: `${Math.max(28, Math.round(data.width * 0.014))}px`,
               letterSpacing: '0.35em',
               marginBottom: `${Math.round(data.height * 0.015)}px`,
               opacity: 0.7,

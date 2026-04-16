@@ -74,7 +74,7 @@ export function StackedLetterforms({ data }: { data: TemplateData }) {
             right: `${Math.round(data.width * 0.05)}px`,
             bottom: `${Math.round(data.height * 0.06)}px`,
             color: textColor,
-            fontSize: `${Math.round(data.width * 0.012)}px`,
+            fontSize: `${Math.max(28, Math.round(data.width * 0.012))}px`,
             letterSpacing: '0.35em',
             zIndex: 3,
             maxWidth: '35%',

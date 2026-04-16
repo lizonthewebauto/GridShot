@@ -28,7 +28,7 @@ export function SplitHalf({ data }: { data: TemplateData }) {
         ) : (
           <div
             className="w-full h-full flex items-center justify-center"
-            style={{ backgroundColor: blockColor, opacity: 0.6, color: textColor, fontSize: `${Math.round(data.width * 0.015)}px` }}
+            style={{ backgroundColor: blockColor, opacity: 0.6, color: textColor, fontSize: `${Math.max(28, Math.round(data.width * 0.015))}px` }}
           >
             <span style={{ opacity: 0.4 }}>No photo</span>
           </div>
@@ -64,7 +64,7 @@ export function SplitHalf({ data }: { data: TemplateData }) {
             className="uppercase"
             style={{
               fontFamily: `${data.fontBody}, sans-serif`,
-              fontSize: `${Math.round(data.width * 0.011)}px`,
+              fontSize: `${Math.max(28, Math.round(data.width * 0.011))}px`,
               letterSpacing: '0.28em',
               opacity: 0.75,
               marginBottom: `${Math.round(data.width * 0.025)}px`,
@@ -77,7 +77,7 @@ export function SplitHalf({ data }: { data: TemplateData }) {
         {data.bodyText && (
           <p
             style={{
-              fontSize: `${Math.round(data.width * 0.017)}px`,
+              fontSize: `${Math.max(28, Math.round(data.width * 0.017))}px`,
               lineHeight: 1.55,
               opacity: 0.88,
               maxWidth: '90%',
@@ -91,7 +91,7 @@ export function SplitHalf({ data }: { data: TemplateData }) {
           <div
             className="uppercase"
             style={{
-              fontSize: `${Math.round(data.width * 0.011)}px`,
+              fontSize: `${Math.max(28, Math.round(data.width * 0.011))}px`,
               letterSpacing: '0.25em',
               marginTop: `${Math.round(data.width * 0.03)}px`,
               color: accent,

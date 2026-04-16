@@ -1,5 +1,6 @@
 import type { ComponentType } from 'react';
 import type { TemplateData } from '@/types';
+import { EditorialPro } from '@/components/templates/editorial-pro';
 import { EditorialElegant } from '@/components/templates/editorial-elegant';
 import { BoldShowcase } from '@/components/templates/bold-showcase';
 import { MinimalCentered } from '@/components/templates/minimal-centered';
@@ -45,6 +46,7 @@ import { AppleNote } from '@/components/templates/apple-note';
 export type TemplateComponent = ComponentType<{ data: TemplateData }>;
 
 export const TEMPLATE_COMPONENTS: Record<string, TemplateComponent> = {
+  'editorial-pro': EditorialPro,
   'editorial-elegant': EditorialElegant,
   'bold-showcase': BoldShowcase,
   'minimal-centered': MinimalCentered,

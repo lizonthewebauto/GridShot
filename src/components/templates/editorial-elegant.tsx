@@ -66,7 +66,7 @@ export function EditorialElegant({ data }: { data: TemplateData }) {
           <div style={{ marginTop: `${Math.round(data.width * 0.03)}px` }}>
             <span
               className="opacity-60"
-              style={{ color: data.colorPrimary, fontSize: `${Math.round(data.width * 0.014)}px` }}
+              style={{ color: data.colorPrimary, fontSize: `${Math.max(28, Math.round(data.width * 0.014))}px` }}
             >
               {data.reviewCount}
             </span>

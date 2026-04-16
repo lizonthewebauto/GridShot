@@ -167,6 +167,101 @@ export type BrandPosition =
   | 'bottom-left' | 'bottom-center' | 'bottom-right'
   | 'none';
 
+// ===== Configurable elements (used by Editorial Pro and similar templates) =====
+
+export type ElementAlignment = 'left' | 'center' | 'right';
+export type ElementPosition = 'top' | 'bottom';
+
+export const SWIPE_ARROW_STYLES = [
+  'text',
+  'arrow-right',
+  'chevron',
+  'double-chevron',
+  'circle-arrow',
+  'line-arrow',
+  'dots',
+  'hand-swipe',
+  'arrow-minimal',
+  'none',
+] as const;
+export type SwipeArrowStyle = typeof SWIPE_ARROW_STYLES[number];
+
+export const FOOTER_TEXT_SOURCES = [
+  'custom',
+  'brand-name',
+  'website',
+  'handle',
+  'tagline',
+  'review',
+] as const;
+export type FooterTextSource = typeof FOOTER_TEXT_SOURCES[number];
+
+export const FOOTER_SOURCE_LABELS: Record<FooterTextSource, string> = {
+  'custom': 'Custom Text',
+  'brand-name': 'Brand Name',
+  'website': 'Website URL',
+  'handle': 'Handle / Username',
+  'tagline': 'Brand Tagline',
+  'review': 'Review Info',
+};
+
+export const FONT_WEIGHT_OPTIONS = [
+  { value: 300, label: 'Light' },
+  { value: 400, label: 'Regular' },
+  { value: 500, label: 'Medium' },
+  { value: 600, label: 'Semibold' },
+  { value: 700, label: 'Bold' },
+  { value: 800, label: 'Extra Bold' },
+  { value: 900, label: 'Black' },
+] as const;
+
+export const ALL_FONTS = [
+  'Playfair Display', 'Cormorant Garamond', 'Libre Baskerville', 'DM Serif Display',
+  'Lora', 'Bitter', 'EB Garamond',
+  'Montserrat', 'Inter', 'DM Sans', 'Work Sans', 'Karla', 'Rubik',
+  'Oswald', 'Bebas Neue', 'Courier Prime',
+  'Caveat', 'Dancing Script', 'Amatic SC', 'Permanent Marker',
+] as const;
+
+export interface ElementConfig {
+  visible: boolean;
+  text?: string;
+  fontSize?: number;
+  alignment?: ElementAlignment;
+  position?: ElementPosition;
+  lineHeight?: number;
+  fontFamily?: string;
+  fontWeight?: number;
+  fontStyle?: 'normal' | 'italic';
+  letterSpacing?: number;
+  color?: string;
+}
+
+export interface SwipeIndicatorConfig extends ElementConfig {
+  arrowStyle?: SwipeArrowStyle;
+  opacity?: number;
+}
+
+export interface FooterConfig extends ElementConfig {
+  textSource?: FooterTextSource;
+}
+
+export interface SlideElements {
+  header: ElementConfig;
+  headline: ElementConfig;
+  body: ElementConfig;
+  footer: FooterConfig;
+  swipeIndicator: SwipeIndicatorConfig;
+}
+
+export const DEFAULT_ELEMENTS: SlideElements = {
+  header:    { visible: true, fontSize: 24, alignment: 'center', position: 'top', letterSpacing: 0.35, fontWeight: 400, fontStyle: 'normal' },
+  headline:  { visible: true, fontSize: 88, alignment: 'left',   position: 'top', lineHeight: 1.1, fontWeight: 900, letterSpacing: 0.02, fontStyle: 'normal' },
+  body:      { visible: true, fontSize: 32, alignment: 'left',   position: 'top', lineHeight: 1.5, fontWeight: 400, fontStyle: 'italic' },
+  footer:    { visible: true, fontSize: 22, alignment: 'left',   position: 'bottom', fontStyle: 'italic', textSource: 'review' },
+  swipeIndicator: { visible: true, text: 'Swipe →', fontSize: 22, alignment: 'right', position: 'bottom', arrowStyle: 'text', opacity: 0.5, letterSpacing: 0.15 },
+};
+
 export interface TemplateData {
   // Core
   brandName: string;
@@ -198,6 +293,12 @@ export interface TemplateData {
   customText3?: string | null;
   variant?: string;
   brandPosition?: BrandPosition;
+
+  // Editorial Pro element overrides + extra brand fields for footer text source
+  elements?: SlideElements;
+  websiteUrl?: string | null;
+  instagramHandle?: string | null;
+  brandTagline?: string | null;
 }
 
 export interface Preset {

@@ -78,7 +78,7 @@ export function DuotoneWash({ data }: { data: TemplateData }) {
             className="uppercase"
             style={{
               fontFamily: `${data.fontBody}, sans-serif`,
-              fontSize: `${Math.round(data.width * 0.011)}px`,
+              fontSize: `${Math.max(28, Math.round(data.width * 0.011))}px`,
               letterSpacing: '0.3em',
               opacity: 0.9,
               marginBottom: `${Math.round(data.width * 0.012)}px`,
@@ -102,7 +102,7 @@ export function DuotoneWash({ data }: { data: TemplateData }) {
         {data.bodyText && (
           <p
             style={{
-              fontSize: `${Math.round(data.width * 0.017)}px`,
+              fontSize: `${Math.max(28, Math.round(data.width * 0.017))}px`,
               lineHeight: 1.5,
               opacity: 0.9,
               maxWidth: '75%',

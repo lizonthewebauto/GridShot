@@ -24,10 +24,10 @@ export function PolaroidStack({ data }: { data: TemplateData }) {
   const captionFont = Math.round(photoSize * 0.05);
   const captionMarginTop = Math.round(photoSize * 0.0375);
   const headlineMarginTop = Math.round(data.height * 0.06);
-  const headlineFont = Math.round(data.width * 0.067);
+  const headlineFont = Math.max(28, Math.round(data.width * 0.067));
   const headlinePadX = Math.round(data.width * 0.075);
   const bodyMarginTop = Math.round(data.height * 0.018);
-  const bodyFont = Math.round(data.width * 0.017);
+  const bodyFont = Math.max(28, Math.round(data.width * 0.017));
   const bodyPadX = Math.round(data.width * 0.11);
   const brandInset = Math.round(data.width * 0.03);
 
@@ -87,7 +87,7 @@ export function PolaroidStack({ data }: { data: TemplateData }) {
               className="w-full h-full flex items-center justify-center"
               style={{ backgroundColor: '#e5e1d8' }}
             >
-              <span style={{ color: '#999', fontSize: `${Math.round(data.width * 0.013)}px` }}>Upload a photo</span>
+              <span style={{ color: '#999', fontSize: `${Math.max(28, Math.round(data.width * 0.013))}px` }}>Upload a photo</span>
             </div>
           )}
           {/* Subtle inner shadow overlay so the photo looks inset */}

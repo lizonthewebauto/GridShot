@@ -86,7 +86,7 @@ export function TypographicHero({ data }: { data: TemplateData }) {
             <div
               className="uppercase"
               style={{
-                fontSize: `${Math.round(data.width * 0.011)}px`,
+                fontSize: `${Math.max(28, Math.round(data.width * 0.011))}px`,
                 letterSpacing: '0.3em',
                 opacity: 0.75,
                 marginBottom: '6px',
@@ -98,7 +98,7 @@ export function TypographicHero({ data }: { data: TemplateData }) {
           <div
             style={{
               fontFamily: `${data.fontHeading}, serif`,
-              fontSize: `${Math.round(data.width * 0.024)}px`,
+              fontSize: `${Math.max(28, Math.round(data.width * 0.024))}px`,
               lineHeight: 1.25,
               fontWeight: 500,
               maxWidth: '85%',
@@ -109,7 +109,7 @@ export function TypographicHero({ data }: { data: TemplateData }) {
           {data.bodyText && (
             <p
               style={{
-                fontSize: `${Math.round(data.width * 0.014)}px`,
+                fontSize: `${Math.max(28, Math.round(data.width * 0.014))}px`,
                 lineHeight: 1.4,
                 opacity: 0.75,
                 marginTop: '6px',

@@ -140,7 +140,7 @@ export function ScrapbookRealistic({ data }: { data: TemplateData }) {
             bottom: `${Math.round(data.height * 0.04)}px`,
             left: `${Math.round(data.width * 0.06)}px`,
             fontFamily: `'Caveat', 'Segoe Script', cursive`,
-            fontSize: `${Math.round(data.width * 0.022)}px`,
+            fontSize: `${Math.max(28, Math.round(data.width * 0.022))}px`,
             color: ink,
             opacity: 0.7,
             transform: 'rotate(-1deg)',

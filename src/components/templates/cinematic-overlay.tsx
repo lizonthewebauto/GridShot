@@ -57,7 +57,7 @@ export function CinematicOverlay({ data }: { data: TemplateData }) {
             style={{
               fontFamily: data.fontBody,
               color: data.colorSecondary,
-              fontSize: `${Math.round(data.width * 0.014)}px`,
+              fontSize: `${Math.max(28, Math.round(data.width * 0.014))}px`,
             }}
           >
             {data.reviewCount}
@@ -89,7 +89,7 @@ export function CinematicOverlay({ data }: { data: TemplateData }) {
           style={{
             fontFamily: data.fontBody,
             color: data.colorSecondary,
-            fontSize: `${Math.round(data.width * 0.022)}px`,
+            fontSize: `${Math.max(28, Math.round(data.width * 0.022))}px`,
             maxWidth: `${Math.round(data.width * 0.7)}px`,
             opacity: 0.95,
             textShadow: '0 1px 10px rgba(0,0,0,0.55)',

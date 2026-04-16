@@ -89,7 +89,7 @@ export function CollageOffset({ data }: { data: TemplateData }) {
           <div
             className="uppercase"
             style={{
-              fontSize: `${Math.round(data.width * 0.012)}px`,
+              fontSize: `${Math.max(28, Math.round(data.width * 0.012))}px`,
               letterSpacing: '0.35em',
               opacity: 0.75,
             }}

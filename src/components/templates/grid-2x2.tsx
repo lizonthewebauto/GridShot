@@ -88,7 +88,7 @@ export function Grid2x2({ data }: { data: TemplateData }) {
             className="uppercase"
             style={{
               marginTop: `${Math.round(data.height * 0.015)}px`,
-              fontSize: `${Math.round(data.width * 0.015)}px`,
+              fontSize: `${Math.max(28, Math.round(data.width * 0.015))}px`,
               letterSpacing: '0.35em',
               opacity: 0.75,
             }}

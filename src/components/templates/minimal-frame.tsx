@@ -38,7 +38,7 @@ export function MinimalFrame({ data }: { data: TemplateData }) {
             className="w-full h-full flex items-center justify-center"
             style={{ backgroundColor: '#ece8df' }}
           >
-            <span style={{ color: data.colorPrimary, fontSize: `${Math.round(data.width * 0.013)}px`, opacity: 0.4 }}>
+            <span style={{ color: data.colorPrimary, fontSize: `${Math.max(28, Math.round(data.width * 0.013))}px`, opacity: 0.4 }}>
               Upload a photo
             </span>
           </div>
@@ -66,7 +66,7 @@ export function MinimalFrame({ data }: { data: TemplateData }) {
       <div
         style={{
           fontFamily: `${body}, sans-serif`,
-          fontSize: `${Math.round(data.width * 0.017)}px`,
+          fontSize: `${Math.max(28, Math.round(data.width * 0.017))}px`,
           fontWeight: 400,
           color: data.colorPrimary,
           opacity: 0.65,

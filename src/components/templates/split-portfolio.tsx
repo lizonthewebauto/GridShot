@@ -28,7 +28,7 @@ export function SplitPortfolio({ data }: { data: TemplateData }) {
             className="w-full h-full flex items-center justify-center"
             style={{ backgroundColor: '#bbb2a4' }}
           >
-            <span style={{ color: '#fff', opacity: 0.6, fontSize: `${Math.round(data.width * 0.014)}px` }}>
+            <span style={{ color: '#fff', opacity: 0.6, fontSize: `${Math.max(28, Math.round(data.width * 0.014))}px` }}>
               Upload a photo
             </span>
           </div>
@@ -49,7 +49,7 @@ export function SplitPortfolio({ data }: { data: TemplateData }) {
         <div
           style={{
             fontFamily: `${body}, sans-serif`,
-            fontSize: `${Math.round(data.width * 0.013)}px`,
+            fontSize: `${Math.max(28, Math.round(data.width * 0.013))}px`,
             letterSpacing: '0.4em',
             textTransform: 'uppercase',
             opacity: 0.7,
@@ -75,7 +75,7 @@ export function SplitPortfolio({ data }: { data: TemplateData }) {
           style={{
             marginTop: `${Math.round(data.width * 0.03)}px`,
             fontFamily: `${body}, sans-serif`,
-            fontSize: `${Math.round(data.width * 0.019)}px`,
+            fontSize: `${Math.max(28, Math.round(data.width * 0.019))}px`,
             lineHeight: 1.6,
             opacity: 0.88,
           }}

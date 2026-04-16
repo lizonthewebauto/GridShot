@@ -86,7 +86,7 @@ export function BaseballCard({ data }: { data: TemplateData }) {
           <div
             className="text-center uppercase"
             style={{
-              fontSize: `${Math.round(data.width * 0.013)}px`,
+              fontSize: `${Math.max(28, Math.round(data.width * 0.013))}px`,
               letterSpacing: '0.35em',
               marginTop: `${Math.round(data.width * 0.004)}px`,
               opacity: 0.75,
@@ -118,7 +118,7 @@ export function BaseballCard({ data }: { data: TemplateData }) {
               <div
                 style={{
                   fontFamily: `${data.fontHeading}, serif`,
-                  fontSize: `${Math.round(data.width * 0.024)}px`,
+                  fontSize: `${Math.max(28, Math.round(data.width * 0.024))}px`,
                   fontWeight: 700,
                   marginTop: `${Math.round(data.width * 0.004)}px`,
                 }}

@@ -20,7 +20,7 @@ export function PhotoboothStrip({ data }: { data: TemplateData }) {
   const gap = Math.round(data.width * 0.012);
   const availH = data.height - pad * 2 - gap * 3;
   const cellH = Math.round(availH / 4);
-  const labelFont = Math.round(data.width * 0.013);
+  const labelFont = Math.max(28, Math.round(data.width * 0.013));
   const aspect = data.imageAspect ?? '1/1';
 
   const dateLabel = data.dateText ?? '04 / 26';

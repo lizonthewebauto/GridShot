@@ -24,8 +24,8 @@ export function BoardingPass({ data }: { data: TemplateData }) {
   const pad = Math.round(data.width * 0.04);
   const ticketInset = Math.round(data.width * 0.05);
   const stubW = Math.round(data.width * 0.22);
-  const fsLabel = Math.round(data.width * 0.012);
-  const fsCode = Math.round(data.width * 0.09);
+  const fsLabel = Math.max(28, Math.round(data.width * 0.012));
+  const fsCode = Math.max(28, Math.round(data.width * 0.09));
 
   return (
     <div

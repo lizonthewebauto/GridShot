@@ -35,7 +35,7 @@ export function OversizedItalic({ data }: { data: TemplateData }) {
           style={{
             top: `${Math.round(data.height * 0.07)}px`,
             left: `${Math.round(data.width * 0.06)}px`,
-            fontSize: `${Math.round(data.width * 0.012)}px`,
+            fontSize: `${Math.max(28, Math.round(data.width * 0.012))}px`,
             letterSpacing: '0.4em',
             opacity: 0.75,
           }}
@@ -80,7 +80,7 @@ export function OversizedItalic({ data }: { data: TemplateData }) {
             bottom: `${photoH + Math.round(data.height * 0.025)}px`,
             left: `${Math.round(data.width * 0.06)}px`,
             right: `${Math.round(data.width * 0.06)}px`,
-            fontSize: `${Math.round(data.width * 0.011)}px`,
+            fontSize: `${Math.max(28, Math.round(data.width * 0.011))}px`,
             letterSpacing: '0.3em',
             opacity: 0.7,
           }}

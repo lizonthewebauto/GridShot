@@ -53,7 +53,7 @@ export function CinematicFade({ data }: { data: TemplateData }) {
             className="uppercase"
             style={{
               fontFamily: `${data.fontHeading}, serif`,
-              fontSize: `${Math.round(data.width * 0.011)}px`,
+              fontSize: `${Math.max(28, Math.round(data.width * 0.011))}px`,
               letterSpacing: '0.3em',
               opacity: 0.8,
               marginBottom: `${Math.round(data.width * 0.012)}px`,
@@ -76,7 +76,7 @@ export function CinematicFade({ data }: { data: TemplateData }) {
         {data.bodyText && (
           <p
             style={{
-              fontSize: `${Math.round(data.width * 0.018)}px`,
+              fontSize: `${Math.max(28, Math.round(data.width * 0.018))}px`,
               lineHeight: 1.4,
               opacity: 0.85,
               maxWidth: '85%',

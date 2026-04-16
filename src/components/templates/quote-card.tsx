@@ -75,7 +75,7 @@ export function QuoteCard({ data }: { data: TemplateData }) {
           className="uppercase"
           style={{
             fontFamily: `${data.fontBody}, sans-serif`,
-            fontSize: `${Math.round(data.width * 0.013)}px`,
+            fontSize: `${Math.max(28, Math.round(data.width * 0.013))}px`,
             letterSpacing: '0.3em',
             color: textColor,
             opacity: 0.75,

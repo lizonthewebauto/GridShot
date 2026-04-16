@@ -56,7 +56,7 @@ export function BoldShowcase({ data }: { data: TemplateData }) {
           style={{
             fontFamily: data.fontBody,
             color: data.colorSecondary,
-            fontSize: `${Math.round(data.width * 0.018)}px`,
+            fontSize: `${Math.max(28, Math.round(data.width * 0.018))}px`,
             maxWidth: `${Math.round(data.width * 0.65)}px`,
           }}
         >

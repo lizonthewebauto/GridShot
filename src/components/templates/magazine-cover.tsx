@@ -69,7 +69,7 @@ export function MagazineCover({ data }: { data: TemplateData }) {
             left: 0,
             right: 0,
             fontFamily: `${body}, sans-serif`,
-            fontSize: `${Math.round(data.width * 0.014)}px`,
+            fontSize: `${Math.max(28, Math.round(data.width * 0.014))}px`,
             letterSpacing: '0.4em',
             textTransform: 'uppercase',
             textAlign: 'center',
@@ -141,7 +141,7 @@ export function MagazineCover({ data }: { data: TemplateData }) {
             left: `${Math.round(data.width * 0.06)}px`,
             top: `${Math.round(data.height * 0.2)}px`,
             fontFamily: `${body}, sans-serif`,
-            fontSize: `${Math.round(data.width * 0.014)}px`,
+            fontSize: `${Math.max(28, Math.round(data.width * 0.014))}px`,
             letterSpacing: '0.3em',
             color: '#ffffff',
             textShadow: '0 2px 12px rgba(0,0,0,0.8)',
@@ -165,7 +165,7 @@ export function MagazineCover({ data }: { data: TemplateData }) {
             maxWidth: `${Math.round(data.width * 0.55)}px`,
             color: secondary,
             fontFamily: `${body}, sans-serif`,
-            fontSize: `${Math.round(data.width * 0.022)}px`,
+            fontSize: `${Math.max(28, Math.round(data.width * 0.022))}px`,
             lineHeight: 1.4,
             padding: `${Math.round(data.width * 0.02)}px ${Math.round(data.width * 0.025)}px`,
             backgroundColor: accent,
@@ -175,7 +175,7 @@ export function MagazineCover({ data }: { data: TemplateData }) {
           {data.tagline && (
             <div
               style={{
-                fontSize: `${Math.round(data.width * 0.014)}px`,
+                fontSize: `${Math.max(28, Math.round(data.width * 0.014))}px`,
                 letterSpacing: '0.3em',
                 textTransform: 'uppercase',
                 marginBottom: '8px',

@@ -13,10 +13,10 @@ export function AppleNote({ data }: { data: TemplateData }) {
   const navColor = accent;
 
   const pad = Math.round(data.width * 0.05);
-  const fsNav = Math.round(data.width * 0.017);
-  const fsTitle = Math.round(data.width * 0.055);
-  const fsMeta = Math.round(data.width * 0.014);
-  const fsBody = Math.round(data.width * 0.022);
+  const fsNav = Math.max(28, Math.round(data.width * 0.017));
+  const fsTitle = Math.max(28, Math.round(data.width * 0.055));
+  const fsMeta = Math.max(28, Math.round(data.width * 0.014));
+  const fsBody = Math.max(28, Math.round(data.width * 0.022));
   const photoH = Math.round(data.height * 0.32);
   const radius = Math.round(data.width * 0.018);
 

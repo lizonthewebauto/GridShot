@@ -109,7 +109,7 @@ export function ArtDecoFan({ data }: { data: TemplateData }) {
           <div
             className="uppercase"
             style={{
-              fontSize: `${Math.round(data.width * 0.013)}px`,
+              fontSize: `${Math.max(28, Math.round(data.width * 0.013))}px`,
               letterSpacing: '0.5em',
               marginTop: `${Math.round(data.width * 0.015)}px`,
               color: ink,

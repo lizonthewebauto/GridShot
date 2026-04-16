@@ -36,7 +36,7 @@ export function SidebarIndex({ data }: { data: TemplateData }) {
           <div
             className="uppercase"
             style={{
-              fontSize: `${Math.round(data.width * 0.012)}px`,
+              fontSize: `${Math.max(28, Math.round(data.width * 0.012))}px`,
               letterSpacing: '0.3em',
               color: accent,
               fontFamily: 'monospace',
@@ -67,7 +67,7 @@ export function SidebarIndex({ data }: { data: TemplateData }) {
           <div
             className="uppercase"
             style={{
-              fontSize: `${Math.round(data.width * 0.011)}px`,
+              fontSize: `${Math.max(28, Math.round(data.width * 0.011))}px`,
               letterSpacing: '0.3em',
               opacity: 0.7,
               fontFamily: 'monospace',

@@ -83,7 +83,7 @@ export function GeometricBlocks({ data }: { data: TemplateData }) {
           style={{
             bottom: `${Math.round(data.height * 0.03)}px`,
             right: `${Math.round(data.width * 0.04)}px`,
-            fontSize: `${Math.round(data.width * 0.012)}px`,
+            fontSize: `${Math.max(28, Math.round(data.width * 0.012))}px`,
             letterSpacing: '0.3em',
             color: '#fff',
           }}

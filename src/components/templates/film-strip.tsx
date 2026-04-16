@@ -31,9 +31,9 @@ export function FilmStrip({ data }: { data: TemplateData }) {
   const photoWindowW = Math.round(data.width * 0.76);
   const photoWindowH = Math.round(photoWindowW * 0.756);
   const frameGap = Math.round(data.width * 0.0074);
-  const labelFont = Math.round(data.width * 0.013);
-  const bigHeadlineFont = Math.round(data.width * 0.041);
-  const bodyFont = Math.round(data.width * 0.0148);
+  const labelFont = Math.max(28, Math.round(data.width * 0.013));
+  const bigHeadlineFont = Math.max(28, Math.round(data.width * 0.041));
+  const bodyFont = Math.max(28, Math.round(data.width * 0.0148));
   const brandInset = Math.round(data.width * 0.03);
 
   return (
@@ -120,7 +120,7 @@ export function FilmStrip({ data }: { data: TemplateData }) {
                   />
                 ) : (
                   <div className="w-full h-full flex items-center justify-center">
-                    <span style={{ color: '#666', fontSize: `${Math.round(data.width * 0.011)}px` }}>—</span>
+                    <span style={{ color: '#666', fontSize: `${Math.max(28, Math.round(data.width * 0.011))}px` }}>—</span>
                   </div>
                 )}
               </div>
@@ -174,7 +174,7 @@ export function FilmStrip({ data }: { data: TemplateData }) {
         style={{
           color: data.colorSecondary || '#e6c36b',
           fontFamily: 'monospace',
-          fontSize: `${Math.round(data.width * 0.011)}px`,
+          fontSize: `${Math.max(28, Math.round(data.width * 0.011))}px`,
           letterSpacing: '0.3em',
           marginTop: `${Math.round(data.height * 0.017)}px`,
           opacity: 0.8,

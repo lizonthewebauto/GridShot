@@ -28,7 +28,7 @@ export function Newspaper({ data }: { data: TemplateData }) {
         <div
           className="uppercase"
           style={{
-            fontSize: `${Math.round(data.width * 0.012)}px`,
+            fontSize: `${Math.max(28, Math.round(data.width * 0.012))}px`,
             letterSpacing: '0.35em',
             textAlign: 'center',
             opacity: 0.75,
@@ -87,7 +87,7 @@ export function Newspaper({ data }: { data: TemplateData }) {
         <div
           className="uppercase"
           style={{
-            fontSize: `${Math.round(data.width * 0.011)}px`,
+            fontSize: `${Math.max(28, Math.round(data.width * 0.011))}px`,
             letterSpacing: '0.28em',
             textAlign: 'center',
             opacity: 0.8,
@@ -124,7 +124,7 @@ export function Newspaper({ data }: { data: TemplateData }) {
       {data.locationText && (
         <div
           style={{
-            fontSize: `${Math.round(data.width * 0.011)}px`,
+            fontSize: `${Math.max(28, Math.round(data.width * 0.011))}px`,
             fontStyle: 'italic',
             opacity: 0.7,
             textAlign: 'center',
@@ -142,7 +142,7 @@ export function Newspaper({ data }: { data: TemplateData }) {
             columnCount: 2,
             columnGap: `${Math.round(data.width * 0.025)}px`,
             columnRule: `1px solid ${ink}`,
-            fontSize: `${Math.round(data.width * 0.013)}px`,
+            fontSize: `${Math.max(28, Math.round(data.width * 0.013))}px`,
             lineHeight: 1.5,
             textAlign: 'justify',
           }}

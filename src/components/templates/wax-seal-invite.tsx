@@ -48,7 +48,7 @@ export function WaxSealInvite({ data }: { data: TemplateData }) {
             className="uppercase"
             style={{
               fontFamily: `${data.fontBody}, serif`,
-              fontSize: `${Math.round(data.width * 0.014)}px`,
+              fontSize: `${Math.max(28, Math.round(data.width * 0.014))}px`,
               letterSpacing: '0.4em',
               color: gold,
               marginBottom: `${Math.round(data.width * 0.025)}px`,
@@ -104,7 +104,7 @@ export function WaxSealInvite({ data }: { data: TemplateData }) {
             className="uppercase"
             style={{
               fontFamily: `${data.fontBody}, serif`,
-              fontSize: `${Math.round(data.width * 0.016)}px`,
+              fontSize: `${Math.max(28, Math.round(data.width * 0.016))}px`,
               letterSpacing: '0.35em',
               color: gold,
               marginTop: `${Math.round(data.width * 0.025)}px`,
@@ -147,7 +147,7 @@ export function WaxSealInvite({ data }: { data: TemplateData }) {
         data={data}
         defaultPosition="top-center"
         color={gold}
-        fontSize={Math.round(data.width * 0.014)}
+        fontSize={Math.max(28, Math.round(data.width * 0.014))}
         letterSpacing="0.4em"
         opacity={1}
         inset={Math.round(outerPad + innerPad + data.width * 0.025)}

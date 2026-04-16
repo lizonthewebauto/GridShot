@@ -94,7 +94,7 @@ export function CircleGold({ data }: { data: TemplateData }) {
           className="uppercase"
           style={{
             marginTop: `${Math.round(data.height * 0.025)}px`,
-            fontSize: `${Math.round(data.width * 0.016)}px`,
+            fontSize: `${Math.max(28, Math.round(data.width * 0.016))}px`,
             letterSpacing: '0.4em',
             color: gold,
             fontWeight: 500,
@@ -108,7 +108,7 @@ export function CircleGold({ data }: { data: TemplateData }) {
         <p
           style={{
             marginTop: `${Math.round(data.height * 0.025)}px`,
-            fontSize: `${Math.round(data.width * 0.018)}px`,
+            fontSize: `${Math.max(28, Math.round(data.width * 0.018))}px`,
             lineHeight: 1.5,
             textAlign: 'center',
             maxWidth: '65%',

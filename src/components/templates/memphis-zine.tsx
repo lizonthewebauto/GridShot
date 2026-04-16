@@ -144,7 +144,7 @@ export function MemphisZine({ data }: { data: TemplateData }) {
             backgroundColor: ink,
             color: yellow,
             padding: '6px 14px',
-            fontSize: `${Math.round(data.width * 0.014)}px`,
+            fontSize: `${Math.max(28, Math.round(data.width * 0.014))}px`,
             letterSpacing: '0.25em',
             fontWeight: 800,
             transform: 'rotate(-3deg)',

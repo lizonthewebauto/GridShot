@@ -80,7 +80,7 @@ export function EditorialFullbleed({ data }: { data: TemplateData }) {
             style={{
               marginTop: `${Math.round(data.height * 0.04)}px`,
               fontFamily: `${data.fontBody}, sans-serif`,
-              fontSize: `${Math.round(data.width * 0.018)}px`,
+              fontSize: `${Math.max(28, Math.round(data.width * 0.018))}px`,
               lineHeight: 1.5,
               maxWidth: '70%',
               opacity: 0.9,

@@ -39,7 +39,7 @@ export function TestimonialCard({ data }: { data: TemplateData }) {
               className="w-full h-full flex items-center justify-center"
               style={{ backgroundColor: '#e6e0d3' }}
             >
-              <span style={{ color: data.colorPrimary, opacity: 0.5, fontSize: `${Math.round(data.width * 0.013)}px` }}>
+              <span style={{ color: data.colorPrimary, opacity: 0.5, fontSize: `${Math.max(28, Math.round(data.width * 0.013))}px` }}>
                 Upload a photo
               </span>
             </div>
@@ -86,7 +86,7 @@ export function TestimonialCard({ data }: { data: TemplateData }) {
             style={{
               marginTop: `${Math.round(data.width * 0.022)}px`,
               fontFamily: `${body}, sans-serif`,
-              fontSize: `${Math.round(data.width * 0.017)}px`,
+              fontSize: `${Math.max(28, Math.round(data.width * 0.017))}px`,
               fontWeight: 600,
               opacity: 0.75,
             }}
@@ -111,7 +111,7 @@ export function TestimonialCard({ data }: { data: TemplateData }) {
             <div
               style={{
                 fontFamily: `${body}, sans-serif`,
-                fontSize: `${Math.round(data.width * 0.015)}px`,
+                fontSize: `${Math.max(28, Math.round(data.width * 0.015))}px`,
                 color: '#1a1a1a',
                 opacity: 0.7,
               }}
