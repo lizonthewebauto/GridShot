@@ -310,6 +310,12 @@ export interface Preset {
   vibe: string;
   headline: string | null;
   body_text: string | null;
+  color_primary: string | null;
+  color_secondary: string | null;
+  color_accent: string | null;
+  font_heading: string | null;
+  font_body: string | null;
+  elements: Partial<SlideElements> | Record<string, never>;
   created_at: string;
   updated_at: string;
 }

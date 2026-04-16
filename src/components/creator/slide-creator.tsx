@@ -19,11 +19,12 @@ import {
   RefreshCw,
   Check,
   Plus,
-  Minus,
   ChevronLeft,
   ChevronRight,
   Shuffle,
   Layers,
+  Send,
+  Bookmark,
 } from 'lucide-react';
 import type {
   Brand,
@@ -49,6 +50,7 @@ import { TEMPLATE_REGISTRY } from '@/lib/templates/registry';
 import { TEMPLATE_COMPONENTS, TEMPLATE_FONT_URL } from '@/lib/templates/components';
 import { cn } from '@/lib/utils';
 import { ElementEditor } from './element-editor';
+import { PublishModal, type PublishPayload } from './publish-modal';
 
 const CANVAS_W = 1080;
 const CANVAS_H = 1440;
@@ -100,6 +102,12 @@ export function SlideCreator({ brands }: SlideCreatorProps) {
   const [exporting, setExporting] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [savedCount, setSavedCount] = useState<number>(0);
+  const [publishOpen, setPublishOpen] = useState(false);
+  const [publishing, setPublishing] = useState(false);
+  const [publishProgress, setPublishProgress] = useState<{ step: string; current: number; total: number } | null>(null);
+  const [savePresetOpen, setSavePresetOpen] = useState(false);
+  const [presetName, setPresetName] = useState('');
+  const [savingPreset, setSavingPreset] = useState(false);
 
   const [presets, setPresets] = useState<Preset[]>([]);
 
@@ -230,8 +238,18 @@ export function SlideCreator({ brands }: SlideCreatorProps) {
       const v = preset.vibe as Vibe;
       setSlides((prev) => prev.map((s) => ({ ...s, vibe: v })));
     }
-    if (preset.headline) updateSlide(activeIndex, { headline: preset.headline });
-    if (preset.body_text) updateSlide(activeIndex, { bodyText: preset.body_text });
+    setSlides((prev) =>
+      prev.map((s, i) => {
+        if (i !== activeIndex) return s;
+        const next = { ...s };
+        if (preset.headline) next.headline = preset.headline;
+        if (preset.body_text) next.bodyText = preset.body_text;
+        if (preset.elements && Object.keys(preset.elements).length > 0) {
+          next.elements = { ...DEFAULT_ELEMENTS, ...(preset.elements as SlideElements) };
+        }
+        return next;
+      })
+    );
   }
 
   async function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
@@ -434,6 +452,142 @@ export function SlideCreator({ brands }: SlideCreatorProps) {
     }
   }
 
+  async function dataUrlToFile(dataUrl: string, name: string): Promise<File> {
+    const blob = await (await fetch(dataUrl)).blob();
+    return new File([blob], name, { type: 'image/jpeg' });
+  }
+
+  async function handlePublish(payload: PublishPayload) {
+    if (!brandId) throw new Error('Pick a brand first.');
+    setPublishing(true);
+    setError(null);
+    try {
+      const { toJpeg } = await import('html-to-image');
+      const carouselGroupId =
+        slides.length > 1 && typeof crypto !== 'undefined' && 'randomUUID' in crypto
+          ? crypto.randomUUID()
+          : null;
+      const slideIds: string[] = [];
+
+      for (let i = 0; i < slides.length; i++) {
+        const slide = slides[i];
+
+        // 1. Render JPG
+        setPublishProgress({ step: `Rendering slide ${i + 1}`, current: i + 1, total: slides.length });
+        const ref = previewRefs.current[slide.id];
+        if (!ref) throw new Error(`Preview not ready for slide ${i + 1}`);
+        const dataUrl = await toJpeg(ref, {
+          cacheBust: true,
+          pixelRatio: 1,
+          quality: 0.95,
+          width: CANVAS_W,
+          height: CANVAS_H,
+          style: { transform: 'none' },
+        });
+
+        // 2. Upload to Storage
+        setPublishProgress({ step: `Uploading slide ${i + 1}`, current: i + 1, total: slides.length });
+        const file = await dataUrlToFile(dataUrl, `slide-${i + 1}.jpg`);
+        const formData = new FormData();
+        formData.append('file', file);
+        const upRes = await fetch('/api/upload', { method: 'POST', body: formData });
+        if (!upRes.ok) {
+          const err = await upRes.json().catch(() => ({}));
+          throw new Error(err.error ?? 'Upload failed');
+        }
+        const { url: exportedUrl, path: exportedPath } = await upRes.json();
+
+        // 3. Insert slide row
+        setPublishProgress({ step: `Saving slide ${i + 1}`, current: i + 1, total: slides.length });
+        const slideRes = await fetch('/api/slides', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            brand_id: brandId,
+            template_slug: templateSlug,
+            vibe: slide.vibe,
+            headline: slide.headline,
+            body_text: slide.bodyText,
+            photo_url: slide.photoUrl,
+            photo_storage_path: slide.photoStoragePath,
+            slide_order: i,
+            carousel_group_id: carouselGroupId,
+            metadata: { elements: slide.elements },
+          }),
+        });
+        const slideData = await slideRes.json();
+        if (!slideRes.ok) throw new Error(slideData.error ?? 'Save failed');
+        const slideId = slideData.id as string;
+        slideIds.push(slideId);
+
+        // 4. PATCH with exported_image_url
+        await fetch(`/api/slides/${slideId}`, {
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            exported_image_url: exportedUrl,
+            exported_image_path: exportedPath,
+            status: 'exported',
+          }),
+        });
+      }
+
+      // 5. Create the post via /api/posts
+      setPublishProgress({ step: 'Publishing to social', current: slides.length, total: slides.length });
+      const postRes = await fetch('/api/posts', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          brandId,
+          slideIds,
+          platforms: payload.platforms,
+          caption: payload.caption,
+          scheduledAt: payload.scheduledAt,
+        }),
+      });
+      const postData = await postRes.json();
+      if (!postRes.ok) throw new Error(postData.error ?? 'Publish failed');
+    } finally {
+      setPublishing(false);
+      setPublishProgress(null);
+    }
+  }
+
+  async function handleSavePreset() {
+    if (!brandId || !presetName.trim()) return;
+    setSavingPreset(true);
+    setError(null);
+    try {
+      const res = await fetch('/api/presets', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          brand_id: brandId,
+          name: presetName.trim(),
+          template_slug: templateSlug,
+          vibe: activeSlide.vibe,
+          headline: activeSlide.headline,
+          body_text: activeSlide.bodyText,
+          color_primary: brand?.color_primary,
+          color_secondary: brand?.color_secondary,
+          color_accent: brand?.color_accent,
+          font_heading: brand?.font_heading,
+          font_body: brand?.font_body,
+          elements: activeSlide.elements,
+        }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error ?? 'Failed to save preset');
+      setPresets((prev) => [data, ...prev]);
+      setPresetName('');
+      setSavePresetOpen(false);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to save preset');
+    } finally {
+      setSavingPreset(false);
+    }
+  }
+
   const templates = useMemo(() => Object.values(TEMPLATE_REGISTRY), []);
   const data = buildData(activeSlide);
 
@@ -456,11 +610,20 @@ export function SlideCreator({ brands }: SlideCreatorProps) {
             Design a single slide or a full carousel. Edit every element, shuffle photos, ship it.
           </p>
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 flex-wrap">
+          <button
+            onClick={() => setSavePresetOpen(true)}
+            disabled={!brandId}
+            className="flex items-center gap-2 rounded border border-border bg-card px-3 py-2.5 text-sm font-medium text-foreground hover:bg-card-hover transition-colors disabled:opacity-50"
+            title="Save current state (template, vibe, copy, colors, fonts, elements) as a preset"
+          >
+            <Bookmark className="w-4 h-4" />
+            Save preset
+          </button>
           <button
             onClick={handleDownloadAll}
             disabled={exporting}
-            className="flex items-center gap-2 rounded border border-border bg-card px-4 py-2.5 text-sm font-medium text-foreground hover:bg-card-hover transition-colors disabled:opacity-50"
+            className="flex items-center gap-2 rounded border border-border bg-card px-3 py-2.5 text-sm font-medium text-foreground hover:bg-card-hover transition-colors disabled:opacity-50"
           >
             {exporting ? <RefreshCw className="w-4 h-4 animate-spin" /> : <Download className="w-4 h-4" />}
             Download {slides.length > 1 ? `${slides.length} JPGs` : 'JPG'}
@@ -468,10 +631,18 @@ export function SlideCreator({ brands }: SlideCreatorProps) {
           <button
             onClick={handleSaveAll}
             disabled={saving || !brandId}
-            className="flex items-center gap-2 rounded bg-accent-warm px-5 py-2.5 text-sm font-medium text-white hover:bg-accent-warm-hover transition-colors disabled:opacity-50"
+            className="flex items-center gap-2 rounded border border-border bg-card px-3 py-2.5 text-sm font-medium text-foreground hover:bg-card-hover transition-colors disabled:opacity-50"
           >
             {saving ? <RefreshCw className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
             Save {slides.length > 1 ? 'Carousel' : 'Draft'}
+          </button>
+          <button
+            onClick={() => setPublishOpen(true)}
+            disabled={publishing || !brandId}
+            className="flex items-center gap-2 rounded bg-accent-warm px-5 py-2.5 text-sm font-medium text-white hover:bg-accent-warm-hover transition-colors disabled:opacity-50"
+          >
+            {publishing ? <RefreshCw className="w-4 h-4 animate-spin" /> : <Send className="w-4 h-4" />}
+            Publish
           </button>
         </div>
       </div>
@@ -1106,6 +1277,63 @@ export function SlideCreator({ brands }: SlideCreatorProps) {
           )}
         </div>
       </div>
+
+      <PublishModal
+        open={publishOpen}
+        brandId={brandId}
+        brandName={brand?.name ?? ''}
+        defaultCaption={`${activeSlide.headline}\n\n${activeSlide.bodyText}`}
+        slideCount={slides.length}
+        busy={publishing}
+        progress={publishProgress}
+        onClose={() => !publishing && setPublishOpen(false)}
+        onPublish={handlePublish}
+      />
+
+      {savePresetOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+          <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" onClick={() => !savingPreset && setSavePresetOpen(false)} />
+          <div className="relative bg-card border border-border rounded-xl shadow-2xl w-full max-w-md p-5">
+            <div className="flex items-center justify-between mb-3">
+              <h2 className="text-lg font-bold text-foreground" style={{ fontFamily: 'var(--font-heading)' }}>
+                Save preset
+              </h2>
+              <button onClick={() => setSavePresetOpen(false)} disabled={savingPreset} className="text-muted hover:text-foreground disabled:opacity-50">
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+            <p className="text-sm text-muted mb-3">
+              Captures the current template, vibe, copy, colors, fonts, and every element override on slide {activeIndex + 1}.
+            </p>
+            <input
+              type="text"
+              value={presetName}
+              onChange={(e) => setPresetName(e.target.value)}
+              onKeyDown={(e) => { if (e.key === 'Enter') handleSavePreset(); }}
+              placeholder="Preset name…"
+              autoFocus
+              className="w-full rounded border border-border bg-background px-3 py-2 text-sm text-foreground placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-accent"
+            />
+            <div className="flex justify-end gap-2 mt-4">
+              <button
+                onClick={() => setSavePresetOpen(false)}
+                disabled={savingPreset}
+                className="px-4 py-2 rounded border border-border text-sm text-foreground hover:bg-card-hover transition-colors disabled:opacity-50"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleSavePreset}
+                disabled={savingPreset || !presetName.trim()}
+                className="flex items-center gap-2 rounded bg-accent-warm px-4 py-2 text-sm font-medium text-white hover:bg-accent-warm-hover transition-colors disabled:opacity-50"
+              >
+                {savingPreset ? <RefreshCw className="w-4 h-4 animate-spin" /> : <Bookmark className="w-4 h-4" />}
+                Save preset
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Hidden full-resolution renderers used by Download All */}
       <div

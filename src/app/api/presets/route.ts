@@ -62,6 +62,12 @@ export async function POST(request: Request) {
       vibe: body.vibe || 'Authentic',
       headline: body.headline || null,
       body_text: body.body_text || null,
+      color_primary: body.color_primary || null,
+      color_secondary: body.color_secondary || null,
+      color_accent: body.color_accent || null,
+      font_heading: body.font_heading || null,
+      font_body: body.font_body || null,
+      elements: body.elements && typeof body.elements === 'object' ? body.elements : {},
     })
     .select()
     .single();
