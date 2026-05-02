@@ -1,0 +1,105 @@
+- generic [ref=e2]:
+  - heading "Sample Slides Render" [level=1] [ref=e3]
+  - paragraph [ref=e4]: 18 slides across 6 examples. Each slide is 1080x1080.
+  - generic [ref=e5]:
+    - heading "Wedding Photographer — cinematic" [level=2] [ref=e6]
+    - paragraph [ref=e7]: Sarah Lane Photo
+    - generic [ref=e8]:
+      - generic [ref=e10]:
+        - generic [ref=e13]: Sarah Lane Photo
+        - generic [ref=e14]:
+          - heading "A LOVE STORY TOLD IN LIGHT" [level=2] [ref=e15]
+          - paragraph [ref=e16]: Sarah & James celebrated their forever at a vineyard in Sonoma. Golden hour. Handwritten vows. The kind of love that fills a room.
+      - generic [ref=e18]:
+        - generic [ref=e21]: Sarah Lane Photo
+        - generic [ref=e22]:
+          - heading "THE FIRST LOOK" [level=2] [ref=e23]
+          - paragraph [ref=e24]: He turned around and forgot how to breathe. She was already crying. Some moments don't need words. They just need someone watching.
+      - generic [ref=e26]:
+        - generic [ref=e29]: Sarah Lane Photo
+        - generic [ref=e30]:
+          - heading "NOW BOOKING 2026 WEDDINGS" [level=2] [ref=e31]
+          - paragraph [ref=e32]: Only 12 dates remaining for the 2026 season. Intimate elopements to 300-guest celebrations. Every love story deserves to be told beautifully.
+  - generic [ref=e33]:
+    - heading "Portrait Photographer — editorial" [level=2] [ref=e34]
+    - paragraph [ref=e35]: Mira Studios
+    - generic [ref=e36]:
+      - generic [ref=e39]:
+        - heading "THE CONFIDENCE SESSION" [level=2] [ref=e41]
+        - paragraph [ref=e42]: A portrait experience designed to make you feel like the most powerful version of yourself. Professional styling. Expert direction. Magazine-quality results.
+        - generic [ref=e44]: Mira Studios
+      - generic [ref=e47]:
+        - heading "YOUR STORY. YOUR FRAME." [level=2] [ref=e49]
+        - paragraph [ref=e50]: Styled. Directed. Effortless. 90 minutes of you at your absolute best. Hair and makeup included. 40+ retouched images delivered in 48 hours.
+        - generic [ref=e52]: Mira Studios
+      - generic [ref=e55]:
+        - heading "SPRING MINI SESSIONS NOW OPEN" [level=2] [ref=e57]
+        - paragraph [ref=e58]: 30 minutes. 15 edited images. $350. Limited to 8 spots per weekend. Book your date before they fill.
+        - generic [ref=e60]: Mira Studios
+  - generic [ref=e61]:
+    - heading "Real Estate Photographer — minimal" [level=2] [ref=e62]
+    - paragraph [ref=e63]: Apex Visuals
+    - generic [ref=e64]:
+      - generic [ref=e66]:
+        - heading "JUST LISTED — 4 BR | 3 BA | 2,400 SQFT" [level=2] [ref=e67]
+        - paragraph [ref=e69]: Modern farmhouse in West Austin. Vaulted ceilings. Chef's kitchen with Carrara marble. Private backyard with mature oaks.
+        - generic [ref=e70]: Apex Visuals
+      - generic [ref=e72]:
+        - heading "LIGHT-FILLED LIVING" [level=2] [ref=e73]
+        - paragraph [ref=e75]: 12-foot ceilings. Floor-to-ceiling windows. Southern exposure floods every room with natural light from sunrise to sunset.
+        - generic [ref=e76]: Apex Visuals
+      - generic [ref=e78]:
+        - heading "SCHEDULE A PRIVATE TOUR" [level=2] [ref=e79]
+        - paragraph [ref=e81]: Open house Saturday 1-4pm. Or DM for a private showing any day this week. Seller is motivated.
+        - generic [ref=e82]: Apex Visuals
+  - generic [ref=e83]:
+    - heading "Food Photographer — split" [level=2] [ref=e84]
+    - paragraph [ref=e85]: Savory & Co.
+    - generic [ref=e86]:
+      - generic [ref=e91]:
+        - heading "FARM TO FRAME" [level=2] [ref=e93]
+        - paragraph [ref=e94]: Behind the scenes at Aster Kitchen with Chef Mira. Every ingredient sourced within 50 miles. Every plate a work of art.
+        - generic [ref=e96]: Savory & Co.
+      - generic [ref=e101]:
+        - heading "EVERY PLATE IS A CANVAS" [level=2] [ref=e103]
+        - paragraph [ref=e104]: The autumn tasting menu, shot on location between courses. Steam rising. Sauces glistening. The kind of food photography that makes people book a reservation.
+        - generic [ref=e106]: Savory & Co.
+      - generic [ref=e111]:
+        - heading "BOOK YOUR SHOOT" [level=2] [ref=e113]
+        - paragraph [ref=e114]: Restaurant photography. Menu design. Social content packages. From Michelin-starred kitchens to neighborhood cafes. Packages starting at $800.
+        - generic [ref=e116]: Savory & Co.
+  - generic [ref=e117]:
+    - heading "Event Photographer — bold" [level=2] [ref=e118]
+    - paragraph [ref=e119]: Flash Collective
+    - generic [ref=e120]:
+      - generic [ref=e123]:
+        - heading "SXSW 2026" [level=2] [ref=e124]
+        - paragraph [ref=e125]: 72 hours. 14 stages. 4,000 frames. We embedded with the festival from load-in to last call.
+        - generic [ref=e128]: Flash Collective
+      - generic [ref=e131]:
+        - heading "THE ENERGY WAS ABSOLUTELY UNREAL" [level=2] [ref=e132]
+        - paragraph [ref=e133]: When the lights hit and the crowd surged forward, we were already in position. Front row. Backstage. In the pit.
+        - generic [ref=e136]: Flash Collective
+      - generic [ref=e139]:
+        - heading "HIRE US FOR YOUR NEXT EVENT" [level=2] [ref=e140]
+        - paragraph [ref=e141]: Concerts. Conferences. Launch parties. Corporate galas. Product reveals. We shoot it all. Same-week turnaround. Full licensing included.
+        - generic [ref=e144]: Flash Collective
+  - generic [ref=e145]:
+    - heading "Travel Photographer — cinematic" [level=2] [ref=e146]
+    - paragraph [ref=e147]: Atlas Journal
+    - generic [ref=e148]:
+      - generic [ref=e150]:
+        - generic [ref=e153]: Atlas Journal
+        - generic [ref=e154]:
+          - heading "KYOTO, 5:47 AM" [level=2] [ref=e155]
+          - paragraph [ref=e156]: The temple opens before the city wakes. Just the monks, the mist, and the sound of raked gravel.
+      - generic [ref=e158]:
+        - generic [ref=e161]: Atlas Journal
+        - generic [ref=e162]:
+          - heading "THREE GENERATIONS, SAME CORNER" [level=2] [ref=e163]
+          - paragraph [ref=e164]: Same hands. Same knife. The Nishiki fish market hasn't changed in forty years. Grandfather taught father. Father teaches son.
+      - generic [ref=e166]:
+        - generic [ref=e169]: Atlas Journal
+        - generic [ref=e170]:
+          - heading "PRINT SHOP NOW LIVE" [level=2] [ref=e171]
+          - paragraph [ref=e172]: Limited edition Japan series. 12 archival pigment prints. Hand-numbered and signed. Only 50 sets available worldwide.

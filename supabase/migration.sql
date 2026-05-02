@@ -1,4 +1,4 @@
--- PhotoFlow Studio - Full Database Schema
+-- Gridshot - Full Database Schema
 -- Run this in Supabase SQL Editor
 
 -- Enable required extensions
