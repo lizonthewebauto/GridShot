@@ -1,4 +1,4 @@
--- PhotoFlow Studio - RLS Hardening for Production
+-- Gridshot - RLS Hardening for Production
 -- Run this AFTER the initial migration.sql
 
 -- ============================================================
