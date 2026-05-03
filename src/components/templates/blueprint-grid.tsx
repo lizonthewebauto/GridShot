@@ -1,5 +1,6 @@
 import type { TemplateData } from '@/types';
 import { BrandMark } from './_brand-mark';
+import { TextNode } from './_text-node';
 
 // Flex fields: colorPrimary (blueprint bg), colorAccent (grid lines),
 // customText (project id), dateText, locationText (spec line bottom)
@@ -41,15 +42,50 @@ export function BlueprintGrid({ data }: { data: TemplateData }) {
           top: `${pad}px`,
           left: `${pad}px`,
           right: `${pad}px`,
-          fontSize: `${Math.max(28, Math.round(data.width * 0.013))}px`,
-          letterSpacing: '0.25em',
           borderBottom: `1px solid ${hexWithAlpha(ink, 0.4)}`,
           paddingBottom: `${Math.round(pad * 0.3)}px`,
         }}
       >
-        <span style={{ visibility: 'hidden' }}>{projectId}</span>
-        <span>{projectId}</span>
-        <span>{dateLabel}</span>
+        <TextNode
+          nodeKey="projectId"
+          as="span"
+          defaultElement={{
+            fontFamily: 'monospace',
+            fontSize: Math.max(28, Math.round(data.width * 0.013)),
+            color: ink,
+            alignment: 'center',
+            letterSpacing: 0.25,
+          }}
+          overrides={data.elementOverrides}
+          defaultText={projectId}
+          style={{ visibility: 'hidden' }}
+        />
+        <TextNode
+          nodeKey="projectId"
+          as="span"
+          defaultElement={{
+            fontFamily: 'monospace',
+            fontSize: Math.max(28, Math.round(data.width * 0.013)),
+            color: ink,
+            alignment: 'center',
+            letterSpacing: 0.25,
+          }}
+          overrides={data.elementOverrides}
+          defaultText={projectId}
+        />
+        <TextNode
+          nodeKey="date"
+          as="span"
+          defaultElement={{
+            fontFamily: 'monospace',
+            fontSize: Math.max(28, Math.round(data.width * 0.013)),
+            color: ink,
+            alignment: 'right',
+            letterSpacing: 0.25,
+          }}
+          overrides={data.elementOverrides}
+          defaultText={dateLabel}
+        />
       </div>
 
       {/* Photo */}
@@ -84,23 +120,29 @@ export function BlueprintGrid({ data }: { data: TemplateData }) {
         )}
       </div>
 
-      {/* Headline */}
-      <h1
-        className="absolute uppercase"
+      <TextNode
+        nodeKey="headline"
+        as="h1"
+        className="uppercase"
+        defaultElement={{
+          fontFamily: data.fontHeading,
+          fontSize: Math.round(data.width * 0.045),
+          fontWeight: 700,
+          color: ink,
+          alignment: 'left',
+          lineHeight: 1.1,
+          letterSpacing: 0.08,
+        }}
+        overrides={data.elementOverrides}
+        defaultText={data.headline || 'BLUEPRINT / 01'}
         style={{
+          position: 'absolute',
           left: `${pad}px`,
           right: `${pad}px`,
           bottom: `${pad * 2.5}px`,
-          fontFamily: `${data.fontHeading}, 'Courier Prime', monospace`,
-          fontSize: `${Math.round(data.width * 0.045)}px`,
-          letterSpacing: '0.08em',
-          lineHeight: 1.1,
-          fontWeight: 700,
           margin: 0,
         }}
-      >
-        {data.headline || 'BLUEPRINT / 01'}
-      </h1>
+      />
 
       {/* Spec line */}
       <div
@@ -109,16 +151,37 @@ export function BlueprintGrid({ data }: { data: TemplateData }) {
           left: `${pad}px`,
           right: `${pad}px`,
           bottom: `${pad}px`,
-          fontSize: `${Math.max(28, Math.round(data.width * 0.012))}px`,
-          letterSpacing: '0.25em',
           borderTop: `1px solid ${hexWithAlpha(ink, 0.4)}`,
           paddingTop: `${Math.round(pad * 0.3)}px`,
           opacity: 0.85,
         }}
       >
-        <span>SPEC /</span>
-        <span style={{ flex: 1, textAlign: 'center' }}>{spec || 'ISSUE 01 — ARCHIVE'}</span>
-        <span>/ 2026</span>
+        <span style={{
+          fontFamily: 'monospace',
+          fontSize: `${Math.max(28, Math.round(data.width * 0.012))}px`,
+          letterSpacing: '0.25em',
+          color: ink,
+        }}>SPEC /</span>
+        <TextNode
+          nodeKey="spec"
+          as="span"
+          defaultElement={{
+            fontFamily: 'monospace',
+            fontSize: Math.max(28, Math.round(data.width * 0.012)),
+            color: ink,
+            alignment: 'center',
+            letterSpacing: 0.25,
+          }}
+          overrides={data.elementOverrides}
+          defaultText={spec || 'ISSUE 01 — ARCHIVE'}
+          style={{ flex: 1 }}
+        />
+        <span style={{
+          fontFamily: 'monospace',
+          fontSize: `${Math.max(28, Math.round(data.width * 0.012))}px`,
+          letterSpacing: '0.25em',
+          color: ink,
+        }}>/ 2026</span>
       </div>
 
       <BrandMark

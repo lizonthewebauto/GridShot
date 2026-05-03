@@ -1,5 +1,6 @@
 import type { TemplateData } from '@/types';
 import { BrandMark } from './_brand-mark';
+import { TextNode } from './_text-node';
 
 // Flex fields: colorPrimary (dark bg), colorAccent (gold rays),
 // dateText (small caps tagline), headline (stacked serif)
@@ -92,32 +93,40 @@ export function ArtDecoFan({ data }: { data: TemplateData }) {
           bottom: `${pad}px`,
         }}
       >
-        <h1
-          style={{
-            fontFamily: `${data.fontHeading}, 'Playfair Display', serif`,
-            fontSize: `${Math.round(data.width * 0.075)}px`,
-            lineHeight: 0.95,
+        <TextNode
+          nodeKey="headline"
+          as="h1"
+          defaultElement={{
+            fontFamily: data.fontHeading,
+            fontSize: Math.round(data.width * 0.075),
             fontWeight: 700,
-            margin: 0,
             color: gold,
-            letterSpacing: '0.02em',
+            alignment: 'center',
+            lineHeight: 0.95,
+            letterSpacing: 0.02,
           }}
-        >
-          {data.headline || 'GATSBY'}
-        </h1>
+          overrides={data.elementOverrides}
+          defaultText={data.headline || 'GATSBY'}
+          style={{ margin: 0 }}
+        />
         {data.dateText && (
-          <div
+          <TextNode
+            nodeKey="date"
             className="uppercase"
-            style={{
-              fontSize: `${Math.max(28, Math.round(data.width * 0.013))}px`,
-              letterSpacing: '0.5em',
-              marginTop: `${Math.round(data.width * 0.015)}px`,
+            defaultElement={{
+              fontFamily: data.fontBody,
+              fontSize: Math.max(28, Math.round(data.width * 0.013)),
               color: ink,
+              alignment: 'center',
+              letterSpacing: 0.5,
+            }}
+            overrides={data.elementOverrides}
+            defaultText={data.dateText}
+            style={{
+              marginTop: `${Math.round(data.width * 0.015)}px`,
               opacity: 0.85,
             }}
-          >
-            {data.dateText}
-          </div>
+          />
         )}
       </div>
 

@@ -1,5 +1,6 @@
 import type { TemplateData } from '@/types';
 import { BrandMark } from './_brand-mark';
+import { TextNode } from './_text-node';
 
 // Flex fields:
 // - colorSecondary → paper bg
@@ -84,67 +85,82 @@ export function Risograph({ data }: { data: TemplateData }) {
         />
       </div>
 
-      {/* Top condensed headline */}
-      <h1
-        className="absolute uppercase"
+      <TextNode
+        nodeKey="headline"
+        as="h1"
+        className="uppercase"
+        defaultElement={{
+          fontFamily: data.fontHeading,
+          fontSize: Math.round(data.width * 0.095),
+          fontWeight: 900,
+          color: accent,
+          alignment: 'center',
+          lineHeight: 0.95,
+          letterSpacing: -0.01,
+        }}
+        overrides={data.elementOverrides}
+        defaultText={data.headline || 'PRESS PLAY'}
         style={{
+          position: 'absolute',
           top: `${Math.round(data.height * 0.05)}px`,
           left: 0,
           right: 0,
-          textAlign: 'center',
-          fontFamily: `${data.fontHeading}, 'Oswald', 'Bebas Neue', sans-serif`,
-          fontSize: `${Math.round(data.width * 0.095)}px`,
-          fontWeight: 900,
-          lineHeight: 0.95,
-          letterSpacing: '-0.01em',
-          color: accent,
-          fontStretch: 'condensed',
           padding: `0 ${Math.round(data.width * 0.04)}px`,
+          fontStretch: 'condensed',
           zIndex: 2,
         }}
-      >
-        {data.headline || 'PRESS PLAY'}
-      </h1>
+      />
 
       {data.tagline && (
-        <div
-          className="absolute uppercase"
+        <TextNode
+          nodeKey="tagline"
+          className="uppercase"
+          defaultElement={{
+            fontFamily: data.fontBody,
+            fontSize: Math.max(28, Math.round(data.width * 0.013)),
+            color: text,
+            alignment: 'center',
+            letterSpacing: 0.4,
+          }}
+          overrides={data.elementOverrides}
+          defaultText={data.tagline}
           style={{
+            position: 'absolute',
             top: `${Math.round(data.height * 0.22)}px`,
             left: 0,
             right: 0,
-            textAlign: 'center',
-            fontSize: `${Math.max(28, Math.round(data.width * 0.013))}px`,
-            letterSpacing: '0.4em',
-            color: text,
             opacity: 0.7,
             zIndex: 2,
           }}
-        >
-          {data.tagline}
-        </div>
+        />
       )}
 
       <BrandMark data={data} color={accent} opacity={0.85} inset={Math.round(data.width * 0.03)} />
 
 
       {data.bodyText && (
-        <p
-          className="absolute"
+        <TextNode
+          nodeKey="body"
+          as="p"
+          defaultElement={{
+            fontFamily: data.fontBody,
+            fontSize: Math.max(28, Math.round(data.width * 0.014)),
+            color: text,
+            alignment: 'center',
+            lineHeight: 1.45,
+          }}
+          overrides={data.elementOverrides}
+          defaultText={data.bodyText}
           style={{
+            position: 'absolute',
             bottom: `${Math.round(data.height * 0.1)}px`,
             left: 0,
             right: 0,
-            textAlign: 'center',
             padding: `0 ${Math.round(data.width * 0.08)}px`,
-            fontSize: `${Math.max(28, Math.round(data.width * 0.014))}px`,
-            lineHeight: 1.45,
             opacity: 0.78,
             zIndex: 2,
           }}
-        >
-          {data.bodyText}
-        </p>
+        />
       )}
     </div>
   );

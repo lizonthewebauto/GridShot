@@ -1,5 +1,6 @@
 import type { TemplateData } from '@/types';
 import { BrandMark } from './_brand-mark';
+import { TextNode } from './_text-node';
 
 // Flex fields this template reads:
 // - photoUrl → square-cropped inside thick white polaroid frame
@@ -77,24 +78,25 @@ export function PolaroidRealistic({ data }: { data: TemplateData }) {
           )}
         </div>
 
-        {/* Caption on bottom border — single handwritten line; bodyText
-            is intentionally ignored since a polaroid caption isn't a paragraph. */}
-        <div
+        <TextNode
+          nodeKey="caption"
+          defaultElement={{
+            fontFamily: 'Caveat',
+            fontSize: Math.round(frameSize * 0.08),
+            fontWeight: 400,
+            color: '#2d2418',
+            alignment: 'center',
+            lineHeight: 1.1,
+          }}
+          overrides={data.elementOverrides}
+          defaultText={data.tagline || data.headline || 'a moment'}
           style={{
             position: 'absolute',
             left: `${sidePadding}px`,
             right: `${sidePadding}px`,
             bottom: `${Math.round(bottomPadding * 0.35)}px`,
-            textAlign: 'center',
-            fontFamily: `'Caveat', ${data.fontHeading}, cursive`,
-            fontSize: `${Math.round(frameSize * 0.08)}px`,
-            color: '#2d2418',
-            lineHeight: 1.1,
-            fontWeight: 400,
           }}
-        >
-          {data.tagline || data.headline || 'a moment'}
-        </div>
+        />
       </div>
     </div>
   );

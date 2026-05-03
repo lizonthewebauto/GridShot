@@ -1,5 +1,6 @@
 import type { TemplateData } from '@/types';
 import { BrandMark } from './_brand-mark';
+import { TextNode } from './_text-node';
 
 // Flex fields:
 // - colorSecondary → aged paper tone
@@ -96,58 +97,70 @@ export function ScrapbookRealistic({ data }: { data: TemplateData }) {
         </div>
       </div>
 
-      {/* Handwritten headline */}
-      <div
-        className="absolute"
+      <TextNode
+        nodeKey="headline"
+        defaultElement={{
+          fontFamily: 'Caveat',
+          fontSize: Math.round(data.width * 0.055),
+          fontWeight: 400,
+          color: ink,
+          alignment: 'left',
+          lineHeight: 1,
+        }}
+        overrides={data.elementOverrides}
+        defaultText={data.headline || 'little moments'}
         style={{
+          position: 'absolute',
           top: `${Math.round(data.height * 0.08)}px`,
           left: `${Math.round(data.width * 0.06)}px`,
-          fontFamily: `'Caveat', 'Segoe Script', cursive`,
-          fontSize: `${Math.round(data.width * 0.055)}px`,
-          color: ink,
           transform: 'rotate(-3deg)',
-          lineHeight: 1,
           maxWidth: '45%',
         }}
-      >
-        {data.headline || 'little moments'}
-      </div>
+      />
 
-      {/* Handwritten caption */}
       {caption && (
-        <div
-          className="absolute"
-          style={{
-            bottom: `${Math.round(data.height * 0.06)}px`,
-            right: `${Math.round(data.width * 0.06)}px`,
-            fontFamily: `'Caveat', 'Segoe Script', cursive`,
-            fontSize: `${Math.round(data.width * 0.028)}px`,
+        <TextNode
+          nodeKey="caption"
+          defaultElement={{
+            fontFamily: 'Caveat',
+            fontSize: Math.round(data.width * 0.028),
+            fontWeight: 400,
             color: ink,
-            transform: 'rotate(2deg)',
-            maxWidth: '40%',
-            textAlign: 'right',
+            alignment: 'right',
             lineHeight: 1.2,
           }}
-        >
-          {caption}
-        </div>
+          overrides={data.elementOverrides}
+          defaultText={caption}
+          style={{
+            position: 'absolute',
+            bottom: `${Math.round(data.height * 0.06)}px`,
+            right: `${Math.round(data.width * 0.06)}px`,
+            transform: 'rotate(2deg)',
+            maxWidth: '40%',
+          }}
+        />
       )}
 
       {data.tagline && (
-        <div
-          className="absolute"
+        <TextNode
+          nodeKey="tagline"
+          defaultElement={{
+            fontFamily: 'Caveat',
+            fontSize: Math.max(28, Math.round(data.width * 0.022)),
+            fontWeight: 400,
+            color: ink,
+            alignment: 'left',
+          }}
+          overrides={data.elementOverrides}
+          defaultText={data.tagline}
           style={{
+            position: 'absolute',
             bottom: `${Math.round(data.height * 0.04)}px`,
             left: `${Math.round(data.width * 0.06)}px`,
-            fontFamily: `'Caveat', 'Segoe Script', cursive`,
-            fontSize: `${Math.max(28, Math.round(data.width * 0.022))}px`,
-            color: ink,
-            opacity: 0.7,
             transform: 'rotate(-1deg)',
+            opacity: 0.7,
           }}
-        >
-          {data.tagline}
-        </div>
+        />
       )}
     </div>
   );

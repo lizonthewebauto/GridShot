@@ -1,5 +1,6 @@
 import type { TemplateData } from '@/types';
 import { BrandMark } from './_brand-mark';
+import { TextNode } from './_text-node';
 
 // Flex fields:
 // - customText → override giant word (otherwise first word of headline)
@@ -35,24 +36,29 @@ export function TypographicHero({ data }: { data: TemplateData }) {
     >
       <BrandMark data={data} color={accent} opacity={0.85} inset={Math.round(data.width * 0.03)} />
 
-      {/* Giant canvas word */}
-      <div
-        className="absolute left-0 right-0 flex items-center justify-center"
-        style={{
-          top: '18%',
-          fontFamily: `${data.fontHeading}, serif`,
-          fontSize: `${Math.round(data.width * 0.28)}px`,
-          lineHeight: 0.9,
-          fontWeight: 700,
+      <TextNode
+        nodeKey="giantWord"
+        defaultElement={{
+          fontFamily: data.fontHeading,
           fontStyle: 'italic',
+          fontSize: Math.round(data.width * 0.28),
+          fontWeight: 700,
           color: textColor,
-          letterSpacing: '-0.03em',
+          alignment: 'center',
+          lineHeight: 0.9,
+          letterSpacing: -0.03,
+        }}
+        overrides={data.elementOverrides}
+        defaultText={giantWord}
+        style={{
+          position: 'absolute',
+          top: '18%',
+          left: 0,
+          right: 0,
           whiteSpace: 'nowrap',
           overflow: 'hidden',
         }}
-      >
-        {giantWord}
-      </div>
+      />
 
       {/* Bottom row: small photo + sub-headline */}
       <div
@@ -83,41 +89,50 @@ export function TypographicHero({ data }: { data: TemplateData }) {
 
         <div style={{ flex: 1 }}>
           {data.tagline && (
-            <div
+            <TextNode
+              nodeKey="tagline"
               className="uppercase"
-              style={{
-                fontSize: `${Math.max(28, Math.round(data.width * 0.011))}px`,
-                letterSpacing: '0.3em',
-                opacity: 0.75,
-                marginBottom: '6px',
+              defaultElement={{
+                fontFamily: data.fontBody,
+                fontSize: Math.max(28, Math.round(data.width * 0.011)),
+                color: textColor,
+                alignment: 'left',
+                letterSpacing: 0.3,
               }}
-            >
-              {data.tagline}
-            </div>
+              overrides={data.elementOverrides}
+              defaultText={data.tagline}
+              style={{ opacity: 0.75, marginBottom: '6px' }}
+            />
           )}
-          <div
-            style={{
-              fontFamily: `${data.fontHeading}, serif`,
-              fontSize: `${Math.max(28, Math.round(data.width * 0.024))}px`,
-              lineHeight: 1.25,
+          <TextNode
+            nodeKey="subhead"
+            defaultElement={{
+              fontFamily: data.fontHeading,
+              fontSize: Math.max(28, Math.round(data.width * 0.024)),
               fontWeight: 500,
-              maxWidth: '85%',
+              color: textColor,
+              alignment: 'left',
+              lineHeight: 1.25,
             }}
-          >
-            {data.headline || 'Your sub-headline here'}
-          </div>
+            overrides={data.elementOverrides}
+            defaultText={data.headline || 'Your sub-headline here'}
+            style={{ maxWidth: '85%' }}
+          />
           {data.bodyText && (
-            <p
-              style={{
-                fontSize: `${Math.max(28, Math.round(data.width * 0.014))}px`,
+            <TextNode
+              nodeKey="body"
+              as="p"
+              defaultElement={{
+                fontFamily: data.fontBody,
+                fontSize: Math.max(28, Math.round(data.width * 0.014)),
+                color: textColor,
+                alignment: 'left',
                 lineHeight: 1.4,
-                opacity: 0.75,
-                marginTop: '6px',
-                maxWidth: '85%',
               }}
-            >
-              {data.bodyText}
-            </p>
+              overrides={data.elementOverrides}
+              defaultText={data.bodyText}
+              style={{ opacity: 0.75, marginTop: '6px', maxWidth: '85%' }}
+            />
           )}
         </div>
       </div>

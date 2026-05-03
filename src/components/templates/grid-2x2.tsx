@@ -1,5 +1,6 @@
 import type { TemplateData } from '@/types';
 import { BrandMark } from './_brand-mark';
+import { TextNode } from './_text-node';
 
 // Flex fields this template reads:
 // - photos → array of 4 photo urls (falls back to photoUrl x4)
@@ -71,30 +72,40 @@ export function Grid2x2({ data }: { data: TemplateData }) {
           color: textColor,
         }}
       >
-        <h1
-          style={{
-            fontFamily: `${data.fontHeading}, serif`,
+        <TextNode
+          nodeKey="headline"
+          as="h1"
+          defaultElement={{
+            fontFamily: data.fontHeading,
+            fontSize: Math.round(data.width * 0.055),
             fontWeight: 600,
-            fontSize: `${Math.round(data.width * 0.055)}px`,
+            color: textColor,
+            alignment: 'center',
             lineHeight: 1.1,
-            letterSpacing: '-0.02em',
-            maxWidth: '92%',
+            letterSpacing: -0.02,
           }}
-        >
-          {data.headline || 'Your headline here'}
-        </h1>
+          overrides={data.elementOverrides}
+          defaultText={data.headline || 'Your headline here'}
+          style={{ maxWidth: '92%' }}
+        />
         {data.tagline && (
-          <div
+          <TextNode
+            nodeKey="tagline"
             className="uppercase"
+            defaultElement={{
+              fontFamily: data.fontBody,
+              fontSize: Math.max(28, Math.round(data.width * 0.015)),
+              color: textColor,
+              alignment: 'center',
+              letterSpacing: 0.35,
+            }}
+            overrides={data.elementOverrides}
+            defaultText={data.tagline}
             style={{
               marginTop: `${Math.round(data.height * 0.015)}px`,
-              fontSize: `${Math.max(28, Math.round(data.width * 0.015))}px`,
-              letterSpacing: '0.35em',
               opacity: 0.75,
             }}
-          >
-            {data.tagline}
-          </div>
+          />
         )}
       </div>
 

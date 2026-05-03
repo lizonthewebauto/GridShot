@@ -1,5 +1,6 @@
 import type { TemplateData } from '@/types';
 import { BrandMark } from './_brand-mark';
+import { TextNode } from './_text-node';
 
 // Flex fields: variant ('dark' | 'light'), headline (note title),
 // dateText (meta), bodyText (paragraph), photoUrl (inline embed), brandName (footer)
@@ -66,29 +67,34 @@ export function AppleNote({ data }: { data: TemplateData }) {
           gap: `${Math.round(data.width * 0.02)}px`,
         }}
       >
-        <h1
-          style={{
-            fontFamily: `${data.fontHeading}, -apple-system, 'SF Pro Display', sans-serif`,
-            fontSize: `${fsTitle}px`,
+        <TextNode
+          nodeKey="headline"
+          as="h1"
+          defaultElement={{
+            fontFamily: data.fontHeading,
+            fontSize: fsTitle,
             fontWeight: 800,
             color: titleColor,
+            alignment: 'left',
             lineHeight: 1.1,
-            margin: 0,
           }}
-        >
-          {data.headline || 'A note to self'}
-        </h1>
+          overrides={data.elementOverrides}
+          defaultText={data.headline || 'A note to self'}
+          style={{ margin: 0 }}
+        />
 
         {data.dateText && (
-          <div
-            style={{
-              fontSize: `${fsMeta}px`,
-              color: metaColor,
+          <TextNode
+            nodeKey="date"
+            defaultElement={{
+              fontSize: fsMeta,
               fontWeight: 400,
+              color: metaColor,
+              alignment: 'left',
             }}
-          >
-            {data.dateText}
-          </div>
+            overrides={data.elementOverrides}
+            defaultText={data.dateText}
+          />
         )}
 
         {(data.photoUrl || data.photos?.[0]) && (
@@ -111,17 +117,20 @@ export function AppleNote({ data }: { data: TemplateData }) {
         )}
 
         {data.bodyText && (
-          <p
-            style={{
-              fontSize: `${fsBody}px`,
-              color: bodyColor,
-              lineHeight: 1.45,
-              margin: 0,
+          <TextNode
+            nodeKey="body"
+            as="p"
+            defaultElement={{
+              fontSize: fsBody,
               fontWeight: 400,
+              color: bodyColor,
+              alignment: 'left',
+              lineHeight: 1.45,
             }}
-          >
-            {data.bodyText}
-          </p>
+            overrides={data.elementOverrides}
+            defaultText={data.bodyText}
+            style={{ margin: 0 }}
+          />
         )}
       </div>
 

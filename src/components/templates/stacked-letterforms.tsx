@@ -1,5 +1,6 @@
 import type { TemplateData } from '@/types';
 import { BrandMark } from './_brand-mark';
+import { TextNode } from './_text-node';
 
 // Flex fields this template reads:
 // - colorPrimary → dark background
@@ -27,26 +28,40 @@ export function StackedLetterforms({ data }: { data: TemplateData }) {
         fontFamily: `${data.fontBody}, sans-serif`,
       }}
     >
-      <div
-        className="absolute"
+      <TextNode
+        nodeKey="headline"
+        defaultElement={{
+          fontFamily: data.fontHeading,
+          fontStyle: 'italic',
+          fontSize: Math.round(data.width * 0.14),
+          fontWeight: 700,
+          color: accent,
+          alignment: 'left',
+          lineHeight: 0.92,
+        }}
+        overrides={data.elementOverrides}
+        defaultText={words.join(' ')}
         style={{
+          position: 'absolute',
           top: `${Math.round(data.height * 0.05)}px`,
           left: `${Math.round(data.width * 0.05)}px`,
-          fontFamily: `${data.fontHeading}, serif`,
-          fontSize: `${Math.round(data.width * 0.14)}px`,
-          lineHeight: 0.92,
-          color: accent,
-          fontWeight: 700,
-          fontStyle: 'italic',
           zIndex: 1,
         }}
       >
-        {words.map((w, i) => (
-          <div key={i} style={{ marginLeft: `${i * Math.round(data.width * 0.04)}px` }}>
-            {w}
-          </div>
-        ))}
-      </div>
+        {(resolved) => {
+          const lineWords = resolved.split(/\s+/).slice(0, 3);
+          while (lineWords.length < 3) lineWords.push('');
+          return (
+            <>
+              {lineWords.map((w, i) => (
+                <div key={i} style={{ marginLeft: `${i * Math.round(data.width * 0.04)}px` }}>
+                  {w}
+                </div>
+              ))}
+            </>
+          );
+        }}
+      </TextNode>
 
       <div
         className="absolute"
@@ -68,21 +83,26 @@ export function StackedLetterforms({ data }: { data: TemplateData }) {
       </div>
 
       {data.tagline && (
-        <div
-          className="absolute uppercase"
+        <TextNode
+          nodeKey="tagline"
+          className="uppercase"
+          defaultElement={{
+            fontFamily: data.fontBody,
+            fontSize: Math.max(28, Math.round(data.width * 0.012)),
+            color: textColor,
+            alignment: 'right',
+            letterSpacing: 0.35,
+          }}
+          overrides={data.elementOverrides}
+          defaultText={data.tagline}
           style={{
+            position: 'absolute',
             right: `${Math.round(data.width * 0.05)}px`,
             bottom: `${Math.round(data.height * 0.06)}px`,
-            color: textColor,
-            fontSize: `${Math.max(28, Math.round(data.width * 0.012))}px`,
-            letterSpacing: '0.35em',
             zIndex: 3,
             maxWidth: '35%',
-            textAlign: 'right',
           }}
-        >
-          {data.tagline}
-        </div>
+        />
       )}
 
       <BrandMark data={data} color={textColor} zIndex={3} inset={Math.round(data.width * 0.03)} />

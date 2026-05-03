@@ -1,5 +1,6 @@
 import type { TemplateData } from '@/types';
 import { BrandMark } from './_brand-mark';
+import { TextNode } from './_text-node';
 
 // Flex fields this template reads:
 // - photos → up to 3 frame URLs. Falls back to photoUrl repeated.
@@ -48,18 +49,21 @@ export function FilmStrip({ data }: { data: TemplateData }) {
       }}
     >
       {/* Top label */}
-      <div
-        style={{
+      <TextNode
+        nodeKey="filmLabel"
+        className="uppercase"
+        defaultElement={{
           fontFamily: 'monospace',
-          fontSize: `${labelFont}px`,
-          letterSpacing: '0.35em',
-          textTransform: 'uppercase',
+          fontSize: labelFont,
+          fontWeight: 400,
           color: data.colorSecondary || '#e6c36b',
-          marginBottom: `${Math.round(data.height * 0.028)}px`,
+          alignment: 'center',
+          letterSpacing: 0.35,
         }}
-      >
-        {data.customText || 'KODAK PORTRA 400'} &nbsp;•&nbsp; 35MM
-      </div>
+        overrides={data.elementOverrides}
+        defaultText={`${data.customText || 'KODAK PORTRA 400'}  •  35MM`}
+        style={{ marginBottom: `${Math.round(data.height * 0.028)}px` }}
+      />
 
       {/* Filmstrip */}
       <div
@@ -183,38 +187,41 @@ export function FilmStrip({ data }: { data: TemplateData }) {
         FRAME 24A &nbsp;▸&nbsp; ISO 400
       </div>
 
-      {/* Headline */}
-      <div
-        style={{
-          marginTop: `${Math.round(data.height * 0.04)}px`,
-          fontFamily: `${body}, monospace`,
-          fontSize: `${bigHeadlineFont}px`,
+      <TextNode
+        nodeKey="headline"
+        className="uppercase"
+        defaultElement={{
+          fontFamily: body,
+          fontSize: bigHeadlineFont,
           fontWeight: 700,
           color: '#f4f1ea',
-          textAlign: 'center',
-          textTransform: 'uppercase',
-          letterSpacing: '0.06em',
+          alignment: 'center',
           lineHeight: 1.15,
+          letterSpacing: 0.06,
         }}
-      >
-        {data.headline || 'Shot on film'}
-      </div>
+        overrides={data.elementOverrides}
+        defaultText={data.headline || 'Shot on film'}
+        style={{ marginTop: `${Math.round(data.height * 0.04)}px` }}
+      />
 
-      {/* Body */}
-      <div
+      <TextNode
+        nodeKey="body"
+        defaultElement={{
+          fontFamily: body,
+          fontSize: bodyFont,
+          fontWeight: 400,
+          color: '#bbb',
+          alignment: 'center',
+          lineHeight: 1.6,
+        }}
+        overrides={data.elementOverrides}
+        defaultText={data.bodyText || 'Grain, warmth, and the sound of a shutter.'}
         style={{
           marginTop: `${Math.round(data.height * 0.019)}px`,
-          fontFamily: `${body}, monospace`,
-          fontSize: `${bodyFont}px`,
-          color: '#bbb',
-          textAlign: 'center',
           maxWidth: `${Math.round(data.width * 0.67)}px`,
-          lineHeight: 1.6,
           opacity: 0.85,
         }}
-      >
-        {data.bodyText || 'Grain, warmth, and the sound of a shutter.'}
-      </div>
+      />
 
       <BrandMark
         data={data}

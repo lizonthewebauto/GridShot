@@ -1,5 +1,6 @@
 import type { TemplateData } from '@/types';
 import { BrandMark } from './_brand-mark';
+import { TextNode } from './_text-node';
 
 // Flex fields this template reads:
 // - colorAccent → huge quote mark color
@@ -38,19 +39,24 @@ export function QuoteCard({ data }: { data: TemplateData }) {
         &ldquo;
       </div>
 
-      <blockquote
-        style={{
-          fontFamily: `${data.fontHeading}, serif`,
+      <TextNode
+        nodeKey="quote"
+        as="p"
+        defaultElement={{
+          fontFamily: data.fontHeading,
           fontStyle: 'italic',
-          fontSize: `${Math.round(data.width * 0.038)}px`,
-          lineHeight: 1.35,
+          fontSize: Math.round(data.width * 0.038),
           color: textColor,
+          alignment: 'center',
+          lineHeight: 1.35,
+        }}
+        overrides={data.elementOverrides}
+        defaultText={quote}
+        style={{
           maxWidth: '78%',
           marginBottom: `${Math.round(data.width * 0.045)}px`,
         }}
-      >
-        {quote}
-      </blockquote>
+      />
 
       <div
         style={{
@@ -70,20 +76,22 @@ export function QuoteCard({ data }: { data: TemplateData }) {
         )}
       </div>
 
-      {attribution && (
-        <div
-          className="uppercase"
-          style={{
-            fontFamily: `${data.fontBody}, sans-serif`,
-            fontSize: `${Math.max(28, Math.round(data.width * 0.013))}px`,
-            letterSpacing: '0.3em',
+      {(attribution || data.dateText) && (
+        <TextNode
+          nodeKey="attribution"
+          defaultElement={{
+            fontFamily: data.fontBody,
+            fontSize: Math.max(28, Math.round(data.width * 0.013)),
+            fontWeight: 500,
             color: textColor,
-            opacity: 0.75,
+            alignment: 'center',
+            letterSpacing: 0.3,
           }}
-        >
-          {attribution}
-          {data.dateText ? ` / ${data.dateText}` : ''}
-        </div>
+          overrides={data.elementOverrides}
+          defaultText={`${attribution ?? ''}${data.dateText ? ` / ${data.dateText}` : ''}`}
+          className="uppercase"
+          style={{ opacity: 0.75 }}
+        />
       )}
 
       <BrandMark data={data} color={textColor} inset={Math.round(data.width * 0.03)} />

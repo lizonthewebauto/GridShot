@@ -1,5 +1,6 @@
 import type { TemplateData } from '@/types';
 import { BrandMark } from './_brand-mark';
+import { TextNode } from './_text-node';
 
 export function TestimonialCard({ data }: { data: TemplateData }) {
   const heading = data.fontHeading || 'Playfair Display';
@@ -69,30 +70,36 @@ export function TestimonialCard({ data }: { data: TemplateData }) {
             &ldquo;
           </div>
 
-          <div
-            style={{
-              fontFamily: `${heading}, serif`,
-              fontSize: `${Math.round(data.width * 0.032)}px`,
+          <TextNode
+            nodeKey="quote"
+            defaultElement={{
+              fontFamily: heading,
+              fontSize: Math.round(data.width * 0.032),
               fontWeight: 500,
+              color: '#1a1a1a',
+              alignment: 'left',
               lineHeight: 1.35,
-              letterSpacing: '-0.005em',
+              letterSpacing: -0.005,
             }}
-          >
-            {data.bodyText || 'A kind word from someone I worked with.'}
-          </div>
+            overrides={data.elementOverrides}
+            defaultText={data.bodyText || 'A kind word from someone I worked with.'}
+          />
 
           {/* Headline as attribution */}
-          <div
-            style={{
-              marginTop: `${Math.round(data.width * 0.022)}px`,
-              fontFamily: `${body}, sans-serif`,
-              fontSize: `${Math.max(28, Math.round(data.width * 0.017))}px`,
+          <TextNode
+            nodeKey="attribution"
+            defaultElement={{
+              fontFamily: body,
+              fontSize: Math.max(28, Math.round(data.width * 0.017)),
               fontWeight: 600,
-              opacity: 0.75,
+              color: '#1a1a1a',
+              alignment: 'left',
             }}
-          >
-            — {data.headline || 'Happy Client'}
-          </div>
+            overrides={data.elementOverrides}
+            defaultText={`— ${data.headline || 'Happy Client'}`}
+            style={{ marginTop: `${Math.round(data.width * 0.022)}px`, opacity: 0.75 }}
+          />
+
 
           <div style={{ flex: 1 }} />
 
@@ -108,18 +115,20 @@ export function TestimonialCard({ data }: { data: TemplateData }) {
             <div style={{ color: '#e8b547', fontSize: `${Math.round(data.width * 0.02)}px`, letterSpacing: '0.1em' }}>
               ★★★★★
             </div>
-            <div
-              style={{
-                fontFamily: `${body}, sans-serif`,
-                fontSize: `${Math.max(28, Math.round(data.width * 0.015))}px`,
+            <TextNode
+              nodeKey="reviewMeta"
+              defaultElement={{
+                fontFamily: body,
+                fontSize: Math.max(28, Math.round(data.width * 0.015)),
                 color: '#1a1a1a',
-                opacity: 0.7,
+                alignment: 'left',
               }}
-            >
-              {data.reviewCount
+              overrides={data.elementOverrides}
+              defaultText={data.reviewCount
                 ? `${data.reviewCount}${data.reviewTagline ? ' ' + data.reviewTagline : ' reviews'}`
                 : data.reviewTagline || '5-star rated'}
-            </div>
+              style={{ opacity: 0.7 }}
+            />
           </div>
 
         </div>

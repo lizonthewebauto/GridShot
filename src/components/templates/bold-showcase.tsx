@@ -1,5 +1,6 @@
 import type { TemplateData } from '@/types';
 import { BrandMark } from './_brand-mark';
+import { TextNode } from './_text-node';
 
 export function BoldShowcase({ data }: { data: TemplateData }) {
   const pad = Math.round(data.width * 0.045);
@@ -39,30 +40,40 @@ export function BoldShowcase({ data }: { data: TemplateData }) {
         className="absolute bottom-0 left-0 right-0"
         style={{ padding: `${Math.round(data.width * 0.055)}px` }}
       >
-        <h2
-          className="font-black uppercase tracking-tight leading-none"
-          style={{
+        <TextNode
+          nodeKey="headline"
+          as="h2"
+          className="uppercase tracking-tight"
+          defaultElement={{
             fontFamily: data.fontHeading,
+            fontSize: Math.round(data.width * 0.065),
+            fontWeight: 900,
             color: data.colorSecondary,
-            fontSize: `${Math.round(data.width * 0.065)}px`,
-            marginBottom: `${Math.round(data.width * 0.01)}px`,
+            alignment: 'left',
+            lineHeight: 1,
           }}
-        >
-          {data.headline}
-        </h2>
+          overrides={data.elementOverrides}
+          defaultText={data.headline}
+          style={{ marginBottom: `${Math.round(data.width * 0.01)}px` }}
+        />
 
-        <p
-          className="leading-relaxed opacity-70"
-          style={{
+        <TextNode
+          nodeKey="body"
+          as="p"
+          defaultElement={{
             fontFamily: data.fontBody,
+            fontSize: Math.max(28, Math.round(data.width * 0.018)),
             color: data.colorSecondary,
-            fontSize: `${Math.max(28, Math.round(data.width * 0.018))}px`,
-            maxWidth: `${Math.round(data.width * 0.65)}px`,
+            alignment: 'left',
+            lineHeight: 1.5,
           }}
-        >
-          {data.bodyText}
-        </p>
-
+          overrides={data.elementOverrides}
+          defaultText={data.bodyText}
+          style={{
+            maxWidth: `${Math.round(data.width * 0.65)}px`,
+            opacity: 0.7,
+          }}
+        />
       </div>
       <BrandMark data={data} color={data.colorSecondary} inset={brandInset} />
     </div>

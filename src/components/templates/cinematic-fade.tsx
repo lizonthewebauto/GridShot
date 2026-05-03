@@ -1,5 +1,6 @@
 import type { TemplateData } from '@/types';
 import { BrandMark } from './_brand-mark';
+import { TextNode } from './_text-node';
 
 // Flex fields this template reads:
 // - colorGradientFrom / colorGradientTo / gradientAngle → control the fade color
@@ -49,41 +50,56 @@ export function CinematicFade({ data }: { data: TemplateData }) {
         }}
       >
         {data.tagline && (
-          <div
+          <TextNode
+            nodeKey="tagline"
             className="uppercase"
+            defaultElement={{
+              fontFamily: data.fontHeading,
+              fontSize: Math.max(28, Math.round(data.width * 0.011)),
+              fontWeight: 400,
+              alignment: 'left',
+              letterSpacing: 0.3,
+            }}
+            overrides={data.elementOverrides}
+            defaultText={data.tagline}
             style={{
-              fontFamily: `${data.fontHeading}, serif`,
-              fontSize: `${Math.max(28, Math.round(data.width * 0.011))}px`,
-              letterSpacing: '0.3em',
               opacity: 0.8,
               marginBottom: `${Math.round(data.width * 0.012)}px`,
             }}
-          >
-            {data.tagline}
-          </div>
+          />
         )}
-        <h1
-          style={{
-            fontFamily: `${data.fontHeading}, serif`,
-            fontSize: `${Math.round(data.width * 0.065)}px`,
-            lineHeight: 1.05,
+        <TextNode
+          nodeKey="headline"
+          as="h1"
+          defaultElement={{
+            fontFamily: data.fontHeading,
+            fontSize: Math.round(data.width * 0.065),
             fontWeight: 700,
-            marginBottom: `${Math.round(data.width * 0.015)}px`,
+            alignment: 'left',
+            lineHeight: 1.05,
           }}
-        >
-          {data.headline || 'Your headline here'}
-        </h1>
+          overrides={data.elementOverrides}
+          defaultText={data.headline || 'Your headline here'}
+          style={{ marginBottom: `${Math.round(data.width * 0.015)}px` }}
+        />
         {data.bodyText && (
-          <p
-            style={{
-              fontSize: `${Math.max(28, Math.round(data.width * 0.018))}px`,
+          <TextNode
+            nodeKey="body"
+            as="p"
+            defaultElement={{
+              fontFamily: data.fontBody,
+              fontSize: Math.max(28, Math.round(data.width * 0.018)),
+              fontWeight: 400,
+              alignment: 'left',
               lineHeight: 1.4,
+            }}
+            overrides={data.elementOverrides}
+            defaultText={data.bodyText}
+            style={{
               opacity: 0.85,
               maxWidth: '85%',
             }}
-          >
-            {data.bodyText}
-          </p>
+          />
         )}
       </div>
 

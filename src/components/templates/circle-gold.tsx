@@ -1,5 +1,6 @@
 import type { TemplateData } from '@/types';
 import { BrandMark } from './_brand-mark';
+import { TextNode } from './_text-node';
 
 // Flex fields this template reads:
 // - photoUrl → circular photo
@@ -74,49 +75,60 @@ export function CircleGold({ data }: { data: TemplateData }) {
         )}
       </div>
 
-      <h1
-        style={{
-          fontFamily: `${data.fontHeading}, serif`,
+      <TextNode
+        nodeKey="headline"
+        as="h1"
+        defaultElement={{
+          fontFamily: data.fontHeading,
+          fontSize: Math.round(data.width * 0.055),
           fontWeight: 600,
-          fontSize: `${Math.round(data.width * 0.055)}px`,
+          color: textColor,
+          alignment: 'center',
           lineHeight: 1.1,
-          letterSpacing: '-0.015em',
-          textAlign: 'center',
-          maxWidth: '85%',
-          margin: 0,
+          letterSpacing: -0.015,
         }}
-      >
-        {data.headline || 'Your headline here'}
-      </h1>
+        overrides={data.elementOverrides}
+        defaultText={data.headline || 'Your headline here'}
+        style={{ maxWidth: '85%', margin: 0 }}
+      />
 
       {data.tagline && (
-        <div
+        <TextNode
+          nodeKey="tagline"
           className="uppercase"
-          style={{
-            marginTop: `${Math.round(data.height * 0.025)}px`,
-            fontSize: `${Math.max(28, Math.round(data.width * 0.016))}px`,
-            letterSpacing: '0.4em',
-            color: gold,
+          defaultElement={{
+            fontFamily: data.fontBody,
+            fontSize: Math.max(28, Math.round(data.width * 0.016)),
             fontWeight: 500,
+            color: gold,
+            alignment: 'center',
+            letterSpacing: 0.4,
           }}
-        >
-          {data.tagline}
-        </div>
+          overrides={data.elementOverrides}
+          defaultText={data.tagline}
+          style={{ marginTop: `${Math.round(data.height * 0.025)}px` }}
+        />
       )}
 
       {data.bodyText && (
-        <p
+        <TextNode
+          nodeKey="body"
+          as="p"
+          defaultElement={{
+            fontFamily: data.fontBody,
+            fontSize: Math.max(28, Math.round(data.width * 0.018)),
+            color: textColor,
+            alignment: 'center',
+            lineHeight: 1.5,
+          }}
+          overrides={data.elementOverrides}
+          defaultText={data.bodyText}
           style={{
             marginTop: `${Math.round(data.height * 0.025)}px`,
-            fontSize: `${Math.max(28, Math.round(data.width * 0.018))}px`,
-            lineHeight: 1.5,
-            textAlign: 'center',
             maxWidth: '65%',
             opacity: 0.75,
           }}
-        >
-          {data.bodyText}
-        </p>
+        />
       )}
     </div>
   );

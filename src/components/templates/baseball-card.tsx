@@ -1,4 +1,5 @@
 import type { TemplateData } from '@/types';
+import { TextNode } from './_text-node';
 
 // Flex fields this template reads:
 // - colorAccent → gold border gradient base (default #c9a84c)
@@ -64,36 +65,45 @@ export function BaseballCard({ data }: { data: TemplateData }) {
           )}
         </div>
 
-        {/* Brand name in the player-name slot */}
         {data.brandName && (
-          <div
-            className="text-center uppercase"
-            style={{
-              fontFamily: `${data.fontHeading}, serif`,
-              fontSize: `${Math.round(data.width * 0.055)}px`,
+          <TextNode
+            nodeKey="brandName"
+            className="uppercase"
+            defaultElement={{
+              fontFamily: data.fontHeading,
+              fontSize: Math.round(data.width * 0.055),
               fontWeight: 700,
-              letterSpacing: '0.04em',
-              lineHeight: 1.1,
-              padding: `${Math.round(data.width * 0.02)}px 0 ${Math.round(data.width * 0.006)}px`,
               color: ink,
+              alignment: 'center',
+              lineHeight: 1.1,
+              letterSpacing: 0.04,
             }}
-          >
-            {data.brandName}
-          </div>
+            overrides={data.elementOverrides}
+            defaultText={data.brandName}
+            style={{
+              padding: `${Math.round(data.width * 0.02)}px 0 ${Math.round(data.width * 0.006)}px`,
+            }}
+          />
         )}
 
         {data.tagline && (
-          <div
-            className="text-center uppercase"
+          <TextNode
+            nodeKey="tagline"
+            className="uppercase"
+            defaultElement={{
+              fontFamily: data.fontBody,
+              fontSize: Math.max(28, Math.round(data.width * 0.013)),
+              color: ink,
+              alignment: 'center',
+              letterSpacing: 0.35,
+            }}
+            overrides={data.elementOverrides}
+            defaultText={data.tagline}
             style={{
-              fontSize: `${Math.max(28, Math.round(data.width * 0.013))}px`,
-              letterSpacing: '0.35em',
               marginTop: `${Math.round(data.width * 0.004)}px`,
               opacity: 0.75,
             }}
-          >
-            {data.tagline}
-          </div>
+          />
         )}
 
         <div

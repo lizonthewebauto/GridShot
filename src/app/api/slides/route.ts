@@ -111,6 +111,7 @@ export async function POST(request: Request) {
       slide_order: body.slide_order ?? 0,
       carousel_group_id: body.carousel_group_id ?? null,
       metadata: body.metadata ?? {},
+      elements: body.elements ?? {},
       status: 'draft',
     })
     .select()

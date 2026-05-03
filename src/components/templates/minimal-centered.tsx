@@ -1,6 +1,7 @@
 import type { TemplateData, ImageShape } from '@/types';
 import type { CSSProperties } from 'react';
 import { BrandMark } from './_brand-mark';
+import { TextNode } from './_text-node';
 
 // Flex fields this template reads:
 // - imageShape → 'square' | 'circle' | 'arch' | 'hexagon' | 'rounded' | 'polaroid' | 'oval'
@@ -44,18 +45,24 @@ export function MinimalCentered({ data }: { data: TemplateData }) {
         </div>
       )}
 
-      <h2
-        className="font-light leading-tight"
-        style={{
+      <TextNode
+        nodeKey="headline"
+        as="h2"
+        defaultElement={{
           fontFamily: data.fontHeading,
+          fontSize: Math.round(data.width * 0.05),
+          fontWeight: 300,
           color: data.colorPrimary,
-          fontSize: `${Math.round(data.width * 0.05)}px`,
+          alignment: 'center',
+          lineHeight: 1.1,
+        }}
+        overrides={data.elementOverrides}
+        defaultText={data.headline}
+        style={{
           marginBottom: `${Math.round(data.width * 0.022)}px`,
           maxWidth: `${Math.round(data.width * 0.78)}px`,
         }}
-      >
-        {data.headline}
-      </h2>
+      />
 
       <div
         style={{
@@ -66,17 +73,23 @@ export function MinimalCentered({ data }: { data: TemplateData }) {
         }}
       />
 
-      <p
-        className="leading-relaxed opacity-70"
-        style={{
+      <TextNode
+        nodeKey="body"
+        as="p"
+        defaultElement={{
           fontFamily: data.fontBody,
+          fontSize: Math.round(data.width * 0.02),
           color: data.colorPrimary,
-          fontSize: `${Math.round(data.width * 0.02)}px`,
-          maxWidth: `${Math.round(data.width * 0.56)}px`,
+          alignment: 'center',
+          lineHeight: 1.5,
         }}
-      >
-        {data.bodyText}
-      </p>
+        overrides={data.elementOverrides}
+        defaultText={data.bodyText}
+        style={{
+          maxWidth: `${Math.round(data.width * 0.56)}px`,
+          opacity: 0.7,
+        }}
+      />
 
       <BrandMark data={data} inset={brandInset} />
     </div>

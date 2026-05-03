@@ -1,4 +1,5 @@
 import type { TemplateData } from '@/types';
+import { TextNode } from './_text-node';
 
 // Flex fields:
 // - colorPrimary → sidebar dark bg
@@ -33,48 +34,56 @@ export function SidebarIndex({ data }: { data: TemplateData }) {
         }}
       >
         <div>
-          <div
+          <TextNode
+            nodeKey="index"
             className="uppercase"
-            style={{
-              fontSize: `${Math.max(28, Math.round(data.width * 0.012))}px`,
-              letterSpacing: '0.3em',
-              color: accent,
+            defaultElement={{
               fontFamily: 'monospace',
-              marginBottom: `${pad}px`,
+              fontSize: Math.max(28, Math.round(data.width * 0.012)),
+              fontWeight: 400,
+              color: accent,
+              alignment: 'left',
+              letterSpacing: 0.3,
             }}
-          >
-            {data.customText ?? 'Index / 01'}
-          </div>
+            overrides={data.elementOverrides}
+            defaultText={data.customText ?? 'Index / 01'}
+            style={{ marginBottom: `${pad}px` }}
+          />
 
           {data.brandName && (
-            <div
-              style={{
-                fontFamily: `${data.fontHeading}, serif`,
-                fontSize: `${Math.round(data.width * 0.04)}px`,
+            <TextNode
+              nodeKey="brandName"
+              defaultElement={{
+                fontFamily: data.fontHeading,
+                fontSize: Math.round(data.width * 0.04),
                 fontWeight: 700,
-                lineHeight: 1.05,
                 color: sidebarText,
+                alignment: 'left',
+                lineHeight: 1.05,
               }}
-            >
-              {data.brandName}
-            </div>
+              overrides={data.elementOverrides}
+              defaultText={data.brandName}
+            />
           )}
         </div>
 
         <div style={{ flex: 1 }} />
 
         {data.dateText && (
-          <div
+          <TextNode
+            nodeKey="date"
             className="uppercase"
-            style={{
-              fontSize: `${Math.max(28, Math.round(data.width * 0.011))}px`,
-              letterSpacing: '0.3em',
-              opacity: 0.7,
+            defaultElement={{
               fontFamily: 'monospace',
+              fontSize: Math.max(28, Math.round(data.width * 0.011)),
+              color: sidebarText,
+              alignment: 'left',
+              letterSpacing: 0.3,
             }}
-          >
-            {data.dateText}
-          </div>
+            overrides={data.elementOverrides}
+            defaultText={data.dateText}
+            style={{ opacity: 0.7 }}
+          />
         )}
       </div>
 
@@ -95,23 +104,27 @@ export function SidebarIndex({ data }: { data: TemplateData }) {
                 background: 'linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0) 100%)',
               }}
             />
-            <div
-              className="absolute"
+            <TextNode
+              nodeKey="caption"
+              defaultElement={{
+                fontFamily: data.fontHeading,
+                fontStyle: 'italic',
+                fontSize: Math.round(data.width * 0.036),
+                color: '#ffffff',
+                alignment: 'left',
+                lineHeight: 1.2,
+              }}
+              overrides={data.elementOverrides}
+              defaultText={data.tagline ?? data.headline ?? ''}
               style={{
+                position: 'absolute',
                 left: `${Math.round(data.width * 0.035)}px`,
                 right: `${Math.round(data.width * 0.035)}px`,
                 bottom: `${Math.round(data.height * 0.05)}px`,
-                color: '#ffffff',
-                fontFamily: `${data.fontHeading}, serif`,
-                fontStyle: 'italic',
-                fontSize: `${Math.round(data.width * 0.036)}px`,
-                lineHeight: 1.2,
                 textShadow: '0 2px 14px rgba(0,0,0,0.8)',
                 maxWidth: '85%',
               }}
-            >
-              {data.tagline ?? data.headline}
-            </div>
+            />
           </>
         )}
       </div>

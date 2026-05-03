@@ -1,5 +1,6 @@
 import type { TemplateData } from '@/types';
 import { BrandMark } from './_brand-mark';
+import { TextNode } from './_text-node';
 
 // Flex fields this template reads:
 // - tagline → handwritten caption inside the polaroid frame (no fallback to brand)
@@ -14,7 +15,7 @@ export function PolaroidStack({ data }: { data: TemplateData }) {
   const bg = data.colorSecondary;
 
   // Caption inside the polaroid — tagline only (no brand fallback)
-  const caption = (data.tagline ?? '').trim() || '—';
+  const caption = ((data.tagline ?? '').trim() || '—').slice(0, 40);
 
   const minDim = Math.min(data.width, data.height);
   const photoSize = Math.round(minDim * 0.6);
@@ -102,52 +103,59 @@ export function PolaroidStack({ data }: { data: TemplateData }) {
         </div>
 
         {/* Handwritten caption inside the polaroid */}
-        <div
-          style={{
-            textAlign: 'center',
-            marginTop: `${captionMarginTop}px`,
-            fontFamily: `${heading}, Caveat, cursive`,
-            fontSize: `${captionFont}px`,
+        <TextNode
+          nodeKey="caption"
+          defaultElement={{
+            fontFamily: heading,
+            fontSize: captionFont,
             color: '#2b2b2b',
+            alignment: 'center',
             lineHeight: 1,
           }}
-        >
-          {caption.slice(0, 40)}
-        </div>
+          overrides={data.elementOverrides}
+          defaultText={caption}
+          style={{ marginTop: `${captionMarginTop}px` }}
+        />
       </div>
 
       {/* Outer headline below */}
-      <div
-        style={{
-          marginTop: `${headlineMarginTop}px`,
-          fontFamily: `${heading}, cursive`,
-          fontSize: `${headlineFont}px`,
+      <TextNode
+        nodeKey="headline"
+        defaultElement={{
+          fontFamily: heading,
+          fontSize: headlineFont,
           fontWeight: 500,
           color: data.colorPrimary,
-          textAlign: 'center',
+          alignment: 'center',
           lineHeight: 1.1,
+        }}
+        overrides={data.elementOverrides}
+        defaultText={data.headline || 'caught in the light'}
+        style={{
+          marginTop: `${headlineMarginTop}px`,
           padding: `0 ${headlinePadX}px`,
           maxWidth: `${Math.round(data.width * 0.9)}px`,
         }}
-      >
-        {data.headline || 'caught in the light'}
-      </div>
+      />
 
-      <div
-        style={{
-          marginTop: `${bodyMarginTop}px`,
-          fontFamily: `${body}, sans-serif`,
-          fontSize: `${bodyFont}px`,
+      <TextNode
+        nodeKey="body"
+        defaultElement={{
+          fontFamily: body,
+          fontSize: bodyFont,
           color: data.colorPrimary,
-          opacity: 0.7,
-          textAlign: 'center',
-          padding: `0 ${bodyPadX}px`,
-          maxWidth: `${Math.round(data.width * 0.78)}px`,
+          alignment: 'center',
           lineHeight: 1.5,
         }}
-      >
-        {data.bodyText || 'Scribbles from the shoot.'}
-      </div>
+        overrides={data.elementOverrides}
+        defaultText={data.bodyText || 'Scribbles from the shoot.'}
+        style={{
+          marginTop: `${bodyMarginTop}px`,
+          opacity: 0.7,
+          padding: `0 ${bodyPadX}px`,
+          maxWidth: `${Math.round(data.width * 0.78)}px`,
+        }}
+      />
     </div>
   );
 }

@@ -1,11 +1,11 @@
 import type { TemplateData } from '@/types';
+import { TextNode } from './_text-node';
 
 // Flex fields this template reads:
 // - brandName → masthead (top)
 // - headline → oversized cover title
 // - tagline → small label above cover line (e.g. "Feature Story")
 // - customText → issue/volume info (top-right)
-// - customText2 → right-side vertical strip text (optional)
 // - customText3 → small badge/price/issue chip (top-left under masthead, optional)
 // - bodyText → main cover line
 // - colorPrimary → cover line block background
@@ -59,103 +59,110 @@ export function MagazineCover({ data }: { data: TemplateData }) {
         </div>
       )}
 
-      {/* Issue kicker — small centered line ABOVE the masthead so the two
-          never share the same horizontal band. */}
       {data.customText && (
-        <div
-          className="absolute"
+        <TextNode
+          nodeKey="issue"
+          className="uppercase"
+          defaultElement={{
+            fontFamily: body,
+            fontSize: Math.max(28, Math.round(data.width * 0.014)),
+            color: '#ffffff',
+            alignment: 'center',
+            letterSpacing: 0.4,
+          }}
+          overrides={data.elementOverrides}
+          defaultText={data.customText}
           style={{
+            position: 'absolute',
             top: `${Math.round(data.height * 0.025)}px`,
             left: 0,
             right: 0,
-            fontFamily: `${body}, sans-serif`,
-            fontSize: `${Math.max(28, Math.round(data.width * 0.014))}px`,
-            letterSpacing: '0.4em',
-            textTransform: 'uppercase',
-            textAlign: 'center',
-            color: '#ffffff',
             textShadow: '0 2px 10px rgba(0,0,0,0.7)',
             opacity: 0.85,
             zIndex: 2,
           }}
-        >
-          {data.customText}
-        </div>
+        />
       )}
 
-      {/* Masthead — centered, capped width so the issue line at top-right stays clear */}
       {data.brandName && (
-        <div
-          className="absolute uppercase"
+        <TextNode
+          nodeKey="masthead"
+          className="uppercase"
+          defaultElement={{
+            fontFamily: heading,
+            fontSize: Math.round(data.width * 0.11),
+            fontWeight: 900,
+            fontStyle: 'italic',
+            color: '#ffffff',
+            alignment: 'center',
+            lineHeight: 0.95,
+            letterSpacing: -0.03,
+          }}
+          overrides={data.elementOverrides}
+          defaultText={data.brandName}
           style={{
+            position: 'absolute',
             top: `${Math.round(data.height * 0.07)}px`,
             left: '50%',
             transform: 'translateX(-50%)',
             maxWidth: `${Math.round(data.width * 0.7)}px`,
-            fontFamily: `${data.fontHeading}, 'Playfair Display', serif`,
-            fontSize: `${Math.round(data.width * 0.11)}px`,
-            fontWeight: 900,
-            fontStyle: 'italic',
-            letterSpacing: '-0.03em',
-            lineHeight: 0.95,
-            color: '#ffffff',
             textShadow: '0 2px 14px rgba(0,0,0,0.6)',
-            textAlign: 'center',
             whiteSpace: 'nowrap',
             overflow: 'hidden',
             textOverflow: 'ellipsis',
             zIndex: 2,
           }}
-        >
-          {data.brandName}
-        </div>
+        />
       )}
 
-      {/* Oversized title */}
       {data.headline && (
-        <div
-          className="absolute"
+        <TextNode
+          nodeKey="coverline"
+          defaultElement={{
+            fontFamily: heading,
+            fontSize: Math.round(data.width * 0.14),
+            fontWeight: 900,
+            color: '#ffffff',
+            alignment: 'left',
+            lineHeight: 0.92,
+            letterSpacing: -0.03,
+          }}
+          overrides={data.elementOverrides}
+          defaultText={data.headline}
           style={{
+            position: 'absolute',
             left: `${Math.round(data.width * 0.06)}px`,
             right: `${Math.round(data.width * 0.06)}px`,
             top: `${Math.round(data.height * 0.28)}px`,
-            fontFamily: `${heading}, serif`,
-            fontSize: `${Math.round(data.width * 0.14)}px`,
-            fontWeight: 900,
-            lineHeight: 0.92,
-            color: '#ffffff',
             textShadow: '0 4px 24px rgba(0,0,0,0.85), 0 1px 4px rgba(0,0,0,0.6)',
-            letterSpacing: '-0.03em',
             zIndex: 2,
           }}
-        >
-          {data.headline}
-        </div>
+        />
       )}
 
-      {/* Optional small chip (e.g. issue #, price, season) — only when data supplies it */}
       {data.customText3 && (
-        <div
-          className="absolute uppercase"
+        <TextNode
+          nodeKey="chip"
+          className="uppercase"
+          defaultElement={{
+            fontFamily: body,
+            fontSize: Math.max(28, Math.round(data.width * 0.014)),
+            color: '#ffffff',
+            letterSpacing: 0.3,
+          }}
+          overrides={data.elementOverrides}
+          defaultText={data.customText3}
           style={{
+            position: 'absolute',
             left: `${Math.round(data.width * 0.06)}px`,
             top: `${Math.round(data.height * 0.2)}px`,
-            fontFamily: `${body}, sans-serif`,
-            fontSize: `${Math.max(28, Math.round(data.width * 0.014))}px`,
-            letterSpacing: '0.3em',
-            color: '#ffffff',
             textShadow: '0 2px 12px rgba(0,0,0,0.8)',
             opacity: 0.9,
             zIndex: 2,
           }}
-        >
-          {data.customText3}
-        </div>
+        />
       )}
 
-      {/* (vertical side strip removed — it collided with the oversized headline) */}
-
-      {/* Cover line block */}
       {(data.bodyText || data.tagline) && (
         <div
           className="absolute"
@@ -173,19 +180,36 @@ export function MagazineCover({ data }: { data: TemplateData }) {
           }}
         >
           {data.tagline && (
-            <div
+            <TextNode
+              nodeKey="tagline"
+              className="uppercase"
+              defaultElement={{
+                fontFamily: body,
+                fontSize: Math.max(28, Math.round(data.width * 0.014)),
+                color: secondary,
+                letterSpacing: 0.3,
+              }}
+              overrides={data.elementOverrides}
+              defaultText={data.tagline}
               style={{
-                fontSize: `${Math.max(28, Math.round(data.width * 0.014))}px`,
-                letterSpacing: '0.3em',
-                textTransform: 'uppercase',
                 marginBottom: '8px',
                 opacity: 0.75,
               }}
-            >
-              {data.tagline}
-            </div>
+            />
           )}
-          {data.bodyText}
+          {data.bodyText && (
+            <TextNode
+              nodeKey="subhead"
+              defaultElement={{
+                fontFamily: body,
+                fontSize: Math.max(28, Math.round(data.width * 0.022)),
+                color: secondary,
+                lineHeight: 1.4,
+              }}
+              overrides={data.elementOverrides}
+              defaultText={data.bodyText}
+            />
+          )}
         </div>
       )}
     </div>

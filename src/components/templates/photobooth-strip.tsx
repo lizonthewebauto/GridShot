@@ -1,5 +1,6 @@
 import type { TemplateData } from '@/types';
 import { BrandMark } from './_brand-mark';
+import { TextNode } from './_text-node';
 
 // Flex fields: photos (up to 4, fallback photoUrl×4), dateText (MM/YY labels),
 // imageAspect controls photo cell proportion
@@ -48,16 +49,25 @@ export function PhotoboothStrip({ data }: { data: TemplateData }) {
           opacity: 0.7,
         }}
       >
-        <span
+        <TextNode
+          nodeKey="headline"
+          as="span"
+          defaultElement={{
+            fontFamily: 'monospace',
+            fontSize: labelFont,
+            color: ink,
+            alignment: 'left',
+            letterSpacing: 0.3,
+          }}
+          overrides={data.elementOverrides}
+          defaultText={data.headline || 'STRIP // 01'}
           style={{
             writingMode: 'vertical-rl',
             transform: 'rotate(180deg)',
             marginTop: 'auto',
             marginBottom: 'auto',
           }}
-        >
-          {data.headline || 'STRIP // 01'}
-        </span>
+        />
       </div>
 
       {/* Strip */}
@@ -113,17 +123,50 @@ export function PhotoboothStrip({ data }: { data: TemplateData }) {
           opacity: 0.7,
         }}
       >
-        <span>{dateLabel}</span>
-        <span
+        <TextNode
+          nodeKey="date"
+          as="span"
+          defaultElement={{
+            fontFamily: 'monospace',
+            fontSize: labelFont,
+            color: ink,
+            alignment: 'right',
+            letterSpacing: 0.3,
+          }}
+          overrides={data.elementOverrides}
+          defaultText={dateLabel}
+        />
+        <TextNode
+          nodeKey="tagline"
+          as="span"
+          defaultElement={{
+            fontFamily: 'monospace',
+            fontSize: labelFont,
+            color: ink,
+            alignment: 'right',
+            letterSpacing: 0.3,
+          }}
+          overrides={data.elementOverrides}
+          defaultText={data.tagline || 'NO. 04'}
           style={{
             writingMode: 'vertical-rl',
             marginTop: 'auto',
             marginBottom: 'auto',
           }}
-        >
-          {data.tagline || 'NO. 04'}
-        </span>
-        <span>{data.locationText || ''}</span>
+        />
+        <TextNode
+          nodeKey="location"
+          as="span"
+          defaultElement={{
+            fontFamily: 'monospace',
+            fontSize: labelFont,
+            color: ink,
+            alignment: 'right',
+            letterSpacing: 0.3,
+          }}
+          overrides={data.elementOverrides}
+          defaultText={data.locationText || ''}
+        />
       </div>
 
       <BrandMark

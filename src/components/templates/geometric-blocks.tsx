@@ -1,5 +1,6 @@
 import type { TemplateData } from '@/types';
 import { BrandMark } from './_brand-mark';
+import { TextNode } from './_text-node';
 
 // Flex fields this template reads:
 // - colorAccent → top-right block
@@ -60,36 +61,46 @@ export function GeometricBlocks({ data }: { data: TemplateData }) {
       </div>
 
       {data.headline && (
-        <div
-          className="absolute"
+        <TextNode
+          nodeKey="headline"
+          defaultElement={{
+            fontFamily: data.fontHeading,
+            fontSize: Math.round(data.width * 0.035),
+            fontWeight: 700,
+            color: textColor,
+            alignment: 'left',
+            lineHeight: 1.1,
+          }}
+          overrides={data.elementOverrides}
+          defaultText={data.headline}
           style={{
+            position: 'absolute',
             top: `${Math.round(data.height * 0.04)}px`,
             left: `${Math.round(data.width * 0.04)}px`,
-            fontFamily: `${data.fontHeading}, serif`,
-            fontSize: `${Math.round(data.width * 0.035)}px`,
-            color: textColor,
             maxWidth: '45%',
-            lineHeight: 1.1,
-            fontWeight: 700,
           }}
-        >
-          {data.headline}
-        </div>
+        />
       )}
 
       {data.tagline && (
-        <div
-          className="absolute uppercase text-right"
+        <TextNode
+          nodeKey="tagline"
+          className="uppercase"
+          defaultElement={{
+            fontFamily: data.fontBody,
+            fontSize: Math.max(28, Math.round(data.width * 0.012)),
+            color: '#fff',
+            alignment: 'right',
+            letterSpacing: 0.3,
+          }}
+          overrides={data.elementOverrides}
+          defaultText={data.tagline}
           style={{
+            position: 'absolute',
             bottom: `${Math.round(data.height * 0.03)}px`,
             right: `${Math.round(data.width * 0.04)}px`,
-            fontSize: `${Math.max(28, Math.round(data.width * 0.012))}px`,
-            letterSpacing: '0.3em',
-            color: '#fff',
           }}
-        >
-          {data.tagline}
-        </div>
+        />
       )}
 
       <BrandMark data={data} color="#fff" inset={Math.round(data.width * 0.03)} />

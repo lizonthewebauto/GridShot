@@ -50,8 +50,10 @@ import { TEMPLATE_REGISTRY } from '@/lib/templates/registry';
 import { TEMPLATE_COMPONENTS, TEMPLATE_FONT_URL } from '@/lib/templates/components';
 import { cn } from '@/lib/utils';
 import { ElementEditor } from './element-editor';
+import { MultiNodeEditor } from './multi-node-editor';
 import { PublishModal, type PublishPayload } from './publish-modal';
 import { useBrand } from '@/components/brand-context';
+import { getTextNodes } from '@/lib/templates/text-nodes';
 
 const CANVAS_W = 1080;
 const CANVAS_H = 1440;
@@ -65,6 +67,7 @@ interface SlideState {
   photoUrl: string | null;
   photoStoragePath: string | null;
   elements: SlideElements;
+  elementOverrides: Record<string, Partial<ElementConfig>>;
 }
 
 function genId() {
@@ -80,6 +83,7 @@ function makeSlide(partial: Partial<SlideState> = {}): SlideState {
     photoUrl: null,
     photoStoragePath: null,
     elements: structuredClone(DEFAULT_ELEMENTS),
+    elementOverrides: {},
     ...partial,
   };
 }
@@ -176,6 +180,7 @@ export function SlideCreator() {
       instagramHandle: brand?.instagram_handle ?? null,
       brandTagline: brand?.tagline ?? null,
       elements: slide.elements,
+      elementOverrides: slide.elementOverrides,
     };
   }
 
@@ -185,6 +190,35 @@ export function SlideCreator() {
     setSlides((prev) =>
       prev.map((s, i) => (i === index ? { ...s, ...updates } : s))
     );
+  }
+
+  function updateOverride(nodeKey: string, updates: Partial<ElementConfig>) {
+    setSlides((prev) => {
+      if (applyToAll) {
+        return prev.map((s) => ({
+          ...s,
+          elementOverrides: {
+            ...s.elementOverrides,
+            [nodeKey]: { ...s.elementOverrides[nodeKey], ...updates },
+          },
+        }));
+      }
+      return prev.map((s, i) =>
+        i === activeIndex
+          ? {
+              ...s,
+              elementOverrides: {
+                ...s.elementOverrides,
+                [nodeKey]: { ...s.elementOverrides[nodeKey], ...updates },
+              },
+            }
+          : s
+      );
+    });
+  }
+
+  function updateOverrideText(nodeKey: string, text: string) {
+    updateOverride(nodeKey, { text });
   }
 
   function updateElement<K extends keyof SlideElements>(
@@ -243,6 +277,10 @@ export function SlideCreator() {
         if (preset.body_text) next.bodyText = preset.body_text;
         if (preset.elements && Object.keys(preset.elements).length > 0) {
           next.elements = { ...DEFAULT_ELEMENTS, ...(preset.elements as SlideElements) };
+        }
+        const overridesForTemplate = preset.elements_by_template?.[preset.template_slug];
+        if (overridesForTemplate && Object.keys(overridesForTemplate).length > 0) {
+          next.elementOverrides = overridesForTemplate;
         }
         return next;
       })
@@ -403,6 +441,7 @@ export function SlideCreator() {
             slide_order: i,
             carousel_group_id: carouselGroupId,
             metadata: { elements: slide.elements },
+            elements: slide.elementOverrides,
           }),
         });
         const data = await res.json();
@@ -510,6 +549,7 @@ export function SlideCreator() {
             slide_order: i,
             carousel_group_id: carouselGroupId,
             metadata: { elements: slide.elements },
+            elements: slide.elementOverrides,
           }),
         });
         const slideData = await slideRes.json();
@@ -571,6 +611,7 @@ export function SlideCreator() {
           font_heading: brand?.font_heading,
           font_body: brand?.font_body,
           elements: activeSlide.elements,
+          elements_by_template: { [templateSlug]: activeSlide.elementOverrides },
         }),
       });
       const data = await res.json();
@@ -1247,6 +1288,44 @@ export function SlideCreator() {
                 </div>
               </ElementEditor>
             </div>
+          ) : getTextNodes(templateSlug).length > 0 ? (
+            <div className="space-y-3 pt-3 border-t border-border">
+              <label className="text-xs uppercase tracking-wider text-muted">Elements</label>
+              <MultiNodeEditor
+                templateSlug={templateSlug}
+                overrides={activeSlide.elementOverrides}
+                texts={(() => {
+                  const nodes = getTextNodes(templateSlug);
+                  const result: Record<string, string> = {};
+                  for (const n of nodes) {
+                    const fromOverride = activeSlide.elementOverrides[n.key]?.text;
+                    if (fromOverride !== undefined) {
+                      result[n.key] = fromOverride;
+                      continue;
+                    }
+                    switch (n.contentSource) {
+                      case 'headline': result[n.key] = activeSlide.headline; break;
+                      case 'bodyText': result[n.key] = activeSlide.bodyText; break;
+                      case 'brandName': result[n.key] = brand?.name ?? ''; break;
+                      case 'tagline': result[n.key] = brand?.tagline ?? ''; break;
+                      default: result[n.key] = '';
+                    }
+                  }
+                  return result;
+                })()}
+                onOverrideChange={updateOverride}
+                onTextChange={(nodeKey, text) => {
+                  const node = getTextNodes(templateSlug).find((n) => n.key === nodeKey);
+                  if (node?.contentSource === 'headline') {
+                    updateSlide(activeIndex, { headline: text });
+                  } else if (node?.contentSource === 'bodyText') {
+                    updateSlide(activeIndex, { bodyText: text });
+                  } else {
+                    updateOverrideText(nodeKey, text);
+                  }
+                }}
+              />
+            </div>
           ) : (
             <div className="space-y-3 pt-3 border-t border-border">
               <label className="text-xs uppercase tracking-wider text-muted">Copy</label>
@@ -1265,7 +1344,7 @@ export function SlideCreator() {
                 className="w-full rounded border border-border bg-background px-3 py-2.5 text-sm text-foreground placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-accent resize-none"
               />
               <p className="text-xs text-muted">
-                This template uses a fixed layout. Switch to <strong>Editorial Pro</strong> to edit every element directly.
+                This template doesn&apos;t expose editable elements yet. Add an entry in <code>src/lib/templates/text-nodes.ts</code> to enable per-element editing.
               </p>
             </div>
           )}

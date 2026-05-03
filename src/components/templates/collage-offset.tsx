@@ -1,5 +1,6 @@
 import type { TemplateData } from '@/types';
 import { BrandMark } from './_brand-mark';
+import { TextNode } from './_text-node';
 
 // Flex fields this template reads:
 // - photos → array of up to 3 photo URLs (falls back to photoUrl×3)
@@ -74,28 +75,36 @@ export function CollageOffset({ data }: { data: TemplateData }) {
           padding: '0 10%',
         }}
       >
-        <h1
-          style={{
-            fontFamily: `${data.fontHeading}, serif`,
-            fontSize: `${Math.round(data.width * 0.058)}px`,
-            lineHeight: 1.05,
+        <TextNode
+          nodeKey="headline"
+          as="h1"
+          defaultElement={{
+            fontFamily: data.fontHeading,
+            fontSize: Math.round(data.width * 0.058),
             fontWeight: 700,
-            marginBottom: `${Math.round(data.width * 0.014)}px`,
+            color: textColor,
+            alignment: 'center',
+            lineHeight: 1.05,
           }}
-        >
-          {data.headline || 'Moments we kept'}
-        </h1>
+          overrides={data.elementOverrides}
+          defaultText={data.headline || 'Moments we kept'}
+          style={{ marginBottom: `${Math.round(data.width * 0.014)}px` }}
+        />
         {data.tagline && (
-          <div
+          <TextNode
+            nodeKey="tagline"
             className="uppercase"
-            style={{
-              fontSize: `${Math.max(28, Math.round(data.width * 0.012))}px`,
-              letterSpacing: '0.35em',
-              opacity: 0.75,
+            defaultElement={{
+              fontFamily: data.fontBody,
+              fontSize: Math.max(28, Math.round(data.width * 0.012)),
+              color: textColor,
+              alignment: 'center',
+              letterSpacing: 0.35,
             }}
-          >
-            {data.tagline}
-          </div>
+            overrides={data.elementOverrides}
+            defaultText={data.tagline}
+            style={{ opacity: 0.75 }}
+          />
         )}
       </div>
       <BrandMark data={data} color={textColor} inset={Math.round(data.width * 0.03)} />

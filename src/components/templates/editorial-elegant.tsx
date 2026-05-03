@@ -1,5 +1,6 @@
 import type { TemplateData } from '@/types';
 import { BrandMark } from './_brand-mark';
+import { TextNode } from './_text-node';
 
 export function EditorialElegant({ data }: { data: TemplateData }) {
   const pad = Math.round(data.width * 0.055);
@@ -38,39 +39,55 @@ export function EditorialElegant({ data }: { data: TemplateData }) {
           }}
         />
 
-        <h2
-          className="font-bold leading-tight"
-          style={{
+        <TextNode
+          nodeKey="headline"
+          as="h2"
+          defaultElement={{
             fontFamily: data.fontHeading,
+            fontSize: Math.round(data.width * 0.05),
+            fontWeight: 700,
             color: data.colorPrimary,
-            fontSize: `${Math.round(data.width * 0.05)}px`,
-            marginBottom: `${Math.round(data.width * 0.015)}px`,
+            alignment: 'left',
+            lineHeight: 1.1,
           }}
-        >
-          {data.headline}
-        </h2>
+          overrides={data.elementOverrides}
+          defaultText={data.headline}
+          style={{ marginBottom: `${Math.round(data.width * 0.015)}px` }}
+        />
 
-        <p
-          className="leading-relaxed opacity-80"
-          style={{
+        <TextNode
+          nodeKey="body"
+          as="p"
+          defaultElement={{
             fontFamily: data.fontBody,
+            fontSize: Math.round(data.width * 0.02),
             color: data.colorPrimary,
-            fontSize: `${Math.round(data.width * 0.02)}px`,
-            maxWidth: `${Math.round(data.width * 0.56)}px`,
+            alignment: 'left',
+            lineHeight: 1.5,
           }}
-        >
-          {data.bodyText}
-        </p>
+          overrides={data.elementOverrides}
+          defaultText={data.bodyText}
+          style={{
+            maxWidth: `${Math.round(data.width * 0.56)}px`,
+            opacity: 0.8,
+          }}
+        />
 
         {data.reviewCount && (
-          <div style={{ marginTop: `${Math.round(data.width * 0.03)}px` }}>
-            <span
-              className="opacity-60"
-              style={{ color: data.colorPrimary, fontSize: `${Math.max(28, Math.round(data.width * 0.014))}px` }}
-            >
-              {data.reviewCount}
-            </span>
-          </div>
+          <TextNode
+            nodeKey="reviewCount"
+            defaultElement={{
+              fontSize: Math.max(28, Math.round(data.width * 0.014)),
+              color: data.colorPrimary,
+              alignment: 'left',
+            }}
+            overrides={data.elementOverrides}
+            defaultText={data.reviewCount}
+            style={{
+              marginTop: `${Math.round(data.width * 0.03)}px`,
+              opacity: 0.6,
+            }}
+          />
         )}
       </div>
       <BrandMark data={data} color={data.colorPrimary} inset={brandInset} />

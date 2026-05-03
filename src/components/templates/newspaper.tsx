@@ -1,4 +1,5 @@
 import type { TemplateData } from '@/types';
+import { TextNode } from './_text-node';
 
 // Flex fields:
 // - brandName → masthead (the newspaper name IS the brand)
@@ -25,34 +26,40 @@ export function Newspaper({ data }: { data: TemplateData }) {
       }}
     >
       {data.customText && (
-        <div
+        <TextNode
+          nodeKey="kicker"
           className="uppercase"
+          defaultElement={{
+            fontFamily: data.fontBody,
+            fontSize: Math.max(28, Math.round(data.width * 0.012)),
+            color: ink,
+            alignment: 'center',
+            letterSpacing: 0.35,
+          }}
+          overrides={data.elementOverrides}
+          defaultText={data.customText}
           style={{
-            fontSize: `${Math.max(28, Math.round(data.width * 0.012))}px`,
-            letterSpacing: '0.35em',
-            textAlign: 'center',
             opacity: 0.75,
             marginBottom: `${Math.round(data.width * 0.005)}px`,
           }}
-        >
-          {data.customText}
-        </div>
+        />
       )}
 
-      {/* Masthead = brand name */}
-      <div
-        style={{
-          fontFamily: `${data.fontHeading}, 'Playfair Display', serif`,
-          fontSize: `${Math.round(data.width * 0.068)}px`,
+      <TextNode
+        nodeKey="masthead"
+        className="uppercase"
+        defaultElement={{
+          fontFamily: data.fontHeading,
+          fontSize: Math.round(data.width * 0.068),
           fontWeight: 900,
-          textAlign: 'center',
-          letterSpacing: '0.04em',
+          color: ink,
+          alignment: 'center',
           lineHeight: 1,
-          textTransform: 'uppercase',
+          letterSpacing: 0.04,
         }}
-      >
-        {data.brandName || 'THE DAILY'}
-      </div>
+        overrides={data.elementOverrides}
+        defaultText={data.brandName || 'THE DAILY'}
+      />
 
       {/* Rule lines with date */}
       <div
@@ -65,37 +72,55 @@ export function Newspaper({ data }: { data: TemplateData }) {
         }}
       >
         <div style={{ flex: 1, height: '2px', backgroundColor: ink }} />
-        <div>{data.dateText ?? 'Vol. I · Edition No. 1'}</div>
+        <TextNode
+          nodeKey="date"
+          defaultElement={{
+            fontFamily: data.fontBody,
+            fontSize: Math.round(data.width * 0.01),
+            color: ink,
+            alignment: 'center',
+            letterSpacing: 0.25,
+          }}
+          overrides={data.elementOverrides}
+          defaultText={data.dateText ?? 'Vol. I · Edition No. 1'}
+        />
         <div style={{ flex: 1, height: '2px', backgroundColor: ink }} />
       </div>
 
-      {/* Headline */}
-      <h1
-        style={{
-          fontFamily: `${data.fontHeading}, 'Playfair Display', serif`,
-          fontSize: `${Math.round(data.width * 0.062)}px`,
-          lineHeight: 1.02,
+      <TextNode
+        nodeKey="headline"
+        as="h1"
+        defaultElement={{
+          fontFamily: data.fontHeading,
+          fontSize: Math.round(data.width * 0.062),
           fontWeight: 800,
-          textAlign: 'center',
-          marginBottom: `${Math.round(data.width * 0.01)}px`,
+          color: ink,
+          alignment: 'center',
+          lineHeight: 1.02,
         }}
-      >
-        {data.headline || 'Today in history'}
-      </h1>
+        overrides={data.elementOverrides}
+        defaultText={data.headline || 'Today in history'}
+        style={{ marginBottom: `${Math.round(data.width * 0.01)}px` }}
+      />
 
       {data.tagline && (
-        <div
+        <TextNode
+          nodeKey="tagline"
           className="uppercase"
+          defaultElement={{
+            fontFamily: data.fontBody,
+            fontSize: Math.max(28, Math.round(data.width * 0.011)),
+            color: ink,
+            alignment: 'center',
+            letterSpacing: 0.28,
+          }}
+          overrides={data.elementOverrides}
+          defaultText={data.tagline}
           style={{
-            fontSize: `${Math.max(28, Math.round(data.width * 0.011))}px`,
-            letterSpacing: '0.28em',
-            textAlign: 'center',
             opacity: 0.8,
             marginBottom: `${Math.round(data.width * 0.02)}px`,
           }}
-        >
-          {data.tagline}
-        </div>
+        />
       )}
 
       {/* Photo */}
@@ -122,33 +147,44 @@ export function Newspaper({ data }: { data: TemplateData }) {
       </div>
 
       {data.locationText && (
-        <div
-          style={{
-            fontSize: `${Math.max(28, Math.round(data.width * 0.011))}px`,
+        <TextNode
+          nodeKey="caption"
+          defaultElement={{
+            fontFamily: data.fontBody,
             fontStyle: 'italic',
+            fontSize: Math.max(28, Math.round(data.width * 0.011)),
+            color: ink,
+            alignment: 'center',
+          }}
+          overrides={data.elementOverrides}
+          defaultText={data.locationText}
+          style={{
             opacity: 0.7,
-            textAlign: 'center',
             marginBottom: `${Math.round(data.width * 0.015)}px`,
           }}
-        >
-          {data.locationText}
-        </div>
+        />
       )}
 
       {/* 2-column body */}
       {data.bodyText && (
-        <div
+        <TextNode
+          nodeKey="body"
+          defaultElement={{
+            fontFamily: data.fontBody,
+            fontSize: Math.max(28, Math.round(data.width * 0.013)),
+            color: ink,
+            alignment: 'left',
+            lineHeight: 1.5,
+          }}
+          overrides={data.elementOverrides}
+          defaultText={data.bodyText}
           style={{
             columnCount: 2,
             columnGap: `${Math.round(data.width * 0.025)}px`,
             columnRule: `1px solid ${ink}`,
-            fontSize: `${Math.max(28, Math.round(data.width * 0.013))}px`,
-            lineHeight: 1.5,
             textAlign: 'justify',
           }}
-        >
-          {data.bodyText}
-        </div>
+        />
       )}
 
     </div>

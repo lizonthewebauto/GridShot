@@ -1,5 +1,6 @@
 import type { TemplateData } from '@/types';
 import { BrandMark } from './_brand-mark';
+import { TextNode } from './_text-node';
 
 // Flex fields this template reads:
 // - photoUrl → full bleed background
@@ -61,34 +62,47 @@ export function EditorialFullbleed({ data }: { data: TemplateData }) {
           zIndex: 2,
         }}
       >
-        <h1
-          style={{
-            fontFamily: `${data.fontHeading}, serif`,
+        <TextNode
+          nodeKey="headline"
+          as="h1"
+          defaultElement={{
+            fontFamily: data.fontHeading,
             fontStyle: 'italic',
-            fontSize: `${Math.round(data.width * 0.11)}px`,
+            fontSize: Math.round(data.width * 0.11),
             fontWeight: 500,
+            color: textColor,
+            alignment: 'center',
             lineHeight: 1.02,
-            letterSpacing: '-0.02em',
+            letterSpacing: -0.02,
+          }}
+          overrides={data.elementOverrides}
+          defaultText={data.headline || 'Your headline here'}
+          style={{
             maxWidth: '90%',
             textShadow: '0 2px 20px rgba(0,0,0,0.35)',
           }}
-        >
-          {data.headline || 'Your headline here'}
-        </h1>
+        />
         {data.bodyText && (
-          <p
+          <TextNode
+            nodeKey="body"
+            as="p"
+            defaultElement={{
+              fontFamily: data.fontBody,
+              fontSize: Math.max(28, Math.round(data.width * 0.018)),
+              fontWeight: 400,
+              color: textColor,
+              alignment: 'center',
+              lineHeight: 1.5,
+              letterSpacing: 0.02,
+            }}
+            overrides={data.elementOverrides}
+            defaultText={data.bodyText}
             style={{
               marginTop: `${Math.round(data.height * 0.04)}px`,
-              fontFamily: `${data.fontBody}, sans-serif`,
-              fontSize: `${Math.max(28, Math.round(data.width * 0.018))}px`,
-              lineHeight: 1.5,
               maxWidth: '70%',
               opacity: 0.9,
-              letterSpacing: '0.02em',
             }}
-          >
-            {data.bodyText}
-          </p>
+          />
         )}
       </div>
     </div>

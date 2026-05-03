@@ -106,6 +106,7 @@ export interface Slide {
   exported_image_path: string | null;
   exported_image_url: string | null;
   metadata: Record<string, unknown>;
+  elements: Record<string, Partial<ElementConfig>>;
   status: 'draft' | 'generating' | 'ready' | 'exporting' | 'exported' | 'posted';
   created_at: string;
   updated_at: string;
@@ -137,15 +138,78 @@ export interface Post {
   id: string;
   user_id: string;
   brand_id: string;
+  draft_post_id: string | null;
   slide_ids: string[];
   caption: string | null;
   platforms: string[];
   bundle_social_post_id: string | null;
+  media_count: number;
+  media_storage_paths: string[];
   scheduled_at: string | null;
   published_at: string | null;
   status: 'draft' | 'scheduled' | 'publishing' | 'published' | 'failed';
   error_message: string | null;
   created_at: string;
+}
+
+export const GENERATED_LAYOUT_FAMILIES = [
+  'center-center',
+  'center-left',
+  'left-left',
+  'right-left',
+] as const;
+
+export type GeneratedLayoutFamily = typeof GENERATED_LAYOUT_FAMILIES[number];
+
+export const GENERATED_CONTENT_KINDS = ['single', 'carousel'] as const;
+export type GeneratedContentKind = typeof GENERATED_CONTENT_KINDS[number];
+
+export interface DraftPost {
+  id: string;
+  user_id: string;
+  brand_id: string;
+  kind: GeneratedContentKind;
+  source: 'manual' | 'ai_generated';
+  status: 'draft' | 'scheduled' | 'published' | 'failed';
+  layout_family: GeneratedLayoutFamily;
+  caption: string | null;
+  notes: string | null;
+  requested_photo_count: number;
+  content_goal: string | null;
+  metadata: Record<string, unknown>;
+  created_at: string;
+  updated_at: string;
+  slides?: DraftPostSlide[];
+}
+
+export interface DraftPostSlide {
+  id: string;
+  draft_post_id: string;
+  user_id: string;
+  slide_order: number;
+  photo_storage_path: string | null;
+  photo_url: string | null;
+  headline: string | null;
+  body_text: string | null;
+  metadata: GeneratedDraftSlideMetadata;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface GenerationRun {
+  id: string;
+  user_id: string;
+  brand_id: string;
+  draft_post_id: string | null;
+  kind: GeneratedContentKind;
+  status: 'pending' | 'succeeded' | 'failed';
+  requested_photo_count: number;
+  request_payload: Record<string, unknown>;
+  selected_uploads: Array<Record<string, unknown>>;
+  model_output: Record<string, unknown>;
+  error_message: string | null;
+  created_at: string;
+  updated_at: string;
 }
 
 export const SLIDE_SIZES = {
@@ -262,6 +326,28 @@ export const DEFAULT_ELEMENTS: SlideElements = {
   swipeIndicator: { visible: true, text: 'Swipe →', fontSize: 22, alignment: 'right', position: 'bottom', arrowStyle: 'text', opacity: 0.5, letterSpacing: 0.15 },
 };
 
+export interface GeneratedDraftElementOverrides {
+  header?: Partial<ElementConfig>;
+  headline?: Partial<ElementConfig>;
+  body?: Partial<ElementConfig>;
+  footer?: Partial<FooterConfig>;
+  swipeIndicator?: Partial<SwipeIndicatorConfig>;
+}
+
+export interface GeneratedDraftImageConfig {
+  alignment?: ElementAlignment;
+  widthPercent?: number;
+}
+
+export interface GeneratedDraftSlideMetadata extends Record<string, unknown> {
+  generatedPreviewVersion?: number;
+  sourceImageNumber?: number;
+  sourceFileName?: string;
+  showSwipeArrow?: boolean;
+  elements?: GeneratedDraftElementOverrides;
+  image?: GeneratedDraftImageConfig;
+}
+
 export interface TemplateData {
   // Core
   brandName: string;
@@ -299,6 +385,10 @@ export interface TemplateData {
   websiteUrl?: string | null;
   instagramHandle?: string | null;
   brandTagline?: string | null;
+
+  // Universal per-text-node overrides for non-Editorial-Pro templates.
+  // Keys are template-specific (declared in src/lib/templates/text-nodes.ts).
+  elementOverrides?: Record<string, Partial<ElementConfig>>;
 }
 
 export interface Preset {
@@ -316,6 +406,7 @@ export interface Preset {
   font_heading: string | null;
   font_body: string | null;
   elements: Partial<SlideElements> | Record<string, never>;
+  elements_by_template: Record<string, Record<string, Partial<ElementConfig>>>;
   created_at: string;
   updated_at: string;
 }

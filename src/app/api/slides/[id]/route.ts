@@ -35,6 +35,7 @@ const ALLOWED_FIELDS = new Set([
   'exported_image_path',
   'exported_image_url',
   'metadata',
+  'elements',
   'status',
 ]);
 

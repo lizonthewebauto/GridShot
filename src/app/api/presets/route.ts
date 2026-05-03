@@ -68,6 +68,7 @@ export async function POST(request: Request) {
       font_heading: body.font_heading || null,
       font_body: body.font_body || null,
       elements: body.elements && typeof body.elements === 'object' ? body.elements : {},
+      elements_by_template: body.elements_by_template && typeof body.elements_by_template === 'object' ? body.elements_by_template : {},
     })
     .select()
     .single();

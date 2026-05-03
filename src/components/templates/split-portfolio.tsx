@@ -1,5 +1,6 @@
 import type { TemplateData } from '@/types';
 import { BrandMark } from './_brand-mark';
+import { TextNode } from './_text-node';
 
 export function SplitPortfolio({ data }: { data: TemplateData }) {
   const heading = data.fontHeading || 'Playfair Display';
@@ -46,42 +47,55 @@ export function SplitPortfolio({ data }: { data: TemplateData }) {
           padding: `${padY}px ${padX}px`,
         }}
       >
-        <div
+        <TextNode
+          nodeKey="kicker"
+          className="uppercase"
+          defaultElement={{
+            fontFamily: body,
+            fontSize: Math.max(28, Math.round(data.width * 0.013)),
+            color: data.colorSecondary,
+            alignment: 'left',
+            letterSpacing: 0.4,
+          }}
+          overrides={data.elementOverrides}
+          defaultText={'Portfolio'}
           style={{
-            fontFamily: `${body}, sans-serif`,
-            fontSize: `${Math.max(28, Math.round(data.width * 0.013))}px`,
-            letterSpacing: '0.4em',
-            textTransform: 'uppercase',
             opacity: 0.7,
             marginBottom: `${Math.round(data.width * 0.022)}px`,
           }}
-        >
-          Portfolio
-        </div>
+        />
 
-        <div
-          style={{
-            fontFamily: `${heading}, serif`,
-            fontSize: `${Math.round(data.width * 0.067)}px`,
+        <TextNode
+          nodeKey="headline"
+          defaultElement={{
+            fontFamily: heading,
+            fontSize: Math.round(data.width * 0.067),
             fontWeight: 700,
+            color: data.colorSecondary,
+            alignment: 'left',
             lineHeight: 1.05,
-            letterSpacing: '-0.01em',
+            letterSpacing: -0.01,
           }}
-        >
-          {data.headline || 'Framed With Care'}
-        </div>
+          overrides={data.elementOverrides}
+          defaultText={data.headline || 'Framed With Care'}
+        />
 
-        <div
+        <TextNode
+          nodeKey="body"
+          defaultElement={{
+            fontFamily: body,
+            fontSize: Math.max(28, Math.round(data.width * 0.019)),
+            color: data.colorSecondary,
+            alignment: 'left',
+            lineHeight: 1.6,
+          }}
+          overrides={data.elementOverrides}
+          defaultText={data.bodyText || 'A considered look at recent work.'}
           style={{
             marginTop: `${Math.round(data.width * 0.03)}px`,
-            fontFamily: `${body}, sans-serif`,
-            fontSize: `${Math.max(28, Math.round(data.width * 0.019))}px`,
-            lineHeight: 1.6,
             opacity: 0.88,
           }}
-        >
-          {data.bodyText || 'A considered look at recent work.'}
-        </div>
+        />
 
       </div>
       <BrandMark data={data} color={data.colorSecondary} inset={brandInset} />

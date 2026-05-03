@@ -1,5 +1,6 @@
 import type { TemplateData } from '@/types';
 import { BrandMark } from './_brand-mark';
+import { TextNode } from './_text-node';
 
 // Flex fields:
 // - imageAspect → ignored (photo is full-height left half)
@@ -46,60 +47,83 @@ export function SplitHalf({ data }: { data: TemplateData }) {
           padding: `${Math.round(data.width * 0.04)}px`,
         }}
       >
-        <h1
-          style={{
-            fontFamily: `${data.fontHeading}, serif`,
+        <TextNode
+          nodeKey="headline"
+          as="h1"
+          defaultElement={{
+            fontFamily: data.fontHeading,
             fontStyle: 'italic',
-            fontSize: `${Math.round(data.width * 0.06)}px`,
-            lineHeight: 1.08,
+            fontSize: Math.round(data.width * 0.06),
             fontWeight: 500,
-            marginBottom: `${Math.round(data.width * 0.02)}px`,
+            color: textColor,
+            alignment: 'left',
+            lineHeight: 1.08,
           }}
-        >
-          {data.headline || 'Your headline here'}
-        </h1>
+          overrides={data.elementOverrides}
+          defaultText={data.headline || 'Your headline here'}
+          style={{ marginBottom: `${Math.round(data.width * 0.02)}px` }}
+        />
 
         {data.tagline && (
-          <div
+          <TextNode
+            nodeKey="tagline"
             className="uppercase"
+            defaultElement={{
+              fontFamily: data.fontBody,
+              fontSize: Math.max(28, Math.round(data.width * 0.011)),
+              fontWeight: 400,
+              color: textColor,
+              alignment: 'left',
+              letterSpacing: 0.28,
+            }}
+            overrides={data.elementOverrides}
+            defaultText={data.tagline}
             style={{
-              fontFamily: `${data.fontBody}, sans-serif`,
-              fontSize: `${Math.max(28, Math.round(data.width * 0.011))}px`,
-              letterSpacing: '0.28em',
               opacity: 0.75,
               marginBottom: `${Math.round(data.width * 0.025)}px`,
             }}
-          >
-            {data.tagline}
-          </div>
+          />
         )}
 
         {data.bodyText && (
-          <p
-            style={{
-              fontSize: `${Math.max(28, Math.round(data.width * 0.017))}px`,
+          <TextNode
+            nodeKey="body"
+            as="p"
+            defaultElement={{
+              fontFamily: data.fontBody,
+              fontSize: Math.max(28, Math.round(data.width * 0.017)),
+              fontWeight: 400,
+              color: textColor,
+              alignment: 'left',
               lineHeight: 1.55,
+            }}
+            overrides={data.elementOverrides}
+            defaultText={data.bodyText}
+            style={{
               opacity: 0.88,
               maxWidth: '90%',
             }}
-          >
-            {data.bodyText}
-          </p>
+          />
         )}
 
         {data.dateText && (
-          <div
+          <TextNode
+            nodeKey="date"
             className="uppercase"
-            style={{
-              fontSize: `${Math.max(28, Math.round(data.width * 0.011))}px`,
-              letterSpacing: '0.25em',
-              marginTop: `${Math.round(data.width * 0.03)}px`,
+            defaultElement={{
+              fontFamily: data.fontBody,
+              fontSize: Math.max(28, Math.round(data.width * 0.011)),
               color: accent,
+              alignment: 'left',
+              letterSpacing: 0.25,
+            }}
+            overrides={data.elementOverrides}
+            defaultText={data.dateText}
+            style={{
+              marginTop: `${Math.round(data.width * 0.03)}px`,
               opacity: 0.8,
             }}
-          >
-            {data.dateText}
-          </div>
+          />
         )}
       </div>
 

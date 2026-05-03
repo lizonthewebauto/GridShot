@@ -1,4 +1,5 @@
 import type { TemplateData } from '@/types';
+import { TextNode } from './_text-node';
 
 // Flex fields this template reads:
 // - brandName → passenger line
@@ -63,7 +64,19 @@ export function BoardingPass({ data }: { data: TemplateData }) {
             }}
           >
             <span style={{ color: accent, fontWeight: 700 }}>BOARDING PASS</span>
-            <span>{flightNo}</span>
+            <TextNode
+              nodeKey="flightNo"
+              as="span"
+              defaultElement={{
+                fontFamily: 'monospace',
+                fontSize: fsLabel,
+                color: ink,
+                alignment: 'right',
+                letterSpacing: 0.3,
+              }}
+              overrides={data.elementOverrides}
+              defaultText={flightNo}
+            />
           </div>
 
           {/* Passenger */}
@@ -74,19 +87,22 @@ export function BoardingPass({ data }: { data: TemplateData }) {
             >
               PASSENGER
             </div>
-            <div
-              style={{
-                fontFamily: `${data.fontHeading}, 'Courier Prime', monospace`,
-                fontSize: `${Math.round(fsLabel * 2.5)}px`,
+            <TextNode
+              nodeKey="brandName"
+              className="uppercase"
+              defaultElement={{
+                fontFamily: data.fontHeading,
+                fontSize: Math.round(fsLabel * 2.5),
                 fontWeight: 700,
-                marginTop: 6,
-                letterSpacing: '0.04em',
-                textTransform: 'uppercase',
+                color: ink,
+                alignment: 'left',
                 lineHeight: 1.1,
+                letterSpacing: 0.04,
               }}
-            >
-              {data.brandName || 'PASSENGER'}
-            </div>
+              overrides={data.elementOverrides}
+              defaultText={data.brandName || 'PASSENGER'}
+              style={{ marginTop: 6 }}
+            />
           </div>
 
           {/* FROM / TO codes */}
@@ -140,9 +156,20 @@ export function BoardingPass({ data }: { data: TemplateData }) {
           >
             <div style={{ textAlign: 'right' }}>
               <div style={{ opacity: 0.85 }}>DATE</div>
-              <div style={{ fontWeight: 700, marginTop: 4, fontSize: `${Math.round(fsLabel * 1.3)}px` }}>
-                {dateLabel}
-              </div>
+              <TextNode
+                nodeKey="date"
+                defaultElement={{
+                  fontFamily: 'monospace',
+                  fontSize: Math.round(fsLabel * 1.3),
+                  fontWeight: 700,
+                  color: ink,
+                  alignment: 'right',
+                  letterSpacing: 0.25,
+                }}
+                overrides={data.elementOverrides}
+                defaultText={dateLabel}
+                style={{ marginTop: 4 }}
+              />
             </div>
           </div>
         </div>
@@ -187,7 +214,20 @@ export function BoardingPass({ data }: { data: TemplateData }) {
 
           <div className="uppercase" style={{ fontSize: `${fsLabel}px`, letterSpacing: '0.25em', textAlign: 'center' }}>
             <div style={{ opacity: 0.85 }}>GATE</div>
-            <div style={{ fontWeight: 700, marginTop: 4 }}>{gate}</div>
+            <TextNode
+              nodeKey="gate"
+              defaultElement={{
+                fontFamily: 'monospace',
+                fontSize: fsLabel,
+                fontWeight: 700,
+                color: ink,
+                alignment: 'center',
+                letterSpacing: 0.25,
+              }}
+              overrides={data.elementOverrides}
+              defaultText={gate}
+              style={{ marginTop: 4 }}
+            />
           </div>
         </div>
       </div>

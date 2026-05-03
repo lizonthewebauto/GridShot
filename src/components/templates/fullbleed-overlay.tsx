@@ -1,5 +1,6 @@
 import type { TemplateData } from '@/types';
 import { BrandMark } from './_brand-mark';
+import { TextNode } from './_text-node';
 
 // Flex fields this template reads:
 // - tagline → small uppercase label above the headline
@@ -62,32 +63,40 @@ export function FullbleedOverlay({ data }: { data: TemplateData }) {
         }}
       >
         {data.tagline && (
-          <div
+          <TextNode
+            nodeKey="tagline"
+            className="uppercase"
+            defaultElement={{
+              fontFamily: body,
+              fontSize: Math.max(28, Math.round(data.width * 0.013)),
+              fontWeight: 400,
+              color: accent,
+              alignment: 'left',
+              letterSpacing: 0.35,
+            }}
+            overrides={data.elementOverrides}
+            defaultText={data.tagline}
             style={{
-              fontFamily: `${body}, sans-serif`,
-              fontSize: `${Math.max(28, Math.round(data.width * 0.013))}px`,
-              letterSpacing: '0.35em',
-              textTransform: 'uppercase',
               marginBottom: `${Math.round(data.width * 0.017)}px`,
               opacity: 0.85,
-              color: accent,
             }}
-          >
-            {data.tagline}
-          </div>
+          />
         )}
-        <div
-          style={{
-            fontFamily: `${heading}, sans-serif`,
-            fontSize: `${Math.round(data.width * 0.089)}px`,
+        <TextNode
+          nodeKey="headline"
+          className="uppercase"
+          defaultElement={{
+            fontFamily: heading,
+            fontSize: Math.round(data.width * 0.089),
             fontWeight: 800,
+            color: '#fff',
+            alignment: 'left',
             lineHeight: 1,
-            letterSpacing: '-0.02em',
-            textTransform: 'uppercase',
+            letterSpacing: -0.02,
           }}
-        >
-          {data.headline || 'Your Bold Headline'}
-        </div>
+          overrides={data.elementOverrides}
+          defaultText={data.headline || 'Your Bold Headline'}
+        />
         {/* Accent underline mark */}
         <div
           style={{
@@ -97,18 +106,24 @@ export function FullbleedOverlay({ data }: { data: TemplateData }) {
             backgroundColor: accent,
           }}
         />
-        <div
+        <TextNode
+          nodeKey="body"
+          defaultElement={{
+            fontFamily: body,
+            fontSize: Math.round(data.width * 0.02),
+            fontWeight: 400,
+            color: '#fff',
+            alignment: 'left',
+            lineHeight: 1.5,
+          }}
+          overrides={data.elementOverrides}
+          defaultText={data.bodyText || 'Body text overlaid on the image.'}
           style={{
             marginTop: `${Math.round(data.width * 0.022)}px`,
-            fontFamily: `${body}, sans-serif`,
-            fontSize: `${Math.round(data.width * 0.02)}px`,
-            lineHeight: 1.5,
             opacity: 0.92,
             maxWidth: `${Math.round(data.width * 0.76)}px`,
           }}
-        >
-          {data.bodyText || 'Body text overlaid on the image.'}
-        </div>
+        />
       </div>
     </div>
   );

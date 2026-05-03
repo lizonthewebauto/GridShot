@@ -1,5 +1,6 @@
 import type { TemplateData } from '@/types';
 import { BrandMark } from './_brand-mark';
+import { TextNode } from './_text-node';
 
 // Flex fields:
 // - colorGradientFrom / colorGradientTo → duotone colors (fallback colorPrimary/colorAccent)
@@ -74,43 +75,61 @@ export function DuotoneWash({ data }: { data: TemplateData }) {
         }}
       >
         {data.tagline && (
-          <div
+          <TextNode
+            nodeKey="tagline"
             className="uppercase"
+            defaultElement={{
+              fontFamily: data.fontBody,
+              fontSize: Math.max(28, Math.round(data.width * 0.011)),
+              fontWeight: 400,
+              color: textColor,
+              alignment: 'left',
+              letterSpacing: 0.3,
+            }}
+            overrides={data.elementOverrides}
+            defaultText={data.tagline}
             style={{
-              fontFamily: `${data.fontBody}, sans-serif`,
-              fontSize: `${Math.max(28, Math.round(data.width * 0.011))}px`,
-              letterSpacing: '0.3em',
               opacity: 0.9,
               marginBottom: `${Math.round(data.width * 0.012)}px`,
             }}
-          >
-            {data.tagline}
-          </div>
+          />
         )}
-        <h1
-          style={{
-            fontFamily: `${data.fontHeading}, serif`,
-            fontSize: `${Math.round(data.width * 0.072)}px`,
-            lineHeight: 1.05,
+        <TextNode
+          nodeKey="headline"
+          as="h1"
+          defaultElement={{
+            fontFamily: data.fontHeading,
+            fontSize: Math.round(data.width * 0.072),
             fontWeight: 700,
             fontStyle: 'italic',
-            maxWidth: '90%',
+            color: textColor,
+            alignment: 'left',
+            lineHeight: 1.05,
           }}
-        >
-          {data.headline || 'Your headline here'}
-        </h1>
+          overrides={data.elementOverrides}
+          defaultText={data.headline || 'Your headline here'}
+          style={{ maxWidth: '90%' }}
+        />
         {data.bodyText && (
-          <p
-            style={{
-              fontSize: `${Math.max(28, Math.round(data.width * 0.017))}px`,
+          <TextNode
+            nodeKey="body"
+            as="p"
+            defaultElement={{
+              fontFamily: data.fontBody,
+              fontSize: Math.max(28, Math.round(data.width * 0.017)),
+              fontWeight: 400,
+              color: textColor,
+              alignment: 'left',
               lineHeight: 1.5,
+            }}
+            overrides={data.elementOverrides}
+            defaultText={data.bodyText}
+            style={{
               opacity: 0.9,
               maxWidth: '75%',
               marginTop: `${Math.round(data.width * 0.014)}px`,
             }}
-          >
-            {data.bodyText}
-          </p>
+          />
         )}
       </div>
 

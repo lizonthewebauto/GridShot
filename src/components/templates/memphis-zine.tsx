@@ -1,5 +1,6 @@
 import type { TemplateData } from '@/types';
 import { BrandMark } from './_brand-mark';
+import { TextNode } from './_text-node';
 
 // Flex fields: colorAccent + colorPrimary (pastel blocks), colorSecondary (headline color),
 // tagline (small caps banner), photos[0] (offset photo)
@@ -134,44 +135,54 @@ export function MemphisZine({ data }: { data: TemplateData }) {
         </div>
       </div>
 
-      {/* Tagline banner */}
       {data.tagline && (
-        <div
-          className="absolute uppercase"
+        <TextNode
+          nodeKey="tagline"
+          className="uppercase"
+          defaultElement={{
+            fontFamily: data.fontBody,
+            fontSize: Math.max(28, Math.round(data.width * 0.014)),
+            fontWeight: 800,
+            color: yellow,
+            alignment: 'left',
+            letterSpacing: 0.25,
+          }}
+          overrides={data.elementOverrides}
+          defaultText={data.tagline}
           style={{
+            position: 'absolute',
             top: `${pad}px`,
             left: `${pad}px`,
             backgroundColor: ink,
-            color: yellow,
             padding: '6px 14px',
-            fontSize: `${Math.max(28, Math.round(data.width * 0.014))}px`,
-            letterSpacing: '0.25em',
-            fontWeight: 800,
             transform: 'rotate(-3deg)',
           }}
-        >
-          {data.tagline}
-        </div>
+        />
       )}
 
-      {/* Headline */}
-      <h1
-        className="absolute uppercase"
+      <TextNode
+        nodeKey="headline"
+        as="h1"
+        className="uppercase"
+        defaultElement={{
+          fontFamily: data.fontHeading,
+          fontSize: Math.round(data.width * 0.09),
+          fontWeight: 900,
+          color: headlineColor,
+          alignment: 'left',
+          lineHeight: 0.95,
+          letterSpacing: -0.02,
+        }}
+        overrides={data.elementOverrides}
+        defaultText={data.headline || 'LOUD & CLEAR'}
         style={{
+          position: 'absolute',
           right: `${pad}px`,
           top: `${Math.round(data.height * 0.2)}px`,
           width: `${Math.round(data.width * 0.48)}px`,
-          fontFamily: `${data.fontHeading}, sans-serif`,
-          fontSize: `${Math.round(data.width * 0.09)}px`,
-          lineHeight: 0.95,
-          fontWeight: 900,
-          color: headlineColor,
           margin: 0,
-          letterSpacing: '-0.02em',
         }}
-      >
-        {data.headline || 'LOUD & CLEAR'}
-      </h1>
+      />
 
       <BrandMark data={data} color={ink} opacity={1} inset={Math.round(data.width * 0.03)} />
     </div>

@@ -1,5 +1,6 @@
 import type { TemplateData } from '@/types';
 import { BrandMark } from './_brand-mark';
+import { TextNode } from './_text-node';
 
 // Flex fields this template reads:
 // - photos → array of 3 photo urls (falls back to photoUrl x3)
@@ -78,31 +79,41 @@ export function TriptychStrip({ data }: { data: TemplateData }) {
         }}
       >
         {data.tagline && (
-          <div
+          <TextNode
+            nodeKey="tagline"
             className="uppercase"
+            defaultElement={{
+              fontFamily: data.fontBody,
+              fontSize: Math.max(28, Math.round(data.width * 0.014)),
+              color: textColor,
+              alignment: 'center',
+              letterSpacing: 0.35,
+            }}
+            overrides={data.elementOverrides}
+            defaultText={data.tagline}
             style={{
-              fontSize: `${Math.max(28, Math.round(data.width * 0.014))}px`,
-              letterSpacing: '0.35em',
               marginBottom: `${Math.round(data.height * 0.015)}px`,
               opacity: 0.7,
             }}
-          >
-            {data.tagline}
-          </div>
+          />
         )}
-        <h1
-          style={{
-            fontFamily: `${data.fontHeading}, serif`,
+        <TextNode
+          nodeKey="headline"
+          as="h1"
+          defaultElement={{
+            fontFamily: data.fontHeading,
             fontStyle: 'italic',
+            fontSize: Math.round(data.width * 0.075),
             fontWeight: 500,
-            fontSize: `${Math.round(data.width * 0.075)}px`,
+            color: textColor,
+            alignment: 'center',
             lineHeight: 1.05,
-            letterSpacing: '-0.02em',
-            maxWidth: '90%',
+            letterSpacing: -0.02,
           }}
-        >
-          {data.headline || 'Your headline here'}
-        </h1>
+          overrides={data.elementOverrides}
+          defaultText={data.headline || 'Your headline here'}
+          style={{ maxWidth: '90%' }}
+        />
       </div>
 
       <BrandMark data={data} color={textColor} inset={Math.round(data.width * 0.03)} />

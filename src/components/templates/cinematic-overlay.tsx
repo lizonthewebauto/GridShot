@@ -1,5 +1,6 @@
 import type { TemplateData } from '@/types';
 import { BrandMark } from './_brand-mark';
+import { TextNode } from './_text-node';
 
 // Flex fields this template reads:
 // - colorGradientFrom / colorGradientTo → gradient color stops (fallbacks: colorPrimary)
@@ -45,24 +46,24 @@ export function CinematicOverlay({ data }: { data: TemplateData }) {
 
       {/* Top review count (if provided) */}
       {data.reviewCount && (
-        <div
-          className="absolute z-10"
+        <TextNode
+          nodeKey="reviewCount"
+          defaultElement={{
+            fontFamily: data.fontBody,
+            fontSize: Math.max(28, Math.round(data.width * 0.014)),
+            color: data.colorSecondary,
+            alignment: 'right',
+          }}
+          overrides={data.elementOverrides}
+          defaultText={data.reviewCount}
           style={{
+            position: 'absolute',
             top: `${pad}px`,
             right: `${pad}px`,
+            zIndex: 10,
+            opacity: 0.6,
           }}
-        >
-          <span
-            className="opacity-60"
-            style={{
-              fontFamily: data.fontBody,
-              color: data.colorSecondary,
-              fontSize: `${Math.max(28, Math.round(data.width * 0.014))}px`,
-            }}
-          >
-            {data.reviewCount}
-          </span>
-        </div>
+        />
       )}
 
       {/* Bottom content */}
@@ -70,33 +71,44 @@ export function CinematicOverlay({ data }: { data: TemplateData }) {
         className="absolute bottom-0 left-0 right-0 z-10"
         style={{ padding: `${Math.round(data.width * 0.055)}px` }}
       >
-        <h2
-          className="font-bold leading-tight"
-          style={{
+        <TextNode
+          nodeKey="headline"
+          as="h2"
+          defaultElement={{
             fontFamily: data.fontHeading,
+            fontSize: Math.round(data.width * 0.068),
+            fontWeight: 700,
             color: data.colorSecondary,
-            fontSize: `${Math.round(data.width * 0.068)}px`,
+            alignment: 'left',
+            lineHeight: 1.1,
+          }}
+          overrides={data.elementOverrides}
+          defaultText={data.headline}
+          style={{
             marginBottom: `${Math.round(data.width * 0.018)}px`,
             maxWidth: `${Math.round(data.width * 0.82)}px`,
             textShadow: '0 2px 14px rgba(0,0,0,0.55)',
           }}
-        >
-          {data.headline}
-        </h2>
+        />
 
-        <p
-          className="leading-relaxed"
-          style={{
+        <TextNode
+          nodeKey="body"
+          as="p"
+          defaultElement={{
             fontFamily: data.fontBody,
+            fontSize: Math.max(28, Math.round(data.width * 0.022)),
             color: data.colorSecondary,
-            fontSize: `${Math.max(28, Math.round(data.width * 0.022))}px`,
+            alignment: 'left',
+            lineHeight: 1.5,
+          }}
+          overrides={data.elementOverrides}
+          defaultText={data.bodyText}
+          style={{
             maxWidth: `${Math.round(data.width * 0.7)}px`,
             opacity: 0.95,
             textShadow: '0 1px 10px rgba(0,0,0,0.55)',
           }}
-        >
-          {data.bodyText}
-        </p>
+        />
       </div>
 
       <BrandMark data={data} color={data.colorSecondary} opacity={0.85} inset={brandInset} />

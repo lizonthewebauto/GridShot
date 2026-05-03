@@ -9,6 +9,7 @@ import {
   SlidersHorizontal,
   Calendar,
   ImageIcon,
+  FileText,
   LogOut,
   ChevronDown,
   Plus,
@@ -21,6 +22,7 @@ import { cn } from '@/lib/utils';
 const navItems = [
   { href: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
   { href: '/create', label: 'Create', icon: PlusSquare },
+  { href: '/drafts', label: 'Drafts', icon: FileText },
   { href: '/uploads', label: 'Uploads', icon: ImageIcon },
   { href: '/brands', label: 'Brands', icon: Palette },
   { href: '/presets', label: 'Presets', icon: SlidersHorizontal },

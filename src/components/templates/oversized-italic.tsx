@@ -1,5 +1,6 @@
 import type { TemplateData } from '@/types';
 import { BrandMark } from './_brand-mark';
+import { TextNode } from './_text-node';
 
 // Flex fields this template reads:
 // - colorSecondary → cream background
@@ -13,8 +14,6 @@ export function OversizedItalic({ data }: { data: TemplateData }) {
   const accent = data.colorAccent ?? '#b5472e';
 
   const headline = data.headline || 'Wander slowly';
-  const [firstWord, ...rest] = headline.split(/\s+/);
-  const restText = rest.join(' ');
 
   const photoH = Math.round(data.height * 0.45);
 
@@ -30,36 +29,58 @@ export function OversizedItalic({ data }: { data: TemplateData }) {
       }}
     >
       {data.tagline && (
-        <div
-          className="absolute uppercase"
+        <TextNode
+          nodeKey="tagline"
+          className="uppercase"
+          defaultElement={{
+            fontFamily: data.fontBody,
+            fontSize: Math.max(28, Math.round(data.width * 0.012)),
+            color: textColor,
+            alignment: 'left',
+            letterSpacing: 0.4,
+          }}
+          overrides={data.elementOverrides}
+          defaultText={data.tagline}
           style={{
+            position: 'absolute',
             top: `${Math.round(data.height * 0.07)}px`,
             left: `${Math.round(data.width * 0.06)}px`,
-            fontSize: `${Math.max(28, Math.round(data.width * 0.012))}px`,
-            letterSpacing: '0.4em',
             opacity: 0.75,
           }}
-        >
-          {data.tagline}
-        </div>
+        />
       )}
 
-      <h1
-        className="absolute"
+      <TextNode
+        nodeKey="headline"
+        as="h1"
+        defaultElement={{
+          fontFamily: data.fontHeading,
+          fontStyle: 'italic',
+          fontSize: Math.round(data.width * 0.12),
+          fontWeight: 500,
+          color: textColor,
+          alignment: 'left',
+          lineHeight: 0.95,
+        }}
+        overrides={data.elementOverrides}
+        defaultText={headline}
         style={{
+          position: 'absolute',
           top: `${Math.round(data.height * 0.14)}px`,
           left: `${Math.round(data.width * 0.06)}px`,
           right: `${Math.round(data.width * 0.06)}px`,
-          fontFamily: `${data.fontHeading}, serif`,
-          fontStyle: 'italic',
-          fontSize: `${Math.round(data.width * 0.12)}px`,
-          lineHeight: 0.95,
-          fontWeight: 500,
         }}
       >
-        <span style={{ color: accent }}>{firstWord}</span>
-        {restText && <span> {restText}</span>}
-      </h1>
+        {(resolved) => {
+          const [first, ...rest] = resolved.split(/\s+/);
+          return (
+            <>
+              <span style={{ color: accent }}>{first}</span>
+              {rest.length > 0 && <span> {rest.join(' ')}</span>}
+            </>
+          );
+        }}
+      </TextNode>
 
       <div
         className="absolute bottom-0 left-0 right-0"
@@ -74,20 +95,28 @@ export function OversizedItalic({ data }: { data: TemplateData }) {
       </div>
 
       {(data.dateText || data.locationText) && (
-        <div
-          className="absolute uppercase flex justify-between"
+        <TextNode
+          nodeKey="meta"
+          className="uppercase"
+          defaultElement={{
+            fontFamily: data.fontBody,
+            fontSize: Math.max(28, Math.round(data.width * 0.011)),
+            color: textColor,
+            alignment: 'left',
+            letterSpacing: 0.3,
+          }}
+          overrides={data.elementOverrides}
+          defaultText={`${data.locationText ?? ''}    ${data.dateText ?? ''}`.trim()}
           style={{
+            position: 'absolute',
             bottom: `${photoH + Math.round(data.height * 0.025)}px`,
             left: `${Math.round(data.width * 0.06)}px`,
             right: `${Math.round(data.width * 0.06)}px`,
-            fontSize: `${Math.max(28, Math.round(data.width * 0.011))}px`,
-            letterSpacing: '0.3em',
+            display: 'flex',
+            justifyContent: 'space-between',
             opacity: 0.7,
           }}
-        >
-          <span>{data.locationText ?? ''}</span>
-          <span>{data.dateText ?? ''}</span>
-        </div>
+        />
       )}
 
       <BrandMark data={data} color="#fff" opacity={0.9} inset={Math.round(data.width * 0.03)} />

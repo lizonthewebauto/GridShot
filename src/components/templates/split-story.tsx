@@ -1,5 +1,6 @@
 import type { TemplateData } from '@/types';
 import { BrandMark } from './_brand-mark';
+import { TextNode } from './_text-node';
 
 // Flex fields this template reads:
 // - imageAspect → applied as object-fit still covers the half; used as `aspectRatio` hint
@@ -55,41 +56,55 @@ export function SplitStory({ data }: { data: TemplateData }) {
         }}
       />
 
-      <h2
-        className="font-bold leading-snug"
-        style={{
+      <TextNode
+        nodeKey="headline"
+        as="h2"
+        defaultElement={{
           fontFamily: data.fontHeading,
+          fontSize: Math.round(data.width * 0.04),
+          fontWeight: 700,
           color: data.colorPrimary,
-          fontSize: `${Math.round(data.width * 0.04)}px`,
-          marginBottom: `${Math.round(data.width * 0.022)}px`,
+          alignment: 'left',
+          lineHeight: 1.3,
         }}
-      >
-        {data.headline}
-      </h2>
+        overrides={data.elementOverrides}
+        defaultText={data.headline}
+        style={{ marginBottom: `${Math.round(data.width * 0.022)}px` }}
+      />
 
-      <p
-        className="leading-relaxed opacity-70"
-        style={{
+      <TextNode
+        nodeKey="body"
+        as="p"
+        defaultElement={{
           fontFamily: data.fontBody,
+          fontSize: Math.max(28, Math.round(data.width * 0.018)),
+          fontWeight: 400,
           color: data.colorPrimary,
-          fontSize: `${Math.max(28, Math.round(data.width * 0.018))}px`,
-          marginBottom: `${Math.round(data.width * 0.03)}px`,
+          alignment: 'left',
+          lineHeight: 1.5,
         }}
-      >
-        {data.bodyText}
-      </p>
+        overrides={data.elementOverrides}
+        defaultText={data.bodyText}
+        style={{
+          marginBottom: `${Math.round(data.width * 0.03)}px`,
+          opacity: 0.7,
+        }}
+      />
 
       {data.reviewTagline && (
-        <span
-          className="opacity-50"
-          style={{
+        <TextNode
+          nodeKey="reviewTagline"
+          as="span"
+          defaultElement={{
             fontFamily: data.fontBody,
+            fontSize: Math.max(28, Math.round(data.width * 0.014)),
             color: data.colorPrimary,
-            fontSize: `${Math.max(28, Math.round(data.width * 0.014))}px`,
+            alignment: 'left',
           }}
-        >
-          {data.reviewTagline}
-        </span>
+          overrides={data.elementOverrides}
+          defaultText={data.reviewTagline}
+          style={{ opacity: 0.5 }}
+        />
       )}
     </div>
   );

@@ -1,4 +1,5 @@
 import type { TemplateData } from '@/types';
+import { TextNode } from './_text-node';
 
 // Flex fields:
 // - colorPrimary → dark background
@@ -49,29 +50,37 @@ export function LuxuryGold({ data }: { data: TemplateData }) {
       >
         {/* Top: brand wordmark + est line */}
         <div style={{ textAlign: 'center', width: '100%', marginTop: `${Math.round(data.width * 0.02)}px` }}>
-          <div
-            style={{
-              fontFamily: `${data.fontHeading}, 'Cormorant Garamond', serif`,
+          <TextNode
+            nodeKey="brandName"
+            defaultElement={{
+              fontFamily: data.fontHeading,
               fontStyle: 'italic',
-              fontSize: `${Math.round(data.width * 0.04)}px`,
-              lineHeight: 1,
+              fontSize: Math.round(data.width * 0.04),
+              fontWeight: 400,
               color: gold,
+              alignment: 'center',
+              lineHeight: 1,
             }}
-          >
-            {data.brandName || 'Brand Name'}
-          </div>
+            overrides={data.elementOverrides}
+            defaultText={data.brandName || 'Brand Name'}
+          />
           {data.dateText && (
-            <div
+            <TextNode
+              nodeKey="date"
               className="uppercase"
+              defaultElement={{
+                fontSize: Math.max(28, Math.round(data.width * 0.011)),
+                color: gold,
+                alignment: 'center',
+                letterSpacing: 0.5,
+              }}
+              overrides={data.elementOverrides}
+              defaultText={data.dateText}
               style={{
-                fontSize: `${Math.max(28, Math.round(data.width * 0.011))}px`,
-                letterSpacing: '0.5em',
                 marginTop: `${Math.round(data.width * 0.015)}px`,
                 opacity: 0.85,
               }}
-            >
-              {data.dateText}
-            </div>
+            />
           )}
           {/* Thin rule */}
           <div
@@ -113,31 +122,39 @@ export function LuxuryGold({ data }: { data: TemplateData }) {
             marginTop: 'auto',
           }}
         >
-          <h1
-            style={{
-              fontFamily: `'Cormorant Garamond', ${data.fontHeading}, serif`,
+          <TextNode
+            nodeKey="headline"
+            as="h1"
+            defaultElement={{
+              fontFamily: data.fontHeading,
               fontStyle: 'italic',
-              fontSize: `${Math.round(data.width * 0.048)}px`,
-              lineHeight: 1.1,
+              fontSize: Math.round(data.width * 0.048),
               fontWeight: 400,
-              maxWidth: '85%',
-              margin: '0 auto',
+              color: gold,
+              alignment: 'center',
+              lineHeight: 1.1,
             }}
-          >
-            {data.headline || 'a timeless celebration'}
-          </h1>
+            overrides={data.elementOverrides}
+            defaultText={data.headline || 'a timeless celebration'}
+            style={{ maxWidth: '85%', margin: '0 auto' }}
+          />
           {data.tagline && (
-            <div
+            <TextNode
+              nodeKey="tagline"
               className="uppercase"
+              defaultElement={{
+                fontSize: Math.max(28, Math.round(data.width * 0.016)),
+                color: gold,
+                alignment: 'center',
+                letterSpacing: 0.35,
+              }}
+              overrides={data.elementOverrides}
+              defaultText={data.tagline}
               style={{
-                fontSize: `${Math.max(28, Math.round(data.width * 0.016))}px`,
-                letterSpacing: '0.35em',
                 marginTop: `${Math.round(data.width * 0.015)}px`,
                 opacity: 0.9,
               }}
-            >
-              {data.tagline}
-            </div>
+            />
           )}
         </div>
       </div>

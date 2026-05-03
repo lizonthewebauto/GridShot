@@ -1,5 +1,6 @@
 import type { TemplateData } from '@/types';
 import { BrandMark } from './_brand-mark';
+import { TextNode } from './_text-node';
 
 // Flex fields: colorAccent (gold border), colorPrimary (wax seal color),
 // tagline (uppercase label), dateText (below headline), brandName (seal letter)
@@ -44,18 +45,20 @@ export function WaxSealInvite({ data }: { data: TemplateData }) {
         style={{ padding: `${outerPad * 2}px` }}
       >
         {data.tagline && (
-          <div
+          <TextNode
+            nodeKey="tagline"
             className="uppercase"
-            style={{
-              fontFamily: `${data.fontBody}, serif`,
-              fontSize: `${Math.max(28, Math.round(data.width * 0.014))}px`,
-              letterSpacing: '0.4em',
+            defaultElement={{
+              fontFamily: data.fontBody,
+              fontSize: Math.max(28, Math.round(data.width * 0.014)),
               color: gold,
-              marginBottom: `${Math.round(data.width * 0.025)}px`,
+              alignment: 'center',
+              letterSpacing: 0.4,
             }}
-          >
-            {data.tagline}
-          </div>
+            overrides={data.elementOverrides}
+            defaultText={data.tagline}
+            style={{ marginBottom: `${Math.round(data.width * 0.025)}px` }}
+          />
         )}
 
         {data.photoUrl ? (
@@ -85,33 +88,38 @@ export function WaxSealInvite({ data }: { data: TemplateData }) {
           />
         )}
 
-        <h1
-          style={{
-            fontFamily: `${data.fontHeading}, 'Cormorant Garamond', serif`,
+        <TextNode
+          nodeKey="headline"
+          as="h1"
+          defaultElement={{
+            fontFamily: data.fontHeading,
             fontStyle: 'italic',
-            fontSize: `${Math.round(data.width * 0.075)}px`,
-            lineHeight: 1.05,
+            fontSize: Math.round(data.width * 0.075),
             fontWeight: 500,
-            margin: 0,
-            maxWidth: '85%',
+            color: ink,
+            alignment: 'center',
+            lineHeight: 1.05,
           }}
-        >
-          {data.headline || 'Forever & always'}
-        </h1>
+          overrides={data.elementOverrides}
+          defaultText={data.headline || 'Forever & always'}
+          style={{ margin: 0, maxWidth: '85%' }}
+        />
 
         {data.dateText && (
-          <div
+          <TextNode
+            nodeKey="date"
             className="uppercase"
-            style={{
-              fontFamily: `${data.fontBody}, serif`,
-              fontSize: `${Math.max(28, Math.round(data.width * 0.016))}px`,
-              letterSpacing: '0.35em',
+            defaultElement={{
+              fontFamily: data.fontBody,
+              fontSize: Math.max(28, Math.round(data.width * 0.016)),
               color: gold,
-              marginTop: `${Math.round(data.width * 0.025)}px`,
+              alignment: 'center',
+              letterSpacing: 0.35,
             }}
-          >
-            {data.dateText}
-          </div>
+            overrides={data.elementOverrides}
+            defaultText={data.dateText}
+            style={{ marginTop: `${Math.round(data.width * 0.025)}px` }}
+          />
         )}
       </div>
 

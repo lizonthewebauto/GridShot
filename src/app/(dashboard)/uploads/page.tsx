@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { Upload, Trash2, Image as ImageIcon } from 'lucide-react';
 import type { UploadedFile } from '@/types';
+import { GoogleDriveImportButton } from '@/components/uploads/google-drive-import-button';
 
 interface PendingUpload {
   id: string;
@@ -82,6 +83,10 @@ export default function UploadsPage() {
   const totalCount = files.length + pending.length;
   const hasContent = totalCount > 0;
 
+  function handleImported(imported: UploadedFile[]) {
+    setFiles((prev) => [...imported, ...prev]);
+  }
+
   return (
     <div>
       <div className="mb-8 flex items-center justify-between gap-4">
@@ -99,13 +104,16 @@ export default function UploadsPage() {
             )}
           </p>
         </div>
-        <button
-          onClick={() => inputRef.current?.click()}
-          className="flex items-center gap-2 rounded bg-accent-warm px-4 py-2 text-sm font-medium text-white hover:bg-accent-warm-hover transition-colors"
-        >
-          <Upload className="w-4 h-4" />
-          Upload Photos
-        </button>
+        <div className="flex items-start gap-2">
+          <GoogleDriveImportButton onImported={handleImported} />
+          <button
+            onClick={() => inputRef.current?.click()}
+            className="flex items-center gap-2 rounded bg-accent-warm px-4 py-2 text-sm font-medium text-white hover:bg-accent-warm-hover transition-colors"
+          >
+            <Upload className="w-4 h-4" />
+            Upload Photos
+          </button>
+        </div>
       </div>
 
       <input
